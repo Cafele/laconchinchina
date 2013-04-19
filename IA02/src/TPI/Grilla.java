@@ -86,7 +86,30 @@ public class Grilla extends JPanel {
     public int[][] getGrilla() {
         return grilla;
     }
-    
-    
-    
+    //cargar las acciones posibles
+    public void actualizarAcciones(){
+        //para tener una referencia de las acciones:
+        //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
+        for(int i=0;i<tmño;i++){
+            for(int j=0;j<tmño;j++){
+                //si no estoy en la primera fila y la celda de arriba no es pozo, añado accion norte
+                if(grilla[i][j-1]!=5 && j>0 ){matrizCeldas[i][j].listaAcciones.add(0);}
+                //si no estoy en la primera fila o ultima columna y la celda de arriba/der(diagonal) no es pozo, añado accion NE
+                if(grilla[i+1][j-1]!=5 && (j>0 || i<(tmño-1)) ){matrizCeldas[i][j].listaAcciones.add(1);}
+                //si no estoy en la ultima columna y la celda de la derecha no es pozo, añado la accion E;
+                if(grilla[i+1][j]!=5 && i<(tmño-1) ){matrizCeldas[i][j].listaAcciones.add(2);}
+                //si no estoy ni en la ultima columna ni la ultima fila y la diag abajo,derecha no es pozo, añado la accion SE
+                if(grilla[i+1][j+1]!=5 && (i<(tmño-1) || j<(tmño-1)) ) {matrizCeldas[i][j].listaAcciones.add(3);}
+                //si no estoy en la ultima fila y la celda de abajo no es pozo, añado la accion S
+                if(grilla[i][j+1]!=5 && j<(tmño-1) ){matrizCeldas[i][j].listaAcciones.add(4);}
+                //si no estoy en la ultima fila, ni la primera columna, y la diag (abajo,izq) no es pozo, añado la accion SO
+                if(grilla[i-1][j+1]!=5 && (i>0 || j<(tmño-1)) ){matrizCeldas[i][j].listaAcciones.add(5);}
+                //si no estoy en la primera columna y la celda de la izq no es pozo, añado la accion O
+                if(grilla[i-1][j]!=5 && i>0 ){matrizCeldas[i][j].listaAcciones.add(6);}
+                //si no estoy en la primera columna o fila, y la celda de la diag (izq,arriba) no es pozo, añado la accion NO
+                if(grilla[i-1][j-1]!=5 && (i>0 || j>0) ){matrizCeldas[i][j].listaAcciones.add(7);}
+            }   
+            }
+        }
+  
 }
