@@ -81,6 +81,10 @@ public class Celda extends JPanel {
         return this.getBackground();
     }
     
+    public int getCantAccion(){
+        return this.listaAcciones.size();
+    }
+    
     public int getTipo() {
             int tipo = 0;
             //inicializamos como tipo normal
