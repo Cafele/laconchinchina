@@ -5,6 +5,8 @@
 package TPI;
 
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  *
@@ -17,10 +19,15 @@ public class PantallaPpal extends javax.swing.JFrame {
      */
     public PantallaPpal() {
         initComponents();
-        PanelGrilla.setLayout(new GridLayout());
-        PanelGrilla.add(new Grilla(10));
-        setLocationRelativeTo(null);
-        setVisible(true);
+        menuTamaño.addItem("6");
+        menuTamaño.addItem("7");
+        menuTamaño.addItem("8");
+        menuTamaño.addItem("9");
+        menuTamaño.addItem("10");
+        
+        //PanelGrilla.setLayout(new GridLayout());
+        //setLocationRelativeTo(null);
+        //setVisible(true);
     }
 
     /**
@@ -33,6 +40,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelControles = new javax.swing.JPanel();
+        menuTamaño = new javax.swing.JComboBox();
         PanelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -43,15 +51,32 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         PanelControles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        menuTamaño.setToolTipText("Elija tamaño");
+        menuTamaño.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                menuTamañoItemStateChanged(evt);
+            }
+        });
+        menuTamaño.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTamañoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelControlesLayout = new javax.swing.GroupLayout(PanelControles);
         PanelControles.setLayout(PanelControlesLayout);
         PanelControlesLayout.setHorizontalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 626, Short.MAX_VALUE)
+            .addGroup(PanelControlesLayout.createSequentialGroup()
+                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelControlesLayout.setVerticalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 209, Short.MAX_VALUE)
+            .addGroup(PanelControlesLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(169, Short.MAX_VALUE))
         );
 
         PanelGrilla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -60,7 +85,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         PanelGrilla.setLayout(PanelGrillaLayout);
         PanelGrillaLayout.setHorizontalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 616, Short.MAX_VALUE)
         );
         PanelGrillaLayout.setVerticalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -84,6 +109,19 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void menuTamañoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTamañoActionPerformed
+
+    }//GEN-LAST:event_menuTamañoActionPerformed
+
+    private void menuTamañoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_menuTamañoItemStateChanged
+        PanelGrilla.removeAll();
+        int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
+        PanelGrilla.setLayout(new GridLayout());
+        PanelGrilla.add(new Grilla(tmño));
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }//GEN-LAST:event_menuTamañoItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -122,5 +160,6 @@ public class PantallaPpal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelControles;
     private javax.swing.JPanel PanelGrilla;
+    private javax.swing.JComboBox menuTamaño;
     // End of variables declaration//GEN-END:variables
 }
