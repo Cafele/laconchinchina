@@ -13,12 +13,13 @@ import java.awt.event.ItemListener;
  * @author fede
  */
 public class PantallaPpal extends javax.swing.JFrame {
-
+        Grilla grilla;
     /**
      * Creates new form PantallaPpal
      */
     public PantallaPpal() {
         initComponents();
+
         menuTamaño.addItem("6");
         menuTamaño.addItem("7");
         menuTamaño.addItem("8");
@@ -41,12 +42,12 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         PanelControles = new javax.swing.JPanel();
         menuTamaño = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
         PanelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(620, 814));
         setMinimumSize(new java.awt.Dimension(620, 814));
-        setPreferredSize(new java.awt.Dimension(620, 814));
         setResizable(false);
 
         PanelControles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -63,20 +64,28 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Elija tamaño de la grilla:");
+
         javax.swing.GroupLayout PanelControlesLayout = new javax.swing.GroupLayout(PanelControles);
         PanelControles.setLayout(PanelControlesLayout);
         PanelControlesLayout.setHorizontalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
-                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         PanelControlesLayout.setVerticalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(7, 7, 7)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         PanelGrilla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -118,7 +127,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         PanelGrilla.removeAll();
         int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
-        PanelGrilla.add(new Grilla(tmño));
+        PanelGrilla.add(grilla = new Grilla(tmño));
         setLocationRelativeTo(null);
         setVisible(true);
     }//GEN-LAST:event_menuTamañoItemStateChanged
@@ -160,6 +169,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelControles;
     private javax.swing.JPanel PanelGrilla;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JComboBox menuTamaño;
     // End of variables declaration//GEN-END:variables
 }
