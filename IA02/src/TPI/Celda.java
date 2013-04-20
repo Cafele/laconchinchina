@@ -5,6 +5,7 @@
 package TPI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -40,25 +41,29 @@ public class Celda extends JPanel {
         addMouseListener (new MouseAdapter() {
             //el evento va a ser mouse presionado
             public void mousePressed(MouseEvent e) {
-                
-                if (colorNormal.equals(getBackground())){
+                if (esInicial){
                     Border border = new MatteBorder(1, 1, 1, 1, Color.RED);
                     setBorder(border);
                 } else {
-                    if (colorMalo.equals(getBackground())){
-                        setBackground(colorBueno);
+                    if (colorNormal.equals(getBackground())){
+                    setBackground(colorMalo);
                     } else {
-                        if (colorBueno.equals(getBackground())){
-                            setBackground(colorExcelente);
+                        if (colorMalo.equals(getBackground())){
+                            setBackground(colorBueno);
                         } else {
-                            if (colorExcelente.equals(getBackground())){
-                                setBackground(colorPozo);
+                            if (colorBueno.equals(getBackground())){
+                                setBackground(colorExcelente);
                             } else {
-                                setBackground (colorFinal);
+                                if (colorExcelente.equals(getBackground())){
+                                    setBackground(colorPozo);
+                                } else {
+                                    setBackground (colorFinal);
+                                }
                             }
                         }
                     }
                 }
+
             }
            });
     }
@@ -125,4 +130,8 @@ public class Celda extends JPanel {
             return tipo;
     }
     
+    @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(50, 50);
+        }
 }

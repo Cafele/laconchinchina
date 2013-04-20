@@ -5,6 +5,7 @@
 package TPI;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import javax.swing.JPanel;
@@ -111,5 +112,9 @@ public class Grilla extends JPanel {
             }   
             }
         }
-  
+    
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(600, 600);
+        }  
 }

@@ -4,6 +4,8 @@
  */
 package TPI;
 
+import java.awt.GridLayout;
+
 /**
  *
  * @author fede
@@ -15,6 +17,10 @@ public class PantallaPpal extends javax.swing.JFrame {
      */
     public PantallaPpal() {
         initComponents();
+        PanelGrilla.setLayout(new GridLayout());
+        PanelGrilla.add(new Grilla(10));
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     /**
@@ -26,17 +32,54 @@ public class PantallaPpal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PanelControles = new javax.swing.JPanel();
+        PanelGrilla = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(620, 814));
+        setMinimumSize(new java.awt.Dimension(620, 814));
+        setPreferredSize(new java.awt.Dimension(620, 814));
+        setResizable(false);
+
+        PanelControles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout PanelControlesLayout = new javax.swing.GroupLayout(PanelControles);
+        PanelControles.setLayout(PanelControlesLayout);
+        PanelControlesLayout.setHorizontalGroup(
+            PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 626, Short.MAX_VALUE)
+        );
+        PanelControlesLayout.setVerticalGroup(
+            PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 209, Short.MAX_VALUE)
+        );
+
+        PanelGrilla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout PanelGrillaLayout = new javax.swing.GroupLayout(PanelGrilla);
+        PanelGrilla.setLayout(PanelGrillaLayout);
+        PanelGrillaLayout.setHorizontalGroup(
+            PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        PanelGrillaLayout.setVerticalGroup(
+            PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 591, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(PanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -77,5 +120,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelControles;
+    private javax.swing.JPanel PanelGrilla;
     // End of variables declaration//GEN-END:variables
 }
