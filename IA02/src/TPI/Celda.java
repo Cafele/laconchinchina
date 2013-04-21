@@ -57,7 +57,11 @@ public class Celda extends JPanel {
                                 if (colorExcelente.equals(getBackground())){
                                     setBackground(colorPozo);
                                 } else {
-                                    setBackground (colorFinal);
+                                    if (colorPozo.equals(getBackground())){
+                                        setBackground (colorFinal);
+                                    } else {
+                                        setBackground (colorNormal);
+                                    }
                                 }
                             }
                         }
