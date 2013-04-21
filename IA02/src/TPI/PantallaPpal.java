@@ -60,6 +60,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         BotonCamino1 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        BotonAleatorio = new javax.swing.JButton();
         PanelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -137,38 +138,46 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel10.setText("Parametros:");
 
+        BotonAleatorio.setText("Estados Aleatorios");
+        BotonAleatorio.setToolTipText("");
+        BotonAleatorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonAleatorioActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelControlesLayout = new javax.swing.GroupLayout(PanelControles);
         PanelControles.setLayout(PanelControlesLayout);
         PanelControlesLayout.setHorizontalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
                 .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelControlesLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(27, 27, 27))
                     .addGroup(PanelControlesLayout.createSequentialGroup()
                         .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelControlesLayout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addComponent(jButton1))
+                                .addGap(30, 30, 30)
+                                .addComponent(jLabel1))
                             .addGroup(PanelControlesLayout.createSequentialGroup()
-                                .addGap(65, 65, 65)
-                                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(54, 54, 54)))
+                                .addGap(69, 69, 69)
+                                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelControlesLayout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(BotonAleatorio)))
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelControlesLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(43, 43, 43)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
                         .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(PanelControlesLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(BotonCamino1))
-                            .addGroup(PanelControlesLayout.createSequentialGroup()
-                                .addGap(46, 46, 46)
-                                .addComponent(BotonInicial)))
+                            .addComponent(BotonCamino1)
+                            .addComponent(BotonInicial))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelControlesLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -179,7 +188,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                                 .addGap(66, 66, 66))))))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
-                .addContainerGap(90, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
@@ -204,29 +213,31 @@ public class PantallaPpal extends javax.swing.JFrame {
             .addGroup(PanelControlesLayout.createSequentialGroup()
                 .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelControlesLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
                         .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)
-                        .addGap(33, 33, 33))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(BotonAleatorio)
+                        .addGap(16, 16, 16))
                     .addGroup(PanelControlesLayout.createSequentialGroup()
                         .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(PanelControlesLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(BotonStart)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(BotonInicial)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(BotonCamino1))
-                            .addGroup(PanelControlesLayout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel10)))
+                                .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                                        .addComponent(BotonStart)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(BotonInicial)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(BotonCamino1))
+                                    .addComponent(jLabel10))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -249,7 +260,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         PanelGrilla.setLayout(PanelGrillaLayout);
         PanelGrillaLayout.setHorizontalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 640, Short.MAX_VALUE)
         );
         PanelGrillaLayout.setVerticalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,8 +271,8 @@ public class PantallaPpal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(PanelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelControles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,6 +307,10 @@ public class PantallaPpal extends javax.swing.JFrame {
         //setLocationRelativeTo(null);
         setVisible(true);   
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BotonAleatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAleatorioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -332,6 +347,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonAleatorio;
     private javax.swing.JButton BotonCamino1;
     private javax.swing.JButton BotonInicial;
     private javax.swing.JButton BotonStart;
