@@ -4,6 +4,10 @@
  */
 package TPI;
 
+import java.awt.Color;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
+
 /**
  *
  * @author fede
@@ -207,10 +211,24 @@ public class QLearning implements Runnable {
     //la corrida
     public void run() {
         Posicion estadoActual = this.estadoInicialAleatorio();
+        //prueba seteo 
+        int i = estadoActual.getI();int j = estadoActual.getJ();
+        Border border = new MatteBorder(1,1,1,1,Color.ORANGE) {};
+        matrizCelda[i][j].setBorder(border);
+        //fin prueba
         for (long iter=0; iter<this.maxIteracion;iter++){
+            //prueba
+            border = new MatteBorder(1,1,1,1,Color.GRAY) {};
+            matrizCelda[i][j].setBorder(border);
+            //fin prueba
             this.iteracion=iter;
             int accion=this.elegirSiguiente(estadoActual);
             Posicion estadoSiguiente = this.siguiente(estadoActual, accion);
+            // prueba
+            i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
+            border = new MatteBorder(1,1,1,1,Color.ORANGE) {};
+            matrizCelda[i][j].setBorder(border);
+            //fin prueba
             switch (map[estadoSiguiente.getI()] [estadoSiguiente.getJ()]){
                 case 0: estadoActual=estadoSiguiente;break; //normal
                 case 1: estadoActual=estadoSiguiente;break; //malo
@@ -220,5 +238,9 @@ public class QLearning implements Runnable {
                 case 5: estadoActual=estadoSiguiente;break;  //pozo  
             }
         }
+        //prueba
+        border = new MatteBorder(1,1,1,1,Color.GRAY) {};
+        matrizCelda[i][j].setBorder(border);
+        //fin prueba
     }
 }
