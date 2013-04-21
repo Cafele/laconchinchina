@@ -27,7 +27,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         menuTamaño.addItem("10");
         
         //PanelGrilla.setLayout(new GridLayout());
-        //setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         //setVisible(true);
     }
 
@@ -43,6 +43,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         PanelControles = new javax.swing.JPanel();
         menuTamaño = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         PanelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -66,26 +77,118 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel1.setText("Elija tamaño de la grilla:");
 
+        jButton1.setText("Resetear");
+        jButton1.setToolTipText("");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel2.setText("Referencias:");
+
+        jLabel3.setBackground(new java.awt.Color(153, 153, 153));
+        jLabel3.setText("Estado Normal");
+        jLabel3.setMaximumSize(new java.awt.Dimension(255, 14));
+        jLabel3.setMinimumSize(new java.awt.Dimension(70, 14));
+        jLabel3.setOpaque(true);
+
+        jLabel4.setBackground(new java.awt.Color(255, 0, 0));
+        jLabel4.setText("Estado Malo");
+        jLabel4.setOpaque(true);
+
+        jLabel5.setBackground(new java.awt.Color(255, 255, 0));
+        jLabel5.setText("Estado Bueno");
+        jLabel5.setOpaque(true);
+
+        jLabel6.setBackground(new java.awt.Color(0, 255, 0));
+        jLabel6.setText("Estado Excelente");
+        jLabel6.setOpaque(true);
+
+        jLabel7.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Estado Pozo");
+        jLabel7.setOpaque(true);
+
+        jLabel8.setBackground(new java.awt.Color(0, 0, 255));
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setText("Estado Final");
+        jLabel8.setOpaque(true);
+
+        jLabel9.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel9.setText("Estado Inicial");
+        jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+
         javax.swing.GroupLayout PanelControlesLayout = new javax.swing.GroupLayout(PanelControles);
         PanelControles.setLayout(PanelControlesLayout);
         PanelControlesLayout.setHorizontalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
                 .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(PanelControlesLayout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jLabel1))
+                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jButton1)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(PanelControlesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(PanelControlesLayout.createSequentialGroup()
+                .addContainerGap(90, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel9)
+                .addGap(31, 31, 31))
         );
         PanelControlesLayout.setVerticalGroup(
             PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
-                .addGap(7, 7, 7)
-                .addComponent(jLabel1)
+                .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(49, 49, 49))
+                    .addGroup(PanelControlesLayout.createSequentialGroup()
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuTamaño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(162, Short.MAX_VALUE))
+                .addGroup(PanelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(15, 15, 15))
         );
 
         PanelGrilla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -94,11 +197,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         PanelGrilla.setLayout(PanelGrillaLayout);
         PanelGrillaLayout.setHorizontalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 616, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         PanelGrillaLayout.setVerticalGroup(
             PanelGrillaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 591, Short.MAX_VALUE)
+            .addGap(0, 469, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,7 +216,8 @@ public class PantallaPpal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelControles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PanelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(2, 2, 2))
         );
 
         pack();
@@ -128,9 +232,18 @@ public class PantallaPpal extends javax.swing.JFrame {
         int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
-        setLocationRelativeTo(null);
+        //setLocationRelativeTo(null);
         setVisible(true);
     }//GEN-LAST:event_menuTamañoItemStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        PanelGrilla.removeAll();
+        int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
+        PanelGrilla.setLayout(new GridLayout());
+        PanelGrilla.add(grilla = new Grilla(tmño));
+        //setLocationRelativeTo(null);
+        setVisible(true);   
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -169,7 +282,18 @@ public class PantallaPpal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelControles;
     private javax.swing.JPanel PanelGrilla;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JComboBox menuTamaño;
     // End of variables declaration//GEN-END:variables
 }
