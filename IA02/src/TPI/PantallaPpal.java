@@ -14,6 +14,7 @@ import java.awt.event.ItemListener;
  */
 public class PantallaPpal extends javax.swing.JFrame {
         Grilla grilla;
+
     /**
      * Creates new form PantallaPpal
      */
@@ -29,6 +30,8 @@ public class PantallaPpal extends javax.swing.JFrame {
         //PanelGrilla.setLayout(new GridLayout());
         setLocationRelativeTo(null);
         //setVisible(true);
+        
+        System.out.println(java.lang.Math.random()*7);
     }
 
     /**
@@ -309,7 +312,8 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void BotonAleatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAleatorioActionPerformed
-        // TODO add your handling code here:
+        grilla.estadosAleatorios();
+        grilla.pintarCeldas();
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     /**

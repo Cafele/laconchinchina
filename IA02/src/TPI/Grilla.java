@@ -110,8 +110,78 @@ public class Grilla extends JPanel {
                 //si no estoy en la primera columna o fila, y la celda de la diag (izq,arriba) no es pozo, añado la accion NO
                 if(grilla[i-1][j-1]!=5 && (i>0 || j>0) ){matrizCeldas[i][j].listaAcciones.add(7);}
             }   
-            }
         }
+    }
+    // funcion para la generacion aleatoria de estados
+    public void estadosAleatorios(){
+        
+        for(int i=0;i<tmño;i++){
+            for(int j=0;j<tmño;j++){
+                float random = (float) java.lang.Math.random();
+                if (random<0.52){
+                    //asigno normal
+                    grilla[i][j]=0;
+                } else {
+                    if (random < 0.64) {
+                        //asigno malo
+                        grilla[i][j]=1;
+                    } else {
+                        if (random < 0.76) {
+                            //asigno bueno
+                            grilla[i][j]=2;
+                        } else{
+                            if (random < 0.90 ) {
+                                //asigno excelente
+                                grilla[i][j]=3;
+                            } else {
+                                // asigno pozo
+                                grilla[i][j]=5;
+                            }
+                        }
+                    }
+                }
+            }   
+        }
+        // por ultimo asigno un final
+        int ii = (int)(java.lang.Math.random()*tmño);
+        int jj = (int)(java.lang.Math.random()*tmño);
+        grilla[ii][jj]=4;
+    }
+    // funcion que pinte las celdas segun la grilla
+    public void pintarCeldas(){
+         for(int i=0;i<tmño;i++){
+            for(int j=0;j<tmño;j++){
+                int estado = grilla[i][j];
+                switch(estado) {
+                    case 0:
+                        //es normal
+                        matrizCeldas[i][j].setBackground(colorNormal);
+                        break;
+                    case 1:
+                        //es malo
+                        matrizCeldas[i][j].setBackground(colorMalo);
+                        break;
+                    case 2:
+                        //es bueno
+                        matrizCeldas[i][j].setBackground(colorBueno);
+                        break;
+                    case 3:
+                        //es excelente
+                        matrizCeldas[i][j].setBackground(colorExcelente);
+                        break;
+                    case 4:
+                        //es final
+                        matrizCeldas[i][j].setBackground(colorFinal);
+                        break;
+                    case 5:
+                        // es pozo
+                        matrizCeldas[i][j].setBackground(colorPozo);
+                        break;
+                }
+            }
+         }
+    }
+       
     
         @Override
         public Dimension getPreferredSize() {
