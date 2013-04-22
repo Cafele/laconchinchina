@@ -34,7 +34,8 @@ public class Grilla extends JPanel {
     Color colorAgente = Color.WHITE;
     Color colorInicio = Color.ORANGE;
     
-    //constructor
+    //constructores
+    public Grilla(){};
     public Grilla (int x){
         //armo las matrices con tamaño referenciado y cargo el tamaño a utilizar
         this.grilla = new int [x][x];
@@ -93,22 +94,76 @@ public class Grilla extends JPanel {
         //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
         for(int i=0;i<tmño;i++){
             for(int j=0;j<tmño;j++){
-                //si no estoy en la primera fila y la celda de arriba no es pozo, añado accion norte
-                if(grilla[i][j-1]!=5 && j>0 ){matrizCeldas[i][j].listaAcciones.add(0);}
-                //si no estoy en la primera fila o ultima columna y la celda de arriba/der(diagonal) no es pozo, añado accion NE
-                if(grilla[i+1][j-1]!=5 && (j>0 || i<(tmño-1)) ){matrizCeldas[i][j].listaAcciones.add(1);}
-                //si no estoy en la ultima columna y la celda de la derecha no es pozo, añado la accion E;
-                if(grilla[i+1][j]!=5 && i<(tmño-1) ){matrizCeldas[i][j].listaAcciones.add(2);}
-                //si no estoy ni en la ultima columna ni la ultima fila y la diag abajo,derecha no es pozo, añado la accion SE
-                if(grilla[i+1][j+1]!=5 && (i<(tmño-1) || j<(tmño-1)) ) {matrizCeldas[i][j].listaAcciones.add(3);}
-                //si no estoy en la ultima fila y la celda de abajo no es pozo, añado la accion S
-                if(grilla[i][j+1]!=5 && j<(tmño-1) ){matrizCeldas[i][j].listaAcciones.add(4);}
-                //si no estoy en la ultima fila, ni la primera columna, y la diag (abajo,izq) no es pozo, añado la accion SO
-                if(grilla[i-1][j+1]!=5 && (i>0 || j<(tmño-1)) ){matrizCeldas[i][j].listaAcciones.add(5);}
-                //si no estoy en la primera columna y la celda de la izq no es pozo, añado la accion O
-                if(grilla[i-1][j]!=5 && i>0 ){matrizCeldas[i][j].listaAcciones.add(6);}
-                //si no estoy en la primera columna o fila, y la celda de la diag (izq,arriba) no es pozo, añado la accion NO
-                if(grilla[i-1][j-1]!=5 && (i>0 || j>0) ){matrizCeldas[i][j].listaAcciones.add(7);}
+                //añado todo y despues elimino las que no deberian estar
+                matrizCeldas[i][j].listaAcciones.add("0");
+                matrizCeldas[i][j].listaAcciones.add("1");
+                matrizCeldas[i][j].listaAcciones.add("2");
+                matrizCeldas[i][j].listaAcciones.add("3");
+                matrizCeldas[i][j].listaAcciones.add("4");
+                matrizCeldas[i][j].listaAcciones.add("5");
+                matrizCeldas[i][j].listaAcciones.add("6");
+                matrizCeldas[i][j].listaAcciones.add("7");
+                // aca tengo que tener cuidado, yo estoy suponiendo que elimino por objeto y no por index
+                if(i==0){
+                    matrizCeldas[i][j].listaAcciones.remove("0");
+                    matrizCeldas[i][j].listaAcciones.remove("1");
+                    matrizCeldas[i][j].listaAcciones.remove("7");
+                } else {
+                    if(grilla[i-1][j]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("0");
+                    }
+                    if(grilla[i-1][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("7");
+                    }
+                    if(grilla[i-1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("1");
+                    }
+                }
+                if(j==0){
+                    matrizCeldas[i][j].listaAcciones.remove("5");
+                    matrizCeldas[i][j].listaAcciones.remove("6");
+                    matrizCeldas[i][j].listaAcciones.remove("7");
+                } else {
+                    if(grilla[i][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("6");
+                    }
+                    if(grilla[i-1][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("7");
+                    }
+                    if(grilla[i+1][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("5");
+                    }
+                }
+                if(i==(tmño-1)){
+                    matrizCeldas[i][j].listaAcciones.remove("3");
+                    matrizCeldas[i][j].listaAcciones.remove("4");
+                    matrizCeldas[i][j].listaAcciones.remove("5");
+                    if(grilla[i+1][j]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("4");
+                    }
+                    if(grilla[i+1][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("5");
+                    }
+                    if(grilla[i+1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("3");
+                    }
+                }
+                if(j==(tmño-1)){
+                    matrizCeldas[i][j].listaAcciones.remove("3");
+                    matrizCeldas[i][j].listaAcciones.remove("2");
+                    matrizCeldas[i][j].listaAcciones.remove("1");
+                    if(grilla[i][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("2");
+                    }
+                    if(grilla[i-1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("1");
+                    }
+                    if(grilla[i+1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("3");
+                    }
+                }
+                
+
             }   
         }
     }
@@ -181,7 +236,26 @@ public class Grilla extends JPanel {
             }
          }
     }
-       
+    // funcion que revisa que por lo menos haya una celda final
+    public Boolean hayEstadoFinal(){
+        Boolean hayFinal = false;
+        for (int i=0;i<tmño;i++){
+            for (int j=0;i<tmño;i++){
+                if(grilla[i][j]==4){
+                    hayFinal = true;
+                }
+            } 
+        }
+        return hayFinal;
+    }
+    //funcion que limpia grilla
+    public void limpiarGrilla(){
+        for (int i=0;i<tmño;i++){
+            for (int j=0;i<tmño;i++){
+                grilla[i][j]=0;
+            } 
+        }
+    }
     
         @Override
         public Dimension getPreferredSize() {

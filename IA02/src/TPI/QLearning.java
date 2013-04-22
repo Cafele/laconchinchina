@@ -46,11 +46,12 @@ public class QLearning implements Runnable {
     // a modo de prueba por ahora
     Celda matrizCelda[][];
     //constructor
-    public QLearning (int tmño,long itmax, double exp,double apren, double temp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapCell){
+    public QLearning (int tmño,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas){
         this.maxIteracion=itmax;
         this.tamaño=tmño;
-        this.Tau=temp;
-        this.alpha=apren;
+        //this.Tau=temp;
+        //this.alpha=apren;
+        this.epsilon=exp;
         this.gamma=amort;
         this.recBueno=recB;
         this.recMalo=recM;
@@ -58,7 +59,7 @@ public class QLearning implements Runnable {
         this.recFinal=recF;
         this.recNormal=recN;
         this.map=mapa;
-        this.matrizCelda=mapCell;
+        this.matrizCelda=mapaCeldas;
         //iniciar la tabla de q, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamaño][tamaño][8];
         for(int i=0;i<tamaño;i++){
@@ -77,7 +78,7 @@ public class QLearning implements Runnable {
         double random = java.lang.Math.random();
         if (random<this.epsilon){
             //cae dentro de la exploracion, accion es aleatoria
-            int indice = java.lang.Math.round((float)java.lang.Math.random()*(celda.getCantAccion()));
+            int indice = java.lang.Math.round((float)java.lang.Math.random()*(8));
             accion = (int) celda.listaAcciones.get(indice);
         } else {
             //cae dentro de la parte de explotacion, accion es la mejor
@@ -92,11 +93,11 @@ public class QLearning implements Runnable {
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         //entre las acciones posibles, miro la que devuelve el mejorQ
-        for(int x=0;x<=celda.getCantAccion();x++){
-            int a = (int) celda.listaAcciones.get(x);
-            if(Qvalues[i][j][a]>mejorQ){
-                mejorQ=Qvalues[i][j][a];
-                laMejor=a;
+        for(int x=0;x<8;x++){
+            //int a = (int) celda.listaAcciones.get(x);
+            if(Qvalues[i][j][x]>mejorQ){
+                mejorQ=Qvalues[i][j][x];
+                laMejor=x;
             }            
         }
         return laMejor;
@@ -106,16 +107,16 @@ public class QLearning implements Runnable {
         double mejorQ=-10000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
-        for(int x=0;x<=celda.getCantAccion();x++){
-            int a = (int) celda.listaAcciones.get(x);
-            if(Qvalues[i][j][a]>mejorQ){
-                mejorQ=Qvalues[i][j][a];
+        for(int x=0;x<8;x++){
+            //int a = (int) celda.listaAcciones.get(x);
+            if(Qvalues[i][j][x]>mejorQ){
+                mejorQ=Qvalues[i][j][x];
             }            
         }
         return mejorQ;
     }
     // devuelve el siguiente estado segun una accion realizada
-    public Posicion siguiente(Posicion pos, int accion){
+    public Posicion elsiguiente(Posicion pos, int accion){
         Posicion sig = new Posicion();
         int i = pos.getI(); int j = pos.getJ();
         //si es egreedy
@@ -155,6 +156,141 @@ public class QLearning implements Runnable {
         }
         return sig;
     }
+        private Posicion siguiente(Posicion pos, int accion){
+        Posicion sig = new Posicion();
+        int i = pos.getI(); int j = pos.getJ();
+        switch (accion){
+            case N:
+            if(i==0){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //estoy fila 0 no puedo ir arriba, quedo mismo lugar
+            } else {
+                if (map[(i-1)][j]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //el siguiente estado seria pozo, no deberia poder ir
+                } else {
+                    sig.setI(i-1);sig.setJ(j);
+                    //resultado[0]=(i-1); resultado [1]=j;
+                }
+            }
+            break;
+            case NE:
+            if(i==0 || j==(tamaño-1)){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //primera fila o ultima columna, no puedo moverme
+            } else {
+                if (map[(i-1)][j+1]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //el siguiente estado seria pozo, no deberia poder ir
+                } else {
+                    sig.setI(i-1);sig.setJ(j+1);
+                    //resultado[0]=(i-1); resultado [1]=(j+1);
+                }
+            }
+            break;
+            case E:
+            if (j==(tamaño-1)){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //estoy en la ultima columna no puedo ir a la derecha
+            } else {
+                if (map[i][(j+1)]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //el siguiente estado es pozo, no debo poder ir
+                } else {
+                    //resultado[0]=i; resultado [1]=j+1;
+                    sig.setI(i);sig.setJ(j+1);
+                }
+            }
+            break;
+            case SE:
+            if (i==(tamaño-1) || j==(tamaño-1)){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //ultima columna y ultima fila, no se debe poder mover
+            } else {
+                if (map[i+1][(j+1)]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //el siguiente estado es pozo, no debo poder ir
+                } else {
+                    //resultado[0]=(i+1); resultado [1]=(j+1);
+                    sig.setI(i+1);sig.setJ(j+1);
+                }
+            }
+            break;    
+            case S:
+            if (i==(tamaño-1)){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //estoy en la ultima columna no deberia poder ir
+            } else {
+                if (map[i+1][j]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //siguiente estado es pozo, no deberia ir
+                } else {
+                    //resultado[0]=i+1; resultado [1]=j;
+                    sig.setI(i+1);sig.setJ(j);
+                }
+            }
+            break;
+            case SO:
+            if (i==(tamaño-1) || j==0){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //primera columna o ultima columna no se debe mover
+            } else {
+                if (map[i+1][j-1]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    //siguiente estado es pozo, no deberia ir
+                } else {
+                    //resultado[0]=i+1; resultado [1]=j-1;
+                    sig.setI(i+1);sig.setJ(j);
+                }
+            }
+            break;    
+            case O:
+            if (j==0){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //primera columna no puedo ir a la izquierda
+            } else {
+                if (map[i][j-1]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    // siguiente es un pozo, no puedo ir
+                } else {
+                    //resultado[0]=i; resultado [1]=j-1;
+                    sig.setI(i);sig.setJ(j-1);
+                }
+            }
+            break;    
+            case NO:
+            if (i==0 || j==0){
+                //resultado[0]=i; resultado [1]=j;
+                sig.setI(i);sig.setJ(j);
+                //primera columna o primera fila, no me puedo mover
+            } else {
+                if (map[i-1][j-1]==5){
+                    //resultado[0]=i; resultado [1]=j;
+                    sig.setI(i);sig.setJ(j);
+                    // siguiente es un pozo, no puedo ir
+                } else {
+                    //resultado[0]=i-1; resultado [1]=j-1;
+                    sig.setI(i-1);sig.setJ(j-1);
+                }
+            }
+            break; 
+        }
+        return sig;
+    }
     // funcion que devuelve la recompensa directa
     public double recompensar(Posicion pos,int accion){
                 //valor por defecto
@@ -162,13 +298,15 @@ public class QLearning implements Runnable {
         Posicion sig = this.siguiente(pos, accion);
         //calidad, bueno malo, etc..        
         int calidad = map[sig.getI()][sig.getJ()];
-        switch (calidad){
+        if (pos.getI()!=sig.getI() && pos.getJ()!=sig.getJ()){
+          switch (calidad){
             case 0:resultado=this.recNormal;break; //es normal
             case 1:resultado=this.recMalo;break; //es malo 
             case 2:resultado=this.recBueno;break; //es bueno
             case 3:resultado=this.recExcelente;break; //es excelente
             case 4:resultado=this.recFinal;break; // es el obj final
             case 5:break; //es pozo no deberia tomarla igual
+        }  
         }
         return resultado;
     }
@@ -180,7 +318,7 @@ public class QLearning implements Runnable {
         Celda celda = matrizCelda[i][j];
         if (random<this.epsilon){
             //cae dentro de la exploracion, accion es aleatoria
-            accion = (int) celda.listaAcciones.get(java.lang.Math.round((float)java.lang.Math.random()*(celda.getCantAccion()-1)));
+            accion = (int) java.lang.Math.round((float)java.lang.Math.random()*(8));
             //la accion es la accion posible que esta en un indice aleatorio ( dado por un numero aleatorio multiplicado por la cant de acciones posibles, redondeado para que sea entero )
         } else {
             //cae dentro de la parte de explotacion, accion es la mejor
@@ -188,6 +326,7 @@ public class QLearning implements Runnable {
         }
         return accion;
     }
+    
     //estado de partida aleatoria
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
@@ -206,6 +345,11 @@ public class QLearning implements Runnable {
         Qvalues [i][j][accion] = recompensa + gamma*maxQ;
         //Qvalues [i][j][accion] = (1-this.alpha)*qViejo + this.alpha*(recompensa+(this.gamma*maxQ));
     }
+
+    public long getIteracion() {
+        return iteracion;
+    }
+    
 
     @Override
     //la corrida

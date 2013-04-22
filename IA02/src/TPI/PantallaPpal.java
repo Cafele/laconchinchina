@@ -7,14 +7,26 @@ package TPI;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author fede
  */
 public class PantallaPpal extends javax.swing.JFrame {
-        Grilla grilla;
-
+        Grilla grilla = new Grilla();
+        QLearning bot;
+        Thread aprendizaje;
+        int tmño;
+        long itmax= 100000;
+        double recB = 25.0;
+        double recE = 50.0;
+        double recF = 100.0;
+        double recM = -10.0;
+        double recN = 10.0;
+        double e=0.7;
+        double gamma=0.9;
+        
     /**
      * Creates new form PantallaPpal
      */
@@ -132,6 +144,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
 
         BotonStart.setText("Aprender");
+        BotonStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonStartActionPerformed(evt);
+            }
+        });
 
         BotonInicial.setText("Elegir Nuevo Inicio");
 
@@ -191,7 +208,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                                 .addGap(66, 66, 66))))))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(PanelControlesLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(39, Short.MAX_VALUE)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
@@ -295,7 +312,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void menuTamañoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_menuTamañoItemStateChanged
         PanelGrilla.removeAll();
-        int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
+        tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
         //setLocationRelativeTo(null);
@@ -304,7 +321,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         PanelGrilla.removeAll();
-        int tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
+        tmño = Integer.parseInt(menuTamaño.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
         //setLocationRelativeTo(null);
@@ -315,6 +332,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         grilla.estadosAleatorios();
         grilla.pintarCeldas();
     }//GEN-LAST:event_BotonAleatorioActionPerformed
+
+    private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
+        //if(grilla.hayEstadoFinal()){
+            //grilla.actualizarAcciones();
+            bot = new QLearning(tmño,itmax,e,gamma,recB,recE,recN,recF,recM,grilla.getGrilla(),grilla.matrizCeldas);
+            aprendizaje = new Thread(bot);
+            aprendizaje.start();
+        //} else {
+        //    JOptionPane.showMessageDialog(PanelGrilla, "no hay estado final");
+        //}
+    }//GEN-LAST:event_BotonStartActionPerformed
 
     /**
      * @param args the command line arguments
