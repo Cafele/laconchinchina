@@ -22,7 +22,7 @@ public class Grilla extends JPanel {
     //matriz que contiene todas las celdas
     Celda matrizCeldas [][];
     //tamaño en filasxcolumnas es decir si es 10x10, tmño es 10.
-    int tmño;
+    int tmno;
     // mismos colores segun el estado, para tener una referencia de que representan
     Color colorBueno = Color.YELLOW;
     Color colorExcelente = Color.GREEN;
@@ -40,28 +40,31 @@ public class Grilla extends JPanel {
         //armo las matrices con tamaño referenciado y cargo el tamaño a utilizar
         this.grilla = new int [x][x];
         this.matrizCeldas = new Celda [x][x];
-        this.tmño=x;    
+        this.tmno=x;    
         //creo la grilla con ayuda del gridbaglayout
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-            for (int row = 0; row < tmño; row++) {
-                for (int col = 0; col < tmño; col++) {
+            for (int j = 0; j < tmno; j++) {
+                for (int i = 0; i < tmno; i++) {
                     // se inicializa la matriz de estados en 0 = normal;
-                    grilla[col][row]=0;
-                    gbc.gridx = col;
-                    gbc.gridy = row;
+                    grilla[i][j]=0;
+                    
+                    gbc.gridx = i;
+                    gbc.gridy = j;
                     // creamos la celda nueva y le damos un borde segun posicion
-                    Posicion pos = new Posicion(col,row);
+                    Posicion pos = new Posicion(i,j);
                     Celda celda = new Celda(pos);
+                    matrizCeldas [i][j]=celda;
+                    
                     Border border;
-                    if (row < (tmño-1)) {
-                        if (col < (tmño-1)) {
+                    if (j < (tmno-1)) {
+                        if (i < (tmno-1)) {
                             border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
                         } else {
                             border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
                         }
                     } else {
-                        if (col < (tmño-1)) {
+                        if (i < (tmno-1)) {
                             border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
                         } else {
                             border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
@@ -71,14 +74,14 @@ public class Grilla extends JPanel {
                     celda.setBackground(Color.LIGHT_GRAY);
                     // añadimos la celda en la grilla con el layout y en la lista de las celdas
                     add(celda, gbc);
-                    matrizCeldas [col][row]=celda;
+                    matrizCeldas [i][j]=celda;
                 }
             }
     }
     //metodo para crear la grilla de estados
     public void armarGrilla(){
-        for (int i=0;i<tmño;i++){
-            for(int j=0;i<tmño;j++){
+        for (int j=0;j<tmno;j++){
+            for(int i=0;i<tmno;i++){
                 int tipo = matrizCeldas[i][j].getTipo();
                 grilla[i][j]=tipo;
             }
@@ -92,8 +95,8 @@ public class Grilla extends JPanel {
     public void actualizarAcciones(){
         //para tener una referencia de las acciones:
         //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
-        for(int i=0;i<tmño;i++){
-            for(int j=0;j<tmño;j++){
+        for(int j=0;j<tmno;j++){
+            for(int i=0;i<tmno;i++){
                 //añado todo y despues elimino las que no deberian estar
                 matrizCeldas[i][j].listaAcciones.add("0");
                 matrizCeldas[i][j].listaAcciones.add("1");
@@ -112,13 +115,22 @@ public class Grilla extends JPanel {
                     if(grilla[i-1][j]==5){
                         matrizCeldas[i][j].listaAcciones.remove("0");
                     }
-                    if(grilla[i-1][j-1]==5){
+                    if(j==0){
                         matrizCeldas[i][j].listaAcciones.remove("7");
+                    } else {
+                        if(grilla[i-1][j-1]==5){
+                            matrizCeldas[i][j].listaAcciones.remove("7");
+                        }
                     }
-                    if(grilla[i-1][j+1]==5){
+                    if(j==(tmno-1)){
                         matrizCeldas[i][j].listaAcciones.remove("1");
+                    } else{
+                        if(grilla[i-1][j+1]==5){
+                            matrizCeldas[i][j].listaAcciones.remove("1");
+                        }
                     }
                 }
+                
                 if(j==0){
                     matrizCeldas[i][j].listaAcciones.remove("5");
                     matrizCeldas[i][j].listaAcciones.remove("6");
@@ -127,39 +139,67 @@ public class Grilla extends JPanel {
                     if(grilla[i][j-1]==5){
                         matrizCeldas[i][j].listaAcciones.remove("6");
                     }
-                    if(grilla[i-1][j-1]==5){
+                    if(i==0){
                         matrizCeldas[i][j].listaAcciones.remove("7");
+                    } else {
+                        if(grilla[i-1][j-1]==5){
+                            matrizCeldas[i][j].listaAcciones.remove("7");
+                        }
                     }
-                    if(grilla[i+1][j-1]==5){
+                    if(i==(tmno-1)){
                         matrizCeldas[i][j].listaAcciones.remove("5");
+                    } else {
+                        if(grilla[i+1][j-1]==5){
+                            matrizCeldas[i][j].listaAcciones.remove("5");
+                        }
                     }
                 }
-                if(i==(tmño-1)){
+                
+                if(i==(tmno-1)){
                     matrizCeldas[i][j].listaAcciones.remove("3");
                     matrizCeldas[i][j].listaAcciones.remove("4");
-                    matrizCeldas[i][j].listaAcciones.remove("5");
+                    matrizCeldas[i][j].listaAcciones.remove("5"); 
+                } else {
                     if(grilla[i+1][j]==5){
                         matrizCeldas[i][j].listaAcciones.remove("4");
                     }
-                    if(grilla[i+1][j-1]==5){
+                    if(j==0){
                         matrizCeldas[i][j].listaAcciones.remove("5");
+                    } else {
+                        if(grilla[i+1][j-1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("5");
+                        }
                     }
-                    if(grilla[i+1][j+1]==5){
+                    if(j==tmno-1){
                         matrizCeldas[i][j].listaAcciones.remove("3");
+                    } else {
+                        if(grilla[i+1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        }
                     }
                 }
-                if(j==(tmño-1)){
+                
+                if(j==(tmno-1)){
                     matrizCeldas[i][j].listaAcciones.remove("3");
                     matrizCeldas[i][j].listaAcciones.remove("2");
-                    matrizCeldas[i][j].listaAcciones.remove("1");
+                    matrizCeldas[i][j].listaAcciones.remove("1");  
+                } else {
                     if(grilla[i][j+1]==5){
                         matrizCeldas[i][j].listaAcciones.remove("2");
                     }
-                    if(grilla[i-1][j+1]==5){
+                    if (i==0){
                         matrizCeldas[i][j].listaAcciones.remove("1");
+                    } else {
+                        if(grilla[i-1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("1");
+                        }
                     }
-                    if(grilla[i+1][j+1]==5){
+                    if(i==(tmno-1)){
                         matrizCeldas[i][j].listaAcciones.remove("3");
+                    } else {
+                        if(grilla[i+1][j+1]==5){
+                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        }
                     }
                 }
                 
@@ -170,8 +210,8 @@ public class Grilla extends JPanel {
     // funcion para la generacion aleatoria de estados
     public void estadosAleatorios(){
         
-        for(int i=0;i<tmño;i++){
-            for(int j=0;j<tmño;j++){
+        for(int j=0;j<tmno;j++){
+            for(int i=0;i<tmno;i++){
                 float random = (float) java.lang.Math.random();
                 if (random<0.52){
                     //asigno normal
@@ -198,14 +238,14 @@ public class Grilla extends JPanel {
             }   
         }
         // por ultimo asigno un final
-        int ii = (int)(java.lang.Math.random()*tmño);
-        int jj = (int)(java.lang.Math.random()*tmño);
+        int ii = (int)(java.lang.Math.random()*(tmno-1));
+        int jj = (int)(java.lang.Math.random()*(tmno-1));
         grilla[ii][jj]=4;
     }
     // funcion que pinte las celdas segun la grilla
     public void pintarCeldas(){
-         for(int i=0;i<tmño;i++){
-            for(int j=0;j<tmño;j++){
+         for(int j=0;j<tmno;j++){
+            for(int i=0;i<tmno;i++){
                 int estado = grilla[i][j];
                 switch(estado) {
                     case 0:
@@ -239,8 +279,8 @@ public class Grilla extends JPanel {
     // funcion que revisa que por lo menos haya una celda final
     public Boolean hayEstadoFinal(){
         Boolean hayFinal = false;
-        for (int i=0;i<tmño;i++){
-            for (int j=0;i<tmño;i++){
+        for (int j=0;j<tmno;j++){
+            for (int i=0;i<tmno;i++){
                 if(grilla[i][j]==4){
                     hayFinal = true;
                 }
@@ -250,8 +290,8 @@ public class Grilla extends JPanel {
     }
     //funcion que limpia grilla
     public void limpiarGrilla(){
-        for (int i=0;i<tmño;i++){
-            for (int j=0;i<tmño;i++){
+        for (int j=0;j<tmno;j++){
+            for (int i=0;i<tmno;i++){
                 grilla[i][j]=0;
             } 
         }

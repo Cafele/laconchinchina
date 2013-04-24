@@ -20,7 +20,7 @@ import javax.swing.border.MatteBorder;
 public class Celda extends JPanel {
     //representa una celda de la grilla o GridWorld
     Posicion posicion;
-    ArrayList listaAcciones;
+    ArrayList listaAcciones = new ArrayList();
     Boolean esInicial = false;
     
     // colores segun el estado, para tener una referencia de que representa
@@ -60,7 +60,9 @@ public class Celda extends JPanel {
                                     if (colorPozo.equals(getBackground())){
                                         setBackground (colorFinal);
                                     } else {
-                                        setBackground (colorNormal);
+                                        //setBackground (colorNormal);
+                                        Border border = new MatteBorder(1, 1, 1, 1, Color.WHITE);
+                                        setBorder(border);
                                     }
                                 }
                             }

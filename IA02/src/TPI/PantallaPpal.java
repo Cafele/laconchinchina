@@ -18,7 +18,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         QLearning bot;
         Thread aprendizaje;
         int tmño;
-        long itmax= 100000;
+        long itmax= 1000000;
         double recB = 25.0;
         double recE = 50.0;
         double recF = 100.0;
@@ -43,7 +43,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         //setVisible(true);
         
-        System.out.println(java.lang.Math.random()*7);
+        System.out.println((int)(java.lang.Math.random()*7));
     }
 
     /**
@@ -155,6 +155,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         BotonCamino1.setText("Camino Aprendido");
+        BotonCamino1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonCamino1ActionPerformed(evt);
+            }
+        });
 
         jLabel10.setText("Parametros:");
 
@@ -335,14 +340,19 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
         //if(grilla.hayEstadoFinal()){
-            //grilla.actualizarAcciones();
-            bot = new QLearning(tmño,itmax,e,gamma,recB,recE,recN,recF,recM,grilla.getGrilla(),grilla.matrizCeldas);
+            grilla.actualizarAcciones();
+            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla.getGrilla(),grilla.matrizCeldas);
             aprendizaje = new Thread(bot);
             aprendizaje.start();
         //} else {
         //    JOptionPane.showMessageDialog(PanelGrilla, "no hay estado final");
         //}
     }//GEN-LAST:event_BotonStartActionPerformed
+
+    private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
+            //bot.pintarCamino();
+        bot.imprimirQtable();
+    }//GEN-LAST:event_BotonCamino1ActionPerformed
 
     /**
      * @param args the command line arguments

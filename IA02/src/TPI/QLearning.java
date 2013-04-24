@@ -24,7 +24,7 @@ public class QLearning implements Runnable {
     static final int NO=7;
     //manejar iteraciones
     long iteracion=0;
-    long maxIteracion=100000;
+    long maxIteracion=10000;
     //recompensas
     double recBueno = 25.0;
     double recExcelente = 50.0;
@@ -33,22 +33,22 @@ public class QLearning implements Runnable {
     double recNormal = 10.0;
     // parametros
     double Tau; //temperatura para softmax
-    double epsilon = 0.7; //exploration rate para egreedy
+    double epsilon = 0.6; //exploration rate para egreedy
     //alpha parece q no va, se saca de ultima
     double alpha = 0.1; //para la formula de Q(s,a), es la de aprendizaje
-    double gamma = 0.9; //tambien para esa formula, es la de amortizacion
+    double gamma = 0.8; //tambien para esa formula, es la de amortizacion
     // tabla de Qvalues en [i][j][accion]
-    double Qvalues [][][];
+    double Qvalues [][][] = new double [6][6][8];
     //grilla 
     int map[][];
     //tamaño de la columna/fila
-    int tamaño=0;
+    int tamano=0;
     // a modo de prueba por ahora
     Celda matrizCelda[][];
     //constructor
-    public QLearning (int tmño,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas){
+    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas){
         this.maxIteracion=itmax;
-        this.tamaño=tmño;
+        this.tamano=tmno;
         //this.Tau=temp;
         //this.alpha=apren;
         this.epsilon=exp;
@@ -61,9 +61,9 @@ public class QLearning implements Runnable {
         this.map=mapa;
         this.matrizCelda=mapaCeldas;
         //iniciar la tabla de q, el 8 va por las 8 acciones posibles 
-        Qvalues=new double[tamaño][tamaño][8];
-        for(int i=0;i<tamaño;i++){
-            for(int j=0;j<tamaño;j++){
+        Qvalues=new double[tamano][tamano][8];
+        for(int j=0;j<tamano;j++){
+            for(int i=0;i<tamano;i++){
                 for(int a=0;a<8;a++){
                 Qvalues[i][j][a]=0.0;
                 }
@@ -78,8 +78,9 @@ public class QLearning implements Runnable {
         double random = java.lang.Math.random();
         if (random<this.epsilon){
             //cae dentro de la exploracion, accion es aleatoria
-            int indice = java.lang.Math.round((float)java.lang.Math.random()*(8));
-            accion = (int) celda.listaAcciones.get(indice);
+            int indice = (int)(java.lang.Math.random())*((celda.listaAcciones.size()-1));
+            accion = Integer.parseInt(celda.listaAcciones.get(indice).toString()); 
+            //accion = (int) java.lang.Math.round((float)java.lang.Math.random()*(8));
         } else {
             //cae dentro de la parte de explotacion, accion es la mejor
             accion = mejorAccion(pos);
@@ -93,11 +94,13 @@ public class QLearning implements Runnable {
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         //entre las acciones posibles, miro la que devuelve el mejorQ
-        for(int x=0;x<8;x++){
-            //int a = (int) celda.listaAcciones.get(x);
-            if(Qvalues[i][j][x]>mejorQ){
-                mejorQ=Qvalues[i][j][x];
-                laMejor=x;
+        //for(int x=0;x<8;x++){
+        int a;
+        for (int x=0;x<(celda.listaAcciones.size());x++){    
+            a = Integer.parseInt(celda.listaAcciones.get(x).toString()) ;
+            if(Qvalues[i][j][a]>mejorQ){
+                mejorQ=Qvalues[i][j][a];
+                laMejor=a;
             }            
         }
         return laMejor;
@@ -107,10 +110,11 @@ public class QLearning implements Runnable {
         double mejorQ=-10000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
-        for(int x=0;x<8;x++){
-            //int a = (int) celda.listaAcciones.get(x);
-            if(Qvalues[i][j][x]>mejorQ){
-                mejorQ=Qvalues[i][j][x];
+        //for(int x=0;x<8;x++){
+        for (int x=0;x<(celda.listaAcciones.size());x++){    
+            int a = Integer.parseInt(celda.listaAcciones.get(x).toString()) ;
+            if(Qvalues[i][j][a]>mejorQ){
+                mejorQ=Qvalues[i][j][a];
             }            
         }
         return mejorQ;
@@ -156,7 +160,7 @@ public class QLearning implements Runnable {
         }
         return sig;
     }
-        private Posicion siguiente(Posicion pos, int accion){
+    public Posicion siguiente(Posicion pos, int accion){
         Posicion sig = new Posicion();
         int i = pos.getI(); int j = pos.getJ();
         switch (accion){
@@ -177,7 +181,7 @@ public class QLearning implements Runnable {
             }
             break;
             case NE:
-            if(i==0 || j==(tamaño-1)){
+            if(i==0 || j==(tamano-1)){
                 //resultado[0]=i; resultado [1]=j;
                 sig.setI(i);sig.setJ(j);
                 //primera fila o ultima columna, no puedo moverme
@@ -193,7 +197,7 @@ public class QLearning implements Runnable {
             }
             break;
             case E:
-            if (j==(tamaño-1)){
+            if (j==(tamano-1)){
                 //resultado[0]=i; resultado [1]=j;
                 sig.setI(i);sig.setJ(j);
                 //estoy en la ultima columna no puedo ir a la derecha
@@ -209,7 +213,7 @@ public class QLearning implements Runnable {
             }
             break;
             case SE:
-            if (i==(tamaño-1) || j==(tamaño-1)){
+            if (i==(tamano-1) || j==(tamano-1)){
                 //resultado[0]=i; resultado [1]=j;
                 sig.setI(i);sig.setJ(j);
                 //ultima columna y ultima fila, no se debe poder mover
@@ -225,7 +229,7 @@ public class QLearning implements Runnable {
             }
             break;    
             case S:
-            if (i==(tamaño-1)){
+            if (i==(tamano-1)){
                 //resultado[0]=i; resultado [1]=j;
                 sig.setI(i);sig.setJ(j);
                 //estoy en la ultima columna no deberia poder ir
@@ -241,7 +245,7 @@ public class QLearning implements Runnable {
             }
             break;
             case SO:
-            if (i==(tamaño-1) || j==0){
+            if (i==(tamano-1) || j==0){
                 //resultado[0]=i; resultado [1]=j;
                 sig.setI(i);sig.setJ(j);
                 //primera columna o ultima columna no se debe mover
@@ -330,16 +334,16 @@ public class QLearning implements Runnable {
     //estado de partida aleatoria
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
-        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamaño-1))));
-        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamaño-1))));
+        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
+        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
         return resultado;
     }
     //actualizar tabla Qvalues
-    private void actualizarQtable (Posicion pos, int accion){
-        int i = pos.getI();int j = pos.getJ();
+    private void actualizarQtable (int i, int j, int accion){
         double qViejo = Qvalues[i][j][accion];
-        double recompensa = this.recompensar(pos, accion);
-        Posicion siguiente = this.siguiente(pos, accion);
+        Posicion actual = new Posicion(i,j);
+        double recompensa = this.recompensar(actual, accion);
+        Posicion siguiente = this.elsiguiente(actual, accion);
         double maxQ = this.mejorQ(siguiente);
         // se aplica la formula
         Qvalues [i][j][accion] = recompensa + gamma*maxQ;
@@ -354,37 +358,87 @@ public class QLearning implements Runnable {
     @Override
     //la corrida
     public void run() {
-        Posicion estadoActual = this.estadoInicialAleatorio();
+        
+        Posicion estadoActual = estadoInicialAleatorio();
         //prueba seteo 
         int i = estadoActual.getI();int j = estadoActual.getJ();
-        Border border = new MatteBorder(1,1,1,1,Color.ORANGE) {};
+        Border border = new MatteBorder(1,1,1,1,Color.RED) {};
         matrizCelda[i][j].setBorder(border);
         //fin prueba
         for (long iter=0; iter<this.maxIteracion;iter++){
             //prueba
-            border = new MatteBorder(1,1,1,1,Color.GRAY) {};
+            System.out.println(iter);
+            border = new MatteBorder(1,1,1,1,Color.GRAY);
             matrizCelda[i][j].setBorder(border);
             //fin prueba
-            this.iteracion=iter;
-            int accion=this.elegirSiguiente(estadoActual);
-            Posicion estadoSiguiente = this.siguiente(estadoActual, accion);
+            //this.iteracion=iter;
+            //int accion=this.elegirSiguiente(estadoActual);
+            int accion=this.eGreedy(estadoActual);
+            this.actualizarQtable(i,j, accion);
+            Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
             // prueba
             i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
-            border = new MatteBorder(1,1,1,1,Color.ORANGE) {};
+            border = new MatteBorder(1,1,1,1,Color.RED) {};
             matrizCelda[i][j].setBorder(border);
+            
             //fin prueba
-            switch (map[estadoSiguiente.getI()] [estadoSiguiente.getJ()]){
+            switch (map[i] [j]){
                 case 0: estadoActual=estadoSiguiente;break; //normal
                 case 1: estadoActual=estadoSiguiente;break; //malo
                 case 2: estadoActual=estadoSiguiente;break;  //bueno
                 case 3: estadoActual=estadoSiguiente;break;  //excelente
-                case 4: this.estadoInicialAleatorio();break; // es el final, llegamos al objetivo, arranca de nuevo
+                case 4: estadoActual = estadoInicialAleatorio();break; // es el final, llegamos al objetivo, arranca de nuevo
                 case 5: estadoActual=estadoSiguiente;break;  //pozo  
             }
         }
         //prueba
         border = new MatteBorder(1,1,1,1,Color.GRAY) {};
         matrizCelda[i][j].setBorder(border);
+        System.out.println("terminado aprendizaje");
         //fin prueba
     }
+    public void pintarCamino(){
+        //for(int i=0;i<tamaño;i++){
+        //    for(int j=0;j<tamaño;j++){
+        //        if (matrizCelda[i][j].getBorder().equals(new MatteBorder(1,1,1,1,Color.WHITE) {})){
+                    //es el inicial
+                    //Boolean esFinal=true;
+                    int i=0;int j =0;
+                    Posicion pos = new Posicion(i,j);
+                    Posicion sigx;
+                    Border border = new MatteBorder(1,1,1,1,Color.WHITE) {};
+                    this.matrizCelda[i][j].setBorder(border);
+                    int accion = this.mejorAccion(pos);
+                    Posicion sig = this.siguiente(pos, accion);
+                    int x=sig.i;
+                    int y =sig.j;
+                    //do{
+                    //    if(Color.BLUE.equals(matrizCelda[x][y].getBackground())){
+                    //        esFinal=false;
+                    //    }
+                        this.matrizCelda[x][y].setBorder(border);
+                        sigx = sig;
+                        accion = this.mejorAccion(sig);
+                        sig = this.siguiente(sigx, accion);
+                        x= sig.getI();
+                        y =sig.getJ();
+                    //} while(esFinal);
+ 
+       //         }
+       //     }
+       // }
+    }
+    public void imprimirQtable(){
+        double x;
+        for(int j=0;j<tamano;j++){
+           for(int i=0;i<tamano;i++){
+               for (int a=0;a<8;a++){
+                    x=Qvalues[i][j][a];
+                    System.out.println(x); 
+               }
+
+            }
+        }
+    }
+    
 }
