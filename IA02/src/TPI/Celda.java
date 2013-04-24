@@ -20,9 +20,6 @@ import javax.swing.border.MatteBorder;
 public class Celda extends JPanel {
     //representa una celda de la grilla o GridWorld
     Posicion posicion;
-    ArrayList listaAcciones = new ArrayList();
-    Boolean esInicial = false;
-    
     // colores segun el estado, para tener una referencia de que representa
     Color colorBueno = Color.YELLOW;
     Color colorExcelente = Color.GREEN;
@@ -41,10 +38,7 @@ public class Celda extends JPanel {
         addMouseListener (new MouseAdapter() {
             //el evento va a ser mouse presionado
             public void mousePressed(MouseEvent e) {
-                if (esInicial){
-                    Border border = new MatteBorder(1, 1, 1, 1, Color.RED);
-                    setBorder(border);
-                } else {
+
                     if (colorNormal.equals(getBackground())){
                     setBackground(colorMalo);
                     } else {
@@ -69,40 +63,25 @@ public class Celda extends JPanel {
                         }
                     }
                 }
-
-            }
            });
     }
 
     //algunos getters y setter
-    
-    public void esInicial(){
-        this.esInicial = true;
-    }
+
     
     public Posicion getPosicion() {
         return posicion;
-    }
-
-    public ArrayList getAcciones() {
-        return listaAcciones;
     }
 
     public Color getColor() {
         return this.getBackground();
     }
     
-    public int getCantAccion(){
-        return this.listaAcciones.size();
-    }
     
     public int getTipo() {
             int tipo = 0;
             //inicializamos como tipo normal
-            if (esInicial){
-                tipo=6;
-                //tipo inicial
-            } else {
+
                 if (colorNormal.equals(getColor())){
                     tipo = 0;
                 //tipo normal
@@ -132,7 +111,6 @@ public class Celda extends JPanel {
                         }
                     }
                 }
-            }
             return tipo;
     }
     

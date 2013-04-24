@@ -43,7 +43,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         //setVisible(true);
         
-        System.out.println((int)(java.lang.Math.random()*7));
+        System.out.println((int)(java.lang.Math.random()*8));
     }
 
     /**
@@ -341,7 +341,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
         //if(grilla.hayEstadoFinal()){
             grilla.actualizarAcciones();
-            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla.getGrilla(),grilla.matrizCeldas);
+            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla.getGrilla(),grilla.matrizCeldas,grilla.matrizA);
             aprendizaje = new Thread(bot);
             aprendizaje.start();
         //} else {

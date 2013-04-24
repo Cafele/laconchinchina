@@ -21,6 +21,8 @@ public class Grilla extends JPanel {
     int grilla[][];
     //matriz que contiene todas las celdas
     Celda matrizCeldas [][];
+    //prueba matrizAccionesPosibles
+    Boolean matrizA [][][];
     //tamaño en filasxcolumnas es decir si es 10x10, tmño es 10.
     int tmno;
     // mismos colores segun el estado, para tener una referencia de que representan
@@ -40,6 +42,7 @@ public class Grilla extends JPanel {
         //armo las matrices con tamaño referenciado y cargo el tamaño a utilizar
         this.grilla = new int [x][x];
         this.matrizCeldas = new Celda [x][x];
+        this.matrizA = new Boolean [x][x][8];
         this.tmno=x;    
         //creo la grilla con ayuda del gridbaglayout
         setLayout(new GridBagLayout());
@@ -48,6 +51,10 @@ public class Grilla extends JPanel {
                 for (int i = 0; i < tmno; i++) {
                     // se inicializa la matriz de estados en 0 = normal;
                     grilla[i][j]=0;
+                    //prueba
+                    for (int a=0; a<8; a++){
+                        matrizA [i][j][a]=true;
+                    }
                     
                     gbc.gridx = i;
                     gbc.gridy = j;
@@ -55,7 +62,7 @@ public class Grilla extends JPanel {
                     Posicion pos = new Posicion(i,j);
                     Celda celda = new Celda(pos);
                     matrizCeldas [i][j]=celda;
-                    
+
                     Border border;
                     if (j < (tmno-1)) {
                         if (i < (tmno-1)) {
@@ -78,6 +85,7 @@ public class Grilla extends JPanel {
                 }
             }
     }
+    
     //metodo para crear la grilla de estados
     public void armarGrilla(){
         for (int j=0;j<tmno;j++){
@@ -97,108 +105,98 @@ public class Grilla extends JPanel {
         //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
-                //añado todo y despues elimino las que no deberian estar
-                matrizCeldas[i][j].listaAcciones.add("0");
-                matrizCeldas[i][j].listaAcciones.add("1");
-                matrizCeldas[i][j].listaAcciones.add("2");
-                matrizCeldas[i][j].listaAcciones.add("3");
-                matrizCeldas[i][j].listaAcciones.add("4");
-                matrizCeldas[i][j].listaAcciones.add("5");
-                matrizCeldas[i][j].listaAcciones.add("6");
-                matrizCeldas[i][j].listaAcciones.add("7");
-                // aca tengo que tener cuidado, yo estoy suponiendo que elimino por objeto y no por index
                 if(i==0){
-                    matrizCeldas[i][j].listaAcciones.remove("0");
-                    matrizCeldas[i][j].listaAcciones.remove("1");
-                    matrizCeldas[i][j].listaAcciones.remove("7");
+                    matrizA[i][j][0]=false;
+                    matrizA[i][j][1]=false;
+                    matrizA[i][j][7]=false;
                 } else {
                     if(grilla[i-1][j]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("0");
+                        matrizA[i][j][0]=false;
                     }
                     if(j==0){
-                        matrizCeldas[i][j].listaAcciones.remove("7");
+                        matrizA[i][j][7]=false;
                     } else {
                         if(grilla[i-1][j-1]==5){
-                            matrizCeldas[i][j].listaAcciones.remove("7");
+                            matrizA[i][j][7]=false;
                         }
                     }
                     if(j==(tmno-1)){
-                        matrizCeldas[i][j].listaAcciones.remove("1");
+                        matrizA[i][j][1]=false;
                     } else{
                         if(grilla[i-1][j+1]==5){
-                            matrizCeldas[i][j].listaAcciones.remove("1");
+                            matrizA[i][j][1]=false;
                         }
                     }
                 }
                 
                 if(j==0){
-                    matrizCeldas[i][j].listaAcciones.remove("5");
-                    matrizCeldas[i][j].listaAcciones.remove("6");
-                    matrizCeldas[i][j].listaAcciones.remove("7");
+                    matrizA[i][j][5]=false;
+                    matrizA[i][j][6]=false;
+                    matrizA[i][j][7]=false;
                 } else {
                     if(grilla[i][j-1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("6");
+                        matrizA[i][j][6]=false;
                     }
                     if(i==0){
-                        matrizCeldas[i][j].listaAcciones.remove("7");
+                        matrizA[i][j][7]=false;
                     } else {
                         if(grilla[i-1][j-1]==5){
-                            matrizCeldas[i][j].listaAcciones.remove("7");
+                            matrizA[i][j][7]=false;
                         }
                     }
                     if(i==(tmno-1)){
-                        matrizCeldas[i][j].listaAcciones.remove("5");
+                        matrizA[i][j][5]=false;
                     } else {
                         if(grilla[i+1][j-1]==5){
-                            matrizCeldas[i][j].listaAcciones.remove("5");
+                            matrizA[i][j][5]=false;
                         }
                     }
                 }
                 
                 if(i==(tmno-1)){
-                    matrizCeldas[i][j].listaAcciones.remove("3");
-                    matrizCeldas[i][j].listaAcciones.remove("4");
-                    matrizCeldas[i][j].listaAcciones.remove("5"); 
+                    matrizA[i][j][3]=false;
+                    matrizA[i][j][4]=false;
+                    matrizA[i][j][5]=false;
                 } else {
                     if(grilla[i+1][j]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("4");
+                        matrizA[i][j][4]=false;
                     }
                     if(j==0){
-                        matrizCeldas[i][j].listaAcciones.remove("5");
+                        matrizA[i][j][5]=false;
                     } else {
                         if(grilla[i+1][j-1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("5");
+                        matrizA[i][j][5]=false;
                         }
                     }
                     if(j==tmno-1){
-                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        matrizA[i][j][3]=false;
                     } else {
                         if(grilla[i+1][j+1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        matrizA[i][j][3]=false;
                         }
                     }
                 }
                 
                 if(j==(tmno-1)){
-                    matrizCeldas[i][j].listaAcciones.remove("3");
-                    matrizCeldas[i][j].listaAcciones.remove("2");
-                    matrizCeldas[i][j].listaAcciones.remove("1");  
+                    matrizA[i][j][1]=false;
+                    matrizA[i][j][2]=false;
+                    matrizA[i][j][3]=false;  
                 } else {
                     if(grilla[i][j+1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("2");
+                        matrizA[i][j][2]=false;
                     }
                     if (i==0){
-                        matrizCeldas[i][j].listaAcciones.remove("1");
+                        matrizA[i][j][1]=false;
                     } else {
                         if(grilla[i-1][j+1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("1");
+                        matrizA[i][j][1]=false;
                         }
                     }
                     if(i==(tmno-1)){
-                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        matrizA[i][j][3]=false;
                     } else {
                         if(grilla[i+1][j+1]==5){
-                        matrizCeldas[i][j].listaAcciones.remove("3");
+                        matrizA[i][j][3]=false;
                         }
                     }
                 }
@@ -238,8 +236,8 @@ public class Grilla extends JPanel {
             }   
         }
         // por ultimo asigno un final
-        int ii = (int)(java.lang.Math.random()*(tmno-1));
-        int jj = (int)(java.lang.Math.random()*(tmno-1));
+        int ii = (int)(java.lang.Math.random()*(tmno));
+        int jj = (int)(java.lang.Math.random()*(tmno));
         grilla[ii][jj]=4;
     }
     // funcion que pinte las celdas segun la grilla

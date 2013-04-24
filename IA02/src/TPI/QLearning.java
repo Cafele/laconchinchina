@@ -45,8 +45,9 @@ public class QLearning implements Runnable {
     int tamano=0;
     // a modo de prueba por ahora
     Celda matrizCelda[][];
+    Boolean matrizAccion[][][];
     //constructor
-    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas){
+    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas,Boolean [][][] matrizA){
         this.maxIteracion=itmax;
         this.tamano=tmno;
         //this.Tau=temp;
@@ -60,6 +61,7 @@ public class QLearning implements Runnable {
         this.recNormal=recN;
         this.map=mapa;
         this.matrizCelda=mapaCeldas;
+        this.matrizAccion=matrizA;
         //iniciar la tabla de q, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
@@ -69,39 +71,44 @@ public class QLearning implements Runnable {
                 }
             }
         }
+        
     }
     //egreedy
     public int eGreedy(Posicion pos){
         int accion;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
+        
         double random = java.lang.Math.random();
-        if (random<this.epsilon){
-            //cae dentro de la exploracion, accion es aleatoria
-            int indice = (int)(java.lang.Math.random())*((celda.listaAcciones.size()-1));
-            accion = Integer.parseInt(celda.listaAcciones.get(indice).toString()); 
-            //accion = (int) java.lang.Math.round((float)java.lang.Math.random()*(8));
-        } else {
-            //cae dentro de la parte de explotacion, accion es la mejor
-            accion = mejorAccion(pos);
-        }
+        do {
+            if (random<this.epsilon){
+                //cae dentro de la exploracion, accion es aleatoria
+                accion = (int)((java.lang.Math.random())*8);
+            } else {
+                //cae dentro de la parte de explotacion, accion es la mejor
+                accion = mejorAccion(pos);
+            }
+        } while (!(matrizAccion[i][j][accion]));
+        // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
         return accion;
     }
+    
     //para egreedy mejor accion, es greedy, devuelve la accion que da el mejor Q
     public int mejorAccion(Posicion pos){
         int laMejor = 0;
         double mejorQ=-10000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
-        //entre las acciones posibles, miro la que devuelve el mejorQ
-        //for(int x=0;x<8;x++){
-        int a;
-        for (int x=0;x<(celda.listaAcciones.size());x++){    
-            a = Integer.parseInt(celda.listaAcciones.get(x).toString()) ;
-            if(Qvalues[i][j][a]>mejorQ){
-                mejorQ=Qvalues[i][j][a];
-                laMejor=a;
-            }            
+        for (int a=0;a<8;a++){
+            //si la accion es una accion valida en la matrizA es true
+            if (matrizAccion[i][j][a]){
+                //reviso si el Q es mejor que el anterior
+                if(Qvalues[i][j][a]>mejorQ){
+                    // si lo es, actualizo el mejorQ y la mejor A
+                    mejorQ=Qvalues[i][j][a];
+                    laMejor=a;
+                }   
+            }          
         }
         return laMejor;
     }
@@ -110,15 +117,19 @@ public class QLearning implements Runnable {
         double mejorQ=-10000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
-        //for(int x=0;x<8;x++){
-        for (int x=0;x<(celda.listaAcciones.size());x++){    
-            int a = Integer.parseInt(celda.listaAcciones.get(x).toString()) ;
-            if(Qvalues[i][j][a]>mejorQ){
-                mejorQ=Qvalues[i][j][a];
-            }            
+        for (int a=0;a<8;a++){    
+            //si la accion es una accion valida en la matrizA es true
+            if (matrizAccion[i][j][a]){
+                //reviso si el Q es mejor que el anterior
+                if(Qvalues[i][j][a]>mejorQ){
+                    // si lo es, actualizo el mejorQ y la mejor A
+                    mejorQ=Qvalues[i][j][a];
+                }   
+            }           
         }
         return mejorQ;
     }
+    
     // devuelve el siguiente estado segun una accion realizada
     public Posicion elsiguiente(Posicion pos, int accion){
         Posicion sig = new Posicion();
@@ -334,13 +345,12 @@ public class QLearning implements Runnable {
     //estado de partida aleatoria
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
-        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
-        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
+        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano))));
+        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano))));
         return resultado;
     }
     //actualizar tabla Qvalues
     private void actualizarQtable (int i, int j, int accion){
-        double qViejo = Qvalues[i][j][accion];
         Posicion actual = new Posicion(i,j);
         double recompensa = this.recompensar(actual, accion);
         Posicion siguiente = this.elsiguiente(actual, accion);
