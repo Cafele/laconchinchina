@@ -175,11 +175,11 @@ public class QLearning implements Runnable {
     // funcion que devuelve la recompensa directa
     public double recompensar(Posicion pos,int accion){
                 //valor por defecto
+        int i = pos.getI(); int j = pos.getJ();
         double resultado=0.0;
         Posicion sig = this.elsiguiente(pos, accion);
         //calidad, bueno malo, etc..        
-        int calidad = map[sig.getI()][sig.getJ()];
-        if (pos.getI()!=sig.getI() && pos.getJ()!=sig.getJ()){
+        int calidad = map[i][j];
           switch (calidad){
             case 0:resultado=this.recNormal;break; //es normal
             case 1:resultado=this.recMalo;break; //es malo 
@@ -187,16 +187,15 @@ public class QLearning implements Runnable {
             case 3:resultado=this.recExcelente;break; //es excelente
             case 4:resultado=this.recFinal;break; // es el obj final
             case 5:break; //es pozo no deberia tomarla igual
-        }  
-        }
+          }  
         return resultado;
     }
    
     //estado de partida aleatoria
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
-        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
-        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
+        resultado.setI((int)(java.lang.Math.random()*(tamano-1)));
+        resultado.setJ((int)(float)(java.lang.Math.random()*(tamano-1)));
         return resultado;
     }
     //actualizar tabla Qvalues
@@ -258,10 +257,6 @@ public class QLearning implements Runnable {
         //fin prueba
     }
     public void pintarCamino(){
-        //for(int i=0;i<tamaño;i++){
-        //    for(int j=0;j<tamaño;j++){
-        //        if (matrizCelda[i][j].getBorder().equals(new MatteBorder(1,1,1,1,Color.WHITE) {})){
-                    //es el inicial
                     Boolean esFinal=true;
                     int i=0;int j =0;
                     Posicion pos = new Posicion(i,j);
@@ -283,11 +278,8 @@ public class QLearning implements Runnable {
                         x= sig.getI();
                         y =sig.getJ();
                     } while(esFinal);
- 
-       //         }
-       //     }
-       // }
     }
+    // esto era para probar la carga de Qtable
     public void imprimirQtable(){
         double x;
         for(int j=0;j<tamano;j++){

@@ -50,6 +50,9 @@ public class Grilla extends JPanel {
             for (int j = 0; j < tmno; j++) {
                 for (int i = 0; i < tmno; i++) {
                     // se inicializa la matriz de estados en 0 = normal;
+                    Posicion pos = new Posicion(i,j);
+                    Celda celda = new Celda(pos);
+                    //matrizCeldas [i][j]=celda;
                     grilla[i][j]=0;
                     //prueba
                     for (int a=0; a<8; a++){
@@ -59,9 +62,7 @@ public class Grilla extends JPanel {
                     gbc.gridx = i;
                     gbc.gridy = j;
                     // creamos la celda nueva y le damos un borde segun posicion
-                    Posicion pos = new Posicion(i,j);
-                    Celda celda = new Celda(pos);
-                    matrizCeldas [i][j]=celda;
+
 
                     Border border;
                     if (j < (tmno-1)) {

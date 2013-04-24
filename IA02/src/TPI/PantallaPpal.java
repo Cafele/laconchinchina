@@ -351,7 +351,6 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
             bot.pintarCamino();
-            bot.imprimirQtable();
     }//GEN-LAST:event_BotonCamino1ActionPerformed
 
     /**
