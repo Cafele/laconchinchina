@@ -236,8 +236,8 @@ public class Grilla extends JPanel {
             }   
         }
         // por ultimo asigno un final
-        int ii = (int)(java.lang.Math.random()*(tmno));
-        int jj = (int)(java.lang.Math.random()*(tmno));
+        int ii = (int)(java.lang.Math.random()*(tmno-1));
+        int jj = (int)(java.lang.Math.random()*(tmno-1));
         grilla[ii][jj]=4;
     }
     // funcion que pinte las celdas segun la grilla

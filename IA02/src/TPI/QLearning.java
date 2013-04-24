@@ -83,7 +83,7 @@ public class QLearning implements Runnable {
         do {
             if (random<this.epsilon){
                 //cae dentro de la exploracion, accion es aleatoria
-                accion = (int)((java.lang.Math.random())*8);
+                accion = (int)((java.lang.Math.random())*7);
             } else {
                 //cae dentro de la parte de explotacion, accion es la mejor
                 accion = mejorAccion(pos);
@@ -171,146 +171,12 @@ public class QLearning implements Runnable {
         }
         return sig;
     }
-    public Posicion siguiente(Posicion pos, int accion){
-        Posicion sig = new Posicion();
-        int i = pos.getI(); int j = pos.getJ();
-        switch (accion){
-            case N:
-            if(i==0){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //estoy fila 0 no puedo ir arriba, quedo mismo lugar
-            } else {
-                if (map[(i-1)][j]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //el siguiente estado seria pozo, no deberia poder ir
-                } else {
-                    sig.setI(i-1);sig.setJ(j);
-                    //resultado[0]=(i-1); resultado [1]=j;
-                }
-            }
-            break;
-            case NE:
-            if(i==0 || j==(tamano-1)){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //primera fila o ultima columna, no puedo moverme
-            } else {
-                if (map[(i-1)][j+1]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //el siguiente estado seria pozo, no deberia poder ir
-                } else {
-                    sig.setI(i-1);sig.setJ(j+1);
-                    //resultado[0]=(i-1); resultado [1]=(j+1);
-                }
-            }
-            break;
-            case E:
-            if (j==(tamano-1)){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //estoy en la ultima columna no puedo ir a la derecha
-            } else {
-                if (map[i][(j+1)]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //el siguiente estado es pozo, no debo poder ir
-                } else {
-                    //resultado[0]=i; resultado [1]=j+1;
-                    sig.setI(i);sig.setJ(j+1);
-                }
-            }
-            break;
-            case SE:
-            if (i==(tamano-1) || j==(tamano-1)){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //ultima columna y ultima fila, no se debe poder mover
-            } else {
-                if (map[i+1][(j+1)]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //el siguiente estado es pozo, no debo poder ir
-                } else {
-                    //resultado[0]=(i+1); resultado [1]=(j+1);
-                    sig.setI(i+1);sig.setJ(j+1);
-                }
-            }
-            break;    
-            case S:
-            if (i==(tamano-1)){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //estoy en la ultima columna no deberia poder ir
-            } else {
-                if (map[i+1][j]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //siguiente estado es pozo, no deberia ir
-                } else {
-                    //resultado[0]=i+1; resultado [1]=j;
-                    sig.setI(i+1);sig.setJ(j);
-                }
-            }
-            break;
-            case SO:
-            if (i==(tamano-1) || j==0){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //primera columna o ultima columna no se debe mover
-            } else {
-                if (map[i+1][j-1]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    //siguiente estado es pozo, no deberia ir
-                } else {
-                    //resultado[0]=i+1; resultado [1]=j-1;
-                    sig.setI(i+1);sig.setJ(j);
-                }
-            }
-            break;    
-            case O:
-            if (j==0){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //primera columna no puedo ir a la izquierda
-            } else {
-                if (map[i][j-1]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    // siguiente es un pozo, no puedo ir
-                } else {
-                    //resultado[0]=i; resultado [1]=j-1;
-                    sig.setI(i);sig.setJ(j-1);
-                }
-            }
-            break;    
-            case NO:
-            if (i==0 || j==0){
-                //resultado[0]=i; resultado [1]=j;
-                sig.setI(i);sig.setJ(j);
-                //primera columna o primera fila, no me puedo mover
-            } else {
-                if (map[i-1][j-1]==5){
-                    //resultado[0]=i; resultado [1]=j;
-                    sig.setI(i);sig.setJ(j);
-                    // siguiente es un pozo, no puedo ir
-                } else {
-                    //resultado[0]=i-1; resultado [1]=j-1;
-                    sig.setI(i-1);sig.setJ(j-1);
-                }
-            }
-            break; 
-        }
-        return sig;
-    }
+   
     // funcion que devuelve la recompensa directa
     public double recompensar(Posicion pos,int accion){
                 //valor por defecto
         double resultado=0.0;
-        Posicion sig = this.siguiente(pos, accion);
+        Posicion sig = this.elsiguiente(pos, accion);
         //calidad, bueno malo, etc..        
         int calidad = map[sig.getI()][sig.getJ()];
         if (pos.getI()!=sig.getI() && pos.getJ()!=sig.getJ()){
@@ -325,28 +191,12 @@ public class QLearning implements Runnable {
         }
         return resultado;
     }
-    // metodos de seleccion, por ahora solo egreedy
-    public int elegirSiguiente (Posicion pos){
-        int accion;
-        double random = java.lang.Math.random();
-        int i=pos.getI(); int j=pos.getJ();
-        Celda celda = matrizCelda[i][j];
-        if (random<this.epsilon){
-            //cae dentro de la exploracion, accion es aleatoria
-            accion = (int) java.lang.Math.round((float)java.lang.Math.random()*(8));
-            //la accion es la accion posible que esta en un indice aleatorio ( dado por un numero aleatorio multiplicado por la cant de acciones posibles, redondeado para que sea entero )
-        } else {
-            //cae dentro de la parte de explotacion, accion es la mejor
-            accion = mejorAccion(pos);
-        }
-        return accion;
-    }
-    
+   
     //estado de partida aleatoria
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
-        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano))));
-        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano))));
+        resultado.setI((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
+        resultado.setJ((int)java.lang.Math.round((float)(java.lang.Math.random()*(tamano-1))));
         return resultado;
     }
     //actualizar tabla Qvalues
@@ -412,27 +262,27 @@ public class QLearning implements Runnable {
         //    for(int j=0;j<tamaño;j++){
         //        if (matrizCelda[i][j].getBorder().equals(new MatteBorder(1,1,1,1,Color.WHITE) {})){
                     //es el inicial
-                    //Boolean esFinal=true;
+                    Boolean esFinal=true;
                     int i=0;int j =0;
                     Posicion pos = new Posicion(i,j);
                     Posicion sigx;
                     Border border = new MatteBorder(1,1,1,1,Color.WHITE) {};
                     this.matrizCelda[i][j].setBorder(border);
                     int accion = this.mejorAccion(pos);
-                    Posicion sig = this.siguiente(pos, accion);
+                    Posicion sig = this.elsiguiente(pos, accion);
                     int x=sig.i;
                     int y =sig.j;
-                    //do{
-                    //    if(Color.BLUE.equals(matrizCelda[x][y].getBackground())){
-                    //        esFinal=false;
-                    //    }
+                    do{
+                        if(Color.BLUE.equals(matrizCelda[x][y].getBackground())){
+                            esFinal=false;
+                        }
                         this.matrizCelda[x][y].setBorder(border);
                         sigx = sig;
                         accion = this.mejorAccion(sig);
-                        sig = this.siguiente(sigx, accion);
+                        sig = this.elsiguiente(sigx, accion);
                         x= sig.getI();
                         y =sig.getJ();
-                    //} while(esFinal);
+                    } while(esFinal);
  
        //         }
        //     }
