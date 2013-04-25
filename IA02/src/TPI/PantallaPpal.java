@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
@@ -21,7 +23,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         QLearning bot;
         Thread aprendizaje;
         Celda [][] matrizC;
-        int tmño;
+        int tmño = 6;
         long itmax= 1000000;
         double recB = 25.0;
         double recE = 50.0;
@@ -30,6 +32,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         double recN = 10.0;
         double e=0.7;
         double gamma=0.9;
+        
         
     /**
      * Creates new form PantallaPpal
@@ -43,10 +46,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         menuTamano.addItem("9");
         menuTamano.addItem("10");
         
+        PanelGrilla.setLayout(new GridLayout());
+        grilla = new Grilla(tmño);
+        PanelGrilla.add(grilla);
+        //setLocationRelativeTo(null);
+        setVisible(true);
+        matrizC = grilla.matrizCeldas;
+        
         //PanelGrilla.setLayout(new GridLayout());
         setLocationRelativeTo(null);
         //setVisible(true);
-        
+        radioButtonInicio.setEnabled(false);
         //System.out.println((int)(java.lang.Math.random()*8));
     }
     
@@ -417,6 +427,10 @@ public class PantallaPpal extends javax.swing.JFrame {
             bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla);
             aprendizaje = new Thread(bot);
             aprendizaje.start();
+            radioButtonNormal.setEnabled(false);
+            radioButtonInicio.setEnabled(true);
+            radioButtonInicio.setSelected(true);
+            grilla.setearInicio();
         //} else {
         //    JOptionPane.showMessageDialog(PanelGrilla, "no hay estado final");
         //}

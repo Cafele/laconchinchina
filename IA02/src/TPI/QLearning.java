@@ -79,7 +79,7 @@ public class QLearning implements Runnable {
         int accion;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
-        
+        Boolean x;
         double random = java.lang.Math.random();
         do {
             if (random<this.epsilon){
@@ -89,7 +89,8 @@ public class QLearning implements Runnable {
                 //cae dentro de la parte de explotacion, accion es la mejor
                 accion = mejorAccion(pos);
             }
-        } while (!(matrizAccion[i][j][accion]));
+            x = !(matrizAccion[i][j][accion]);
+        } while (x);
         // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
         return accion;
     }
