@@ -24,7 +24,7 @@ public class QLearning implements Runnable {
     static final int NO=7;
     //manejar iteraciones
     long iteracion=0;
-    long maxIteracion=10000;
+    long maxIteracion=10;
     //recompensas
     double recBueno = 25.0;
     double recExcelente = 50.0;
@@ -270,7 +270,40 @@ public class QLearning implements Runnable {
             }
         }
     }
+
     //
+    public void setMaxIteracion(long maxIteracion) {
+        this.maxIteracion = maxIteracion;
+    }
+
+    public void setEpsilon(double epsilon) {
+        this.epsilon = epsilon;
+    }
+
+    public void setGamma(double gamma) {
+        this.gamma = gamma;
+    }
+
+    public void setRecBueno(double recBueno) {
+        this.recBueno = recBueno;
+    }
+
+    public void setRecExcelente(double recExcelente) {
+        this.recExcelente = recExcelente;
+    }
+
+    public void setRecFinal(double recFinal) {
+        this.recFinal = recFinal;
+    }
+
+    public void setRecMalo(double recMalo) {
+        this.recMalo = recMalo;
+    }
+
+    public void setRecNormal(double recNormal) {
+        this.recNormal = recNormal;
+    }
+    
     
     
 }

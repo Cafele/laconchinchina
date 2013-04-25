@@ -350,6 +350,15 @@ public class Grilla extends JPanel {
         }
         return pos;
     }
+    public void actualizarGrilla(){
+        int x;
+        for(int i=0;i<tmno;i++){
+            for(int j=0;j<tmno;j++){
+                x=matrizCeldas[i][j].getTipo();
+                grilla[i][j]=x;
+            }
+        }
+    }
     
         @Override
         public Dimension getPreferredSize() {
