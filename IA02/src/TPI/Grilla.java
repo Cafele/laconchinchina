@@ -295,6 +295,61 @@ public class Grilla extends JPanel {
             } 
         }
     }
+    public void pintarBordes(){
+        Border border;
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                 Celda celda = matrizCeldas[i][j];
+                    if (j < (tmno-1)) {
+                        if (i < (tmno-1)) {
+                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+                        }
+                    } else {
+                        if (i < (tmno-1)) {
+                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                        }
+                    }
+                    celda.setBorder(border);
+            }
+        } 
+    }
+    public void setearNormal(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    
+    public void setearInicio(){
+        for (int i=0;i<tmno;i++){
+            for (int j=0; j<tmno;j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.seleccionInicio = true;
+            }
+        }
+    }
+    
+    public Posicion getInicial(){
+        // por defecto devuelve la posicion 0,0
+        Posicion pos = new Posicion(0,0);
+        for (int i=0;i<tmno;i++){
+            for (int j=0; j<tmno;j++){
+                Celda celda = matrizCeldas[i][j];
+                if(celda.esInicial()){
+                    pos.setI(i); pos.setJ(j);
+                }
+            }
+        }
+        return pos;
+    }
     
         @Override
         public Dimension getPreferredSize() {

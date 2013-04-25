@@ -30,6 +30,10 @@ public class Celda extends JPanel {
     Color colorCamino = Color.CYAN;
     Color colorAgente = Color.WHITE;
     Color colorInicio = Color.ORANGE;
+    //
+    Boolean esInicial = false;
+    //
+    Boolean seleccionInicio = false;
     
     //constructor
     public Celda(Posicion posicion){
@@ -38,7 +42,11 @@ public class Celda extends JPanel {
         addMouseListener (new MouseAdapter() {
             //el evento va a ser mouse presionado
             public void mousePressed(MouseEvent e) {
-
+                if (seleccionInicio){
+                    Border border = new MatteBorder(2, 2, 2, 2, Color.WHITE);
+                    setBorder(border);
+                    esInicial = true;
+                } else {
                     if (colorNormal.equals(getBackground())){
                     setBackground(colorMalo);
                     } else {
@@ -54,16 +62,16 @@ public class Celda extends JPanel {
                                     if (colorPozo.equals(getBackground())){
                                         setBackground (colorFinal);
                                     } else {
-                                        //setBackground (colorNormal);
-                                        Border border = new MatteBorder(1, 1, 1, 1, Color.WHITE);
-                                        setBorder(border);
+                                        setBackground (colorNormal);
                                     }
                                 }
                             }
                         }
                     }
                 }
-           });
+                    
+           }
+       });
     }
 
     //algunos getters y setter
@@ -112,6 +120,10 @@ public class Celda extends JPanel {
                     }
                 }
             return tipo;
+    }
+    
+    public Boolean esInicial(){
+        return esInicial;
     }
     
     @Override

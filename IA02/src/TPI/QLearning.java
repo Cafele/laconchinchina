@@ -46,8 +46,9 @@ public class QLearning implements Runnable {
     // a modo de prueba por ahora
     Celda matrizCelda[][];
     Boolean matrizAccion[][][];
+    Grilla grilla;
     //constructor
-    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,int [][] mapa,Celda [][] mapaCeldas,Boolean [][][] matrizA){
+    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid){
         this.maxIteracion=itmax;
         this.tamano=tmno;
         //this.Tau=temp;
@@ -59,9 +60,9 @@ public class QLearning implements Runnable {
         this.recExcelente=recE;
         this.recFinal=recF;
         this.recNormal=recN;
-        this.map=mapa;
-        this.matrizCelda=mapaCeldas;
-        this.matrizAccion=matrizA;
+        this.map=grid.getGrilla();
+        this.matrizCelda=grid.matrizCeldas;
+        this.matrizAccion=grid.matrizA;
         //iniciar la tabla de q, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
@@ -237,7 +238,7 @@ public class QLearning implements Runnable {
             Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
             // prueba
             i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
-            border = new MatteBorder(1,1,1,1,Color.RED) {};
+            border = new MatteBorder(2,2,2,2,Color.RED) {};
             matrizCelda[i][j].setBorder(border);
             
             //fin prueba
@@ -256,41 +257,19 @@ public class QLearning implements Runnable {
         System.out.println("terminado aprendizaje");
         //fin prueba
     }
-    public void pintarCamino(){
-                    Boolean esFinal=true;
-                    int i=0;int j =0;
-                    Posicion pos = new Posicion(i,j);
-                    Posicion sigx;
-                    Border border = new MatteBorder(1,1,1,1,Color.WHITE) {};
-                    this.matrizCelda[i][j].setBorder(border);
-                    int accion = this.mejorAccion(pos);
-                    Posicion sig = this.elsiguiente(pos, accion);
-                    int x=sig.i;
-                    int y =sig.j;
-                    do{
-                        if(Color.BLUE.equals(matrizCelda[x][y].getBackground())){
-                            esFinal=false;
-                        }
-                        this.matrizCelda[x][y].setBorder(border);
-                        sigx = sig;
-                        accion = this.mejorAccion(sig);
-                        sig = this.elsiguiente(sigx, accion);
-                        x= sig.getI();
-                        y =sig.getJ();
-                    } while(esFinal);
-    }
+    // aca iba funcion pintar camino()
+    
     // esto era para probar la carga de Qtable
     public void imprimirQtable(){
-        double x;
+        Celda celda;
         for(int j=0;j<tamano;j++){
            for(int i=0;i<tamano;i++){
-               for (int a=0;a<8;a++){
-                    x=Qvalues[i][j][a];
-                    System.out.println(x); 
-               }
-
+                celda = matrizCelda [i][j];
+                System.out.println(celda.seleccionInicio);
             }
         }
     }
+    //
+    
     
 }
