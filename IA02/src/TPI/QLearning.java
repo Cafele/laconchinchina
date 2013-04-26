@@ -97,7 +97,7 @@ public class QLearning implements Runnable {
     //para egreedy mejor accion, es greedy, devuelve la accion que da el mejor Q
     public int mejorAccion(Posicion pos){
         int laMejor = 0;
-        double mejorQ=-1000000.0;
+        double mejorQ=-100000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         for (int a=0;a<8;a++){
@@ -115,7 +115,7 @@ public class QLearning implements Runnable {
     }
     //calcular max Q para la formula de Q(s,a)
     public double mejorQ(Posicion pos){
-        double mejorQ=-10000.0;
+        double mejorQ=-100000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         for (int a=0;a<8;a++){    
