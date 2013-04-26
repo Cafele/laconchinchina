@@ -65,19 +65,21 @@ public class Grilla extends JPanel {
 
 
                     Border border;
-                    if (j < (tmno-1)) {
-                        if (i < (tmno-1)) {
-                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-                        } else {
-                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-                        }
-                    } else {
-                        if (i < (tmno-1)) {
-                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-                        } else {
-                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-                        }
-                    }
+                    //if (j < (tmno-1)) {
+                    //    if (i < (tmno-1)) {
+                    //        border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+                    //    } else {
+                    //        border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+                    //    }
+                    //} else {
+                    //    if (i < (tmno-1)) {
+                    //        border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+                    //    } else {
+                    //        border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                    //    }
+                    //}
+                    border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                    
                     celda.setBorder(border);
                     celda.setBackground(Color.LIGHT_GRAY);
                     // añadimos la celda en la grilla con el layout y en la lista de las celdas
@@ -300,19 +302,20 @@ public class Grilla extends JPanel {
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
                  Celda celda = matrizCeldas[i][j];
-                    if (j < (tmno-1)) {
-                        if (i < (tmno-1)) {
-                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-                        } else {
-                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-                        }
-                    } else {
-                        if (i < (tmno-1)) {
-                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-                        } else {
-                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-                        }
-                    }
+                    //if (j < (tmno-1)) {
+                    //    if (i < (tmno-1)) {
+                    //        border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+                    //    } else {
+                    //        border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+                    //    }
+                    //} else {
+                    //    if (i < (tmno-1)) {
+                    //        border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+                    //    } else {
+                    //        border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                    //    }
+                    //}
+                    border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     celda.setBorder(border);
             }
         } 
@@ -336,6 +339,12 @@ public class Grilla extends JPanel {
             }
         }
     }
+
+    public void setMatrizCeldas(Celda[][] matrizCeldas) {
+        this.matrizCeldas = matrizCeldas;
+    }
+    
+    
     
     public Posicion getInicial(){
         // por defecto devuelve la posicion 0,0

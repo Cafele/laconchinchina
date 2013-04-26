@@ -23,7 +23,6 @@ public class QLearning implements Runnable {
     static final int O=6;
     static final int NO=7;
     //manejar iteraciones
-    long iteracion=0;
     long maxIteracion=10;
     //recompensas
     double recBueno = 25.0;
@@ -98,7 +97,7 @@ public class QLearning implements Runnable {
     //para egreedy mejor accion, es greedy, devuelve la accion que da el mejor Q
     public int mejorAccion(Posicion pos){
         int laMejor = 0;
-        double mejorQ=-10000.0;
+        double mejorQ=-1000000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         for (int a=0;a<8;a++){
@@ -211,38 +210,25 @@ public class QLearning implements Runnable {
         //Qvalues [i][j][accion] = (1-this.alpha)*qViejo + this.alpha*(recompensa+(this.gamma*maxQ));
     }
 
-    public long getIteracion() {
-        return iteracion;
-    }
-    
 
     @Override
     //la corrida
     public void run() {
         
         Posicion estadoActual = estadoInicialAleatorio();
-        //prueba seteo 
         int i = estadoActual.getI();int j = estadoActual.getJ();
         Border border = new MatteBorder(1,1,1,1,Color.RED) {};
         matrizCelda[i][j].setBorder(border);
-        //fin prueba
         for (long iter=0; iter<this.maxIteracion;iter++){
-            //prueba
             System.out.println(iter);
             border = new MatteBorder(1,1,1,1,Color.GRAY);
             matrizCelda[i][j].setBorder(border);
-            //fin prueba
-            //this.iteracion=iter;
-            //int accion=this.elegirSiguiente(estadoActual);
             int accion=this.eGreedy(estadoActual);
             this.actualizarQtable(i,j, accion);
             Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
-            // prueba
             i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
             border = new MatteBorder(2,2,2,2,Color.RED) {};
             matrizCelda[i][j].setBorder(border);
-            
-            //fin prueba
             switch (map[i] [j]){
                 case 0: estadoActual=estadoSiguiente;break; //normal
                 case 1: estadoActual=estadoSiguiente;break; //malo
@@ -252,11 +238,9 @@ public class QLearning implements Runnable {
                 case 5: estadoActual=estadoSiguiente;break;  //pozo  
             }
         }
-        //prueba
         border = new MatteBorder(1,1,1,1,Color.GRAY) {};
         matrizCelda[i][j].setBorder(border);
         System.out.println("terminado aprendizaje");
-        //fin prueba
     }
     // aca iba funcion pintar camino()
     
@@ -267,6 +251,16 @@ public class QLearning implements Runnable {
            for(int i=0;i<tamano;i++){
                 celda = matrizCelda [i][j];
                 System.out.println(celda.seleccionInicio);
+            }
+        }
+    }
+    
+    public void limpiarQtable(){
+        for(int j=0;j<tamano;j++){
+           for(int i=0;i<tamano;i++){
+                for(int a=0;a<8;a++){
+                    Qvalues[i][j][a]=0;
+                } 
             }
         }
     }
