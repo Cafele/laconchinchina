@@ -68,6 +68,9 @@ public class PantallaPpal extends javax.swing.JFrame {
                     Posicion sig = bot.elsiguiente(pos, accion);
                     int x=sig.i;
                     int y =sig.j;
+                    
+                    //mientras no sea final, pinta la celda y elije como
+                    //siguiente, la mejor que aprendio
                     do{
                         if(Color.BLUE.equals(matrizC[x][y].getBackground())){
                             esFinal=false;
@@ -579,17 +582,24 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuTamanoActionPerformed
 
     private void menuTamanoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_menuTamanoItemStateChanged
+        //cuando se selecciona un item en el menu de tamano de gridworl se arma
+        //la grilla, se setean los botones y se actualiza la matriz de celdas
         PanelGrilla.removeAll();
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
         setVisible(true);
+        radioButtonInicio.setEnabled(false);
+        radioButtonNormal.setEnabled(true);
         matrizC = grilla.matrizCeldas;
+        grilla.setearNormal();
         BotonInicial.setEnabled(false);
         BotonCamino1.setEnabled(false);
     }//GEN-LAST:event_menuTamanoItemStateChanged
 
     private void botonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonResetActionPerformed
+        //cuando se presiona el boton de reset, se crea una nueva grilla, se 
+        //actualiza la matriz de celdas y se setean los botones
         PanelGrilla.removeAll();
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
@@ -604,19 +614,25 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_botonResetActionPerformed
 
     private void BotonAleatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonAleatorioActionPerformed
+        //cuando se presiona el boton de estados aleatorios, devuelve una grilla 
+        //pintada con estados aleatorios, setea botones y actualiza referencias
         PanelGrilla.removeAll();
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
         setVisible(true);   
         matrizC = grilla.matrizCeldas;
-        grilla.estadosAleatorios();
-        grilla.pintarCeldas();
+        radioButtonInicio.setEnabled(false);
+        radioButtonNormal.setEnabled(true);
         BotonInicial.setEnabled(false);
         BotonCamino1.setEnabled(false);
+        grilla.estadosAleatorios();
+        grilla.pintarCeldas();
+        grilla.setearNormal();
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
+          //al presionar el boton de start, se actualizan las referencias
             e=(Double.parseDouble(textEpsilon.getText()));
             gamma =(Double.parseDouble(textGamma.getText()));
             itmax =(Long.parseLong(textMaxIt.getText()));
@@ -628,15 +644,18 @@ public class PantallaPpal extends javax.swing.JFrame {
             grilla.setMatrizCeldas(matrizC);
             grilla.actualizarGrilla();
             grilla.actualizarAcciones();
+          //se crea una instancia de Qlearning con las referencias
             bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla);
+          //se crea un hilo para correr el aprendizaje
             aprendizaje = new Thread(bot);
             aprendizaje.start();
+          //por ultimo se actualizan los botones y se espera un inicio
             radioButtonNormal.setEnabled(false);
             radioButtonInicio.setEnabled(true);
             radioButtonInicio.setSelected(true);
-            grilla.setearInicio();
             BotonInicial.setEnabled(true);
             BotonCamino1.setEnabled(true);
+            grilla.setearInicio();
     }//GEN-LAST:event_BotonStartActionPerformed
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
