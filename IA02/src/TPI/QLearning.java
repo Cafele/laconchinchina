@@ -1,6 +1,7 @@
 package TPI;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
@@ -21,6 +22,7 @@ public class QLearning implements Runnable {
     static final int NO=7;
     //
     long maxIteracion=10;
+    double cantPasos=500;
     //recompensas
     double recBueno = 25.0;
     double recExcelente = 50.0;
@@ -30,7 +32,7 @@ public class QLearning implements Runnable {
     
     //estos parametros capaz se sacan: (alpha, tau hay q hacer softmax)
     //double Tau; //temperatura para softmax
-    //double alpha = 0.1; //para la formula de Q(s,a), es la de aprendizaje
+    double alpha = 0.1; //para la formula de Q(s,a), es la de aprendizaje
     
     double epsilon = 0.6; //exploration rate para egreedy
     double gamma = 0.8; //tambien para esa formula, es la de amortizacion
@@ -46,13 +48,16 @@ public class QLearning implements Runnable {
     Boolean matrizAccion[][][];
     //una grilla para manejar el gridworld
     Grilla grilla;
-    
+    // contador
+    double recompensa =0;
+
     //constructor
-    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid){
+    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos, double apren){
         this.maxIteracion=itmax;
+        this.cantPasos=pasos;
         this.tamano=tmno;
         //this.Tau=temp;
-        //this.alpha=apren;
+        this.alpha=apren;
         this.epsilon=exp;
         this.gamma=amort;
         this.recBueno=recB;
@@ -73,12 +78,12 @@ public class QLearning implements Runnable {
                 }
             }
         }
-    }
-    
+                }
+                
     //metodos de seleccion: 
     //-egreedy
     public int eGreedy(Posicion pos){
-        int accion;
+        int accion=0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         Boolean x;
@@ -94,6 +99,25 @@ public class QLearning implements Runnable {
             x = !(matrizAccion[i][j][accion]);
         } while (x);
         // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
+        return accion;
+    }
+    //-aleatorio
+    public int aleatorio(Posicion pos){
+        int accion=0;
+        int i=pos.getI(); int j=pos.getJ();
+        Celda celda = matrizCelda[i][j];
+        Boolean x;
+        double random = java.lang.Math.random();
+        do {
+            x = !(matrizAccion[i][j][accion]);
+        } while (x);
+        // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
+        return accion;
+    }
+    //-softmax
+    public int softmax(Posicion pos){
+        int accion=0;
+        
         return accion;
     }
     
@@ -112,7 +136,7 @@ public class QLearning implements Runnable {
                     mejorQ=Qvalues[i][j][a];
                     laMejor=a;
                 }   
-            }          
+            }       
         }
         return laMejor;
     }
@@ -139,6 +163,11 @@ public class QLearning implements Runnable {
     public Posicion elsiguiente(Posicion pos, int accion){
         Posicion sig = new Posicion();
         int i = pos.getI(); int j = pos.getJ();
+        
+        if(!(matrizAccion[i][j][accion])){
+            accion = aleatorio(pos);
+        }
+        
         switch (accion){
             case N:
                 sig.setI(i-1);
@@ -205,20 +234,80 @@ public class QLearning implements Runnable {
     
     //actualizar tabla Qvalues
     private void actualizarQtable (int i, int j, int accion){
+        double qViejo = Qvalues [i][j][accion];
         Posicion actual = new Posicion(i,j);
-        double recompensa = this.recompensar(actual, accion);
+        double recomp = this.recompensar(actual, accion);
         Posicion siguiente = this.elsiguiente(actual, accion);
         double maxQ = this.mejorQ(siguiente);
         // se aplica la formula
-        Qvalues [i][j][accion] = recompensa + gamma*maxQ;
-        //Qvalues [i][j][accion] = (1-this.alpha)*qViejo + this.alpha*(recompensa+(this.gamma*maxQ));
+       Qvalues [i][j][accion] = recomp+ gamma*maxQ;
+        //Qvalues [i][j][accion] = (double) (qViejo + this.alpha*(recompensa+(this.gamma*maxQ)-qViejo));
     }
 
 
     @Override
-    
+    public void run(){
+        //se arranca de un estado inicial aleatorio
+        int i = 0;int j = 0;
+        Posicion estadoActual;
+        //Posicion estadoActual = estadoInicialAleatorio();
+        //int i = estadoActual.getI();int j = estadoActual.getJ();
+        Border border;
+        //matrizCelda[i][j].setBorder(border);
+        
+        //se repite lo siguiente hasta llegar a la iteracion maxima
+        fuera:
+        for (long iter=0; iter<this.maxIteracion;iter++){
+            recompensa=0;
+            System.out.println(iter);
+            i=(int) (iter/tamano);
+            while(i>=tamano){
+                i=i-tamano;
+            }
+            j=(int) (iter%tamano);
+
+            estadoActual = new Posicion(i,j);
+            
+            border = new MatteBorder(1,1,1,1,Color.RED) {};
+            matrizCelda[i][j].setBorder(border);
+        
+            for (int x=0; x<cantPasos;x++){
+                border = new MatteBorder(1,1,1,1,Color.GRAY);
+                matrizCelda[i][j].setBorder(border);
+                //se calcula la accion por el metodo de seleccion
+                int accion=this.eGreedy(estadoActual);
+                //se calcula y actualiza el valor de Q
+                actualizarQtable(i,j, accion);
+                //se acumula la recompensa obtenida en el episodio
+                recompensa=recompensa+recompensar(estadoActual, accion);
+                //se toma como estado actual al siguiente,(de la accion tomada)
+                Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
+                i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
+            
+                border = new MatteBorder(2,2,2,2,Color.RED) {};
+                matrizCelda[i][j].setBorder(border);
+            
+            
+                estadoActual=estadoSiguiente;
+                if(map[i][j]==4){
+                    border = new MatteBorder(1,1,1,1,Color.GRAY);
+                    matrizCelda[i][j].setBorder(border);
+                    System.out.println(recompensa);
+                    continue fuera;
+                }
+
+            }
+            System.out.println(recompensa);
+
+        }
+        border = new MatteBorder(1,1,1,1,Color.GRAY) {};
+        matrizCelda[i][j].setBorder(border);
+        JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("terminado aprendizaje");
+        
+    }
     //la corrida del algoritmo
-    public void run() {
+    public void Anteriorrun() {
         //se arranca de un estado inicial aleatorio
         Posicion estadoActual = estadoInicialAleatorio();
         int i = estadoActual.getI();int j = estadoActual.getJ();
@@ -231,10 +320,11 @@ public class QLearning implements Runnable {
             border = new MatteBorder(1,1,1,1,Color.GRAY);
             matrizCelda[i][j].setBorder(border);
             
-            //se calcula la accion por el metodo de seleccion
+             //se calcula la accion por el metodo de seleccion
             int accion=this.eGreedy(estadoActual);
             //se calcula y actualiza el valor de Q
-            this.actualizarQtable(i,j, accion);
+            actualizarQtable(i,j, accion);
+            
             //se toma como estado actual al siguiente,(de la accion tomada)
             Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
             i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
@@ -290,6 +380,10 @@ public class QLearning implements Runnable {
         this.recNormal = recNormal;
     }
     
+
+    public Grilla getGrilla() {
+        return grilla;
+    }
     
     
 }
