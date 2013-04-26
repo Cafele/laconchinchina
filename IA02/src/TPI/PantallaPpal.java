@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package TPI;
 
 import java.awt.Color;
@@ -33,37 +29,34 @@ public class PantallaPpal extends javax.swing.JFrame {
         double recN = 10.0;
         double e=0.7;
         double gamma=0.9;
+
         
-        
-    /**
-     * Creates new form PantallaPpal
-     */
+        //constructor
     public PantallaPpal() {
         initComponents();
+        //cargo el menu de tamaños
         menuTamano.addItem("6");
         menuTamano.addItem("7");
         menuTamano.addItem("8");
         menuTamano.addItem("9");
         menuTamano.addItem("10");
+        //se crea el gridworld
         PanelGrilla.removeAll();
         PanelGrilla.setLayout(new GridLayout());
         grilla = new Grilla(tmño);
         PanelGrilla.add(grilla);
-        //setLocationRelativeTo(null);
-        setVisible(true);
-        matrizC = grilla.matrizCeldas;
-        
-        //PanelGrilla.setLayout(new GridLayout());
         setLocationRelativeTo(null);
-        //setVisible(true);
+        setVisible(true);
+        //referencio la matriz de celdas
+        matrizC = grilla.matrizCeldas;
+        //se inicializan botones
         radioButtonInicio.setEnabled(false);
         BotonInicial.setEnabled(false);
         BotonCamino1.setEnabled(false);
         botonReset.doClick();
-        //System.out.println((int)(java.lang.Math.random()*8));
     }
     
-    
+    //funcion que pinta el camino aprendido
     public void pintarCamino(){
                     Boolean esFinal=true;
                     Posicion pos = grilla.getInicial();
@@ -590,7 +583,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
-        //setLocationRelativeTo(null);
         setVisible(true);
         matrizC = grilla.matrizCeldas;
         BotonInicial.setEnabled(false);
@@ -602,7 +594,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
-        //setLocationRelativeTo(null);
         setVisible(true);   
         matrizC = grilla.matrizCeldas;
         radioButtonInicio.setEnabled(false);
@@ -617,10 +608,8 @@ public class PantallaPpal extends javax.swing.JFrame {
         tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
         PanelGrilla.setLayout(new GridLayout());
         PanelGrilla.add(grilla = new Grilla(tmño));
-        //setLocationRelativeTo(null);
         setVisible(true);   
         matrizC = grilla.matrizCeldas;
-        //
         grilla.estadosAleatorios();
         grilla.pintarCeldas();
         BotonInicial.setEnabled(false);
@@ -636,12 +625,9 @@ public class PantallaPpal extends javax.swing.JFrame {
             recB =(Double.parseDouble(textB.getText()));
             recE =(Double.parseDouble(textE.getText()));
             recF =(Double.parseDouble(textF.getText()));
-            //
             grilla.setMatrizCeldas(matrizC);
-            //
             grilla.actualizarGrilla();
             grilla.actualizarAcciones();
-            //
             bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla);
             aprendizaje = new Thread(bot);
             aprendizaje.start();
@@ -651,26 +637,30 @@ public class PantallaPpal extends javax.swing.JFrame {
             grilla.setearInicio();
             BotonInicial.setEnabled(true);
             BotonCamino1.setEnabled(true);
-        //} else {
-        //    JOptionPane.showMessageDialog(PanelGrilla, "no hay estado final");
-        //}
     }//GEN-LAST:event_BotonStartActionPerformed
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
-            pintarCamino();
+        //al presionar el boton pinta el camino aprendido desde el inicio    
+        pintarCamino();
     }//GEN-LAST:event_BotonCamino1ActionPerformed
 
     private void radioButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalActionPerformed
+        //al presionar el radiobutton, destilda la opcion inicio y setea
+        //el tipo de seleccion de celdas como normal
         radioButtonInicio.setSelected(false);
         grilla.setearNormal();
     }//GEN-LAST:event_radioButtonNormalActionPerformed
 
     private void radioButtonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonInicioActionPerformed
+        //al presionar el radiobutton, destilda la opcion normal y setea
+        //el tipo de seleccion de celdas como de inicio
         radioButtonNormal.setSelected(false);
         grilla.setearInicio();
     }//GEN-LAST:event_radioButtonInicioActionPerformed
 
     private void BotonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInicialActionPerformed
+        //al presionar el boton, limpia los caminos pintados y los antiguos 
+        //iniciales, ademas de setear el tipo de seleccion como inicial
         grilla.pintarBordes();
         grilla.setearInicio();
     }//GEN-LAST:event_BotonInicialActionPerformed
@@ -684,32 +674,36 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_textMaxItActionPerformed
 
     private void textEpsilonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textEpsilonKeyPressed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_textEpsilonKeyPressed
 
     private void textEpsilonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textEpsilonKeyReleased
+        //al presionar enter toma setea el valor de epsilon
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             e=(Double.parseDouble(textEpsilon.getText()));
         }
     }//GEN-LAST:event_textEpsilonKeyReleased
 
     private void textGammaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textGammaKeyReleased
+        //al presionar enter toma setea el valor de gamma
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             gamma =(Double.parseDouble(textGamma.getText()));
         }
     }//GEN-LAST:event_textGammaKeyReleased
 
     private void textMaxItKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMaxItKeyReleased
+        //al presionar enter toma setea el valor de maxima iteracion
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             itmax =(Long.parseLong(textMaxIt.getText()));
         }
     }//GEN-LAST:event_textMaxItKeyReleased
 
     private void textNKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNKeyPressed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_textNKeyPressed
 
     private void textNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNKeyReleased
+        //al presionar enter toma setea el valor de recompensa normal
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             recN =(Double.parseDouble(textN.getText()));
         }
@@ -720,43 +714,47 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_textMKeyPressed
 
     private void textMKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMKeyReleased
+        //al presionar enter toma setea el valor de recompensa mala
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             recM =(Double.parseDouble(textM.getText()));
         }
     }//GEN-LAST:event_textMKeyReleased
 
     private void textBKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBKeyPressed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textBKeyPressed
 
     private void textBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBKeyReleased
+        //al presionar enter toma setea el valor de recompensa buena
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             recB =(Double.parseDouble(textB.getText()));
         }
     }//GEN-LAST:event_textBKeyReleased
 
     private void textEKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textEKeyPressed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textEKeyPressed
 
     private void textEKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textEKeyReleased
+        //al presionar enter toma setea el valor de recompensa excelente
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             recE =(Double.parseDouble(textE.getText()));
         }
     }//GEN-LAST:event_textEKeyReleased
 
     private void textFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFKeyPressed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textFKeyPressed
 
     private void textFKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFKeyReleased
+        //al presionar enter toma setea el valor de recompensa final
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
             recF =(Double.parseDouble(textF.getText()));
         }
     }//GEN-LAST:event_textFKeyReleased
 
     private void textBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textBActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_textBActionPerformed
 
     /**

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package TPI;
 
 import java.awt.Color;
@@ -17,8 +13,11 @@ import javax.swing.border.MatteBorder;
  *
  * @author fede
  */
+
+ //representa una celda de la grilla o GridWorld
 public class Celda extends JPanel {
-    //representa una celda de la grilla o GridWorld
+    //atributos:
+    
     Posicion posicion;
     // colores segun el estado, para tener una referencia de que representa
     Color colorBueno = Color.YELLOW;
@@ -30,23 +29,30 @@ public class Celda extends JPanel {
     Color colorCamino = Color.CYAN;
     Color colorAgente = Color.WHITE;
     Color colorInicio = Color.ORANGE;
-    //
+    
+    //indica que la celda es punto de partida para graficar el camino aprendido
     Boolean esInicial = false;
-    //
+    
+    //indica que el tipo de seleccion es de una celda inicial
+    //modifica el accionar del mouseListener
     Boolean seleccionInicio = false;
     
     //constructor
-    public Celda(Posicion posicion){
-        this.posicion = posicion;
+    public Celda(Posicion pos){
+        posicion = pos;
+        
         //añadimos el listener
         addMouseListener (new MouseAdapter() {
+            
             //el evento va a ser mouse presionado
             public void mousePressed(MouseEvent e) {
+                // si el tipo de seleccion es para celda inicial:
                 if (seleccionInicio){
                     Border border = new MatteBorder(2, 2, 2, 2, Color.WHITE);
                     setBorder(border);
                     esInicial = true;
                 } else {
+                    //sino, es seleccion de tipo normal:
                     if (colorNormal.equals(getBackground())){
                     setBackground(colorMalo);
                     } else {
@@ -68,27 +74,20 @@ public class Celda extends JPanel {
                             }
                         }
                     }
-                }
-                    
+                }    
            }
        });
     }
 
     //algunos getters y setter
 
-    
-    public Posicion getPosicion() {
-        return posicion;
-    }
-
     public Color getColor() {
         return this.getBackground();
     }
     
-    
     public int getTipo() {
+            //por defecto se devuelve tipo normal
             int tipo = 0;
-            //inicializamos como tipo normal
 
                 if (colorNormal.equals(getColor())){
                     tipo = 0;
@@ -122,6 +121,7 @@ public class Celda extends JPanel {
             return tipo;
     }
     
+    // funcion que revisa si la celda es de tipo inicial
     public Boolean esInicial(){
         return esInicial;
     }

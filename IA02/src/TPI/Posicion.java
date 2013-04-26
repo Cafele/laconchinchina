@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package TPI;
 
 /**
@@ -9,8 +5,11 @@ package TPI;
  * @author fede
  */
 
-// del tipo (i,j) para simplificar uso de posiciones en la grilla
+// Una posicion compuesta de una tupla (i,j), para simplificar uso de posiciones en las matrices 
+
 public class Posicion {
+    //atributos
+    
     int i;
     int j;
     

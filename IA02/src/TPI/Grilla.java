@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package TPI;
 
 import java.awt.Color;
@@ -16,16 +12,18 @@ import javax.swing.border.MatteBorder;
  *
  * @author fede
  */
+
 public class Grilla extends JPanel {
+    //atributos:
     //matriz que contiene los estados de cada celda
     int grilla[][];
     //matriz que contiene todas las celdas
     Celda matrizCeldas [][];
-    //prueba matrizAccionesPosibles
+    //matriz con las acciones posibles, contempla las 8 acciones.
     Boolean matrizA [][][];
     //tamaño en filasxcolumnas es decir si es 10x10, tmño es 10.
     int tmno;
-    // mismos colores segun el estado, para tener una referencia de que representan
+    //Colores segun el estado, para tener una referencia de que representan
     Color colorBueno = Color.YELLOW;
     Color colorExcelente = Color.GREEN;
     Color colorMalo = Color.RED;
@@ -38,74 +36,63 @@ public class Grilla extends JPanel {
     
     //constructores
     public Grilla(){};
+    
     public Grilla (int x){
-        //armo las matrices con tamaño referenciado y cargo el tamaño a utilizar
-        this.grilla = new int [x][x];
-        this.matrizCeldas = new Celda [x][x];
-        this.matrizA = new Boolean [x][x][8];
-        this.tmno=x;    
-        //creo la grilla con ayuda del gridbaglayout
+        //inicializamos las matrices con tamaño referenciado
+        grilla = new int [x][x];
+        matrizCeldas = new Celda [x][x];
+        matrizA = new Boolean [x][x][8];
+        tmno=x;
+        
+        //creo la grilla con layout del tipo gridbaglayout
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        
+        //inicializamos cada matriz
             for (int j = 0; j < tmno; j++) {
                 for (int i = 0; i < tmno; i++) {
+                    
                     // se inicializa la matriz de estados en 0 = normal;
-                    Posicion pos = new Posicion(i,j);
-                    Celda celda = new Celda(pos);
-                    //matrizCeldas [i][j]=celda;
                     grilla[i][j]=0;
-                    //prueba
+
+                    // se inicializa la matriz de acciones posibles
                     for (int a=0; a<8; a++){
                         matrizA [i][j][a]=true;
                     }
                     
+                    //datos de control para gridbaglayout
                     gbc.gridx = i;
                     gbc.gridy = j;
-                    // creamos la celda nueva y le damos un borde segun posicion
-
-
+                    
+                    //se crea los bordes de la celda
                     Border border;
-                    //if (j < (tmno-1)) {
-                    //    if (i < (tmno-1)) {
-                    //        border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-                    //    } else {
-                    //        border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-                    //    }
-                    //} else {
-                    //    if (i < (tmno-1)) {
-                    //        border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-                    //    } else {
-                    //        border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-                    //    }
-                    //}
                     border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     
+                    //se inicializa una nueva celda a añadir en la grilla
+                    Posicion pos = new Posicion(i,j);
+                    Celda celda = new Celda(pos);
                     celda.setBorder(border);
                     celda.setBackground(Color.LIGHT_GRAY);
-                    // añadimos la celda en la grilla con el layout y en la lista de las celdas
+                    
+                    // añadimos la celda en la grilla con el layout y en la matriz de las celdas
                     add(celda, gbc);
                     matrizCeldas [i][j]=celda;
                 }
             }
     }
     
-    //metodo para crear la grilla de estados
-    public void armarGrilla(){
-        for (int j=0;j<tmno;j++){
-            for(int i=0;i<tmno;i++){
-                int tipo = matrizCeldas[i][j].getTipo();
-                grilla[i][j]=tipo;
-            }
-        }
-    }
     //getter de la grilla
     public int[][] getGrilla() {
         return grilla;
     }
-    //cargar las acciones posibles
+    
+    //cargar las acciones posibles en funcion de posicion
+    //y estado siguiente distinto de pozo
+    
     public void actualizarAcciones(){
         //para tener una referencia de las acciones:
         //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
+        
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
                 if(i==0){
@@ -203,14 +190,12 @@ public class Grilla extends JPanel {
                         }
                     }
                 }
-                
-
             }   
         }
     }
+    
     // funcion para la generacion aleatoria de estados
     public void estadosAleatorios(){
-        
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
                 float random = (float) java.lang.Math.random();
@@ -238,12 +223,16 @@ public class Grilla extends JPanel {
                 }
             }   
         }
-        // por ultimo asigno un final
+        
+        // por ultimo asigno un final, tambien, aleatorio
         int ii = (int)(java.lang.Math.random()*(tmno-1));
         int jj = (int)(java.lang.Math.random()*(tmno-1));
         grilla[ii][jj]=4;
     }
+    
     // funcion que pinte las celdas segun la grilla
+    // toma los valores de la grilla (generados aleatoriamente, o modificados)
+    // y pinta las celdas segun su tipo
     public void pintarCeldas(){
          for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
@@ -277,49 +266,20 @@ public class Grilla extends JPanel {
             }
          }
     }
-    // funcion que revisa que por lo menos haya una celda final
-    public Boolean hayEstadoFinal(){
-        Boolean hayFinal = false;
-        for (int j=0;j<tmno;j++){
-            for (int i=0;i<tmno;i++){
-                if(grilla[i][j]==4){
-                    hayFinal = true;
-                }
-            } 
-        }
-        return hayFinal;
-    }
-    //funcion que limpia grilla
-    public void limpiarGrilla(){
-        for (int j=0;j<tmno;j++){
-            for (int i=0;i<tmno;i++){
-                grilla[i][j]=0;
-            } 
-        }
-    }
+    
+    //funcion que pinta todos los bordes de la grilla
     public void pintarBordes(){
         Border border;
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
                  Celda celda = matrizCeldas[i][j];
-                    //if (j < (tmno-1)) {
-                    //    if (i < (tmno-1)) {
-                    //        border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-                    //    } else {
-                    //        border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-                    //    }
-                    //} else {
-                    //    if (i < (tmno-1)) {
-                    //        border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-                    //    } else {
-                    //        border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-                    //    }
-                    //}
                     border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     celda.setBorder(border);
             }
         } 
     }
+    
+    //funcion que indica que el tipo de seleccion de celdas es normal
     public void setearNormal(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -330,24 +290,26 @@ public class Grilla extends JPanel {
         }
     }
     
+    //funcion que indica que el tipo de seleccion de celdas es de inicio
     public void setearInicio(){
         for (int i=0;i<tmno;i++){
             for (int j=0; j<tmno;j++){
                 Celda celda = matrizCeldas[i][j];
                 celda.esInicial=false;
-                celda.seleccionInicio = true;
+                celda.seleccionInicio =true;
             }
         }
     }
 
+    
     public void setMatrizCeldas(Celda[][] matrizCeldas) {
         this.matrizCeldas = matrizCeldas;
     }
     
     
-    
+    // funcion que devuelve la posicion de la celda de inicio
     public Posicion getInicial(){
-        // por defecto devuelve la posicion 0,0
+        // por defecto devuelve la posicion (0,0)
         Posicion pos = new Posicion(0,0);
         for (int i=0;i<tmno;i++){
             for (int j=0; j<tmno;j++){
@@ -359,6 +321,8 @@ public class Grilla extends JPanel {
         }
         return pos;
     }
+    
+    //funcion que actualiza la grilla segun la matriz de celdas
     public void actualizarGrilla(){
         int x;
         for(int i=0;i<tmno;i++){
