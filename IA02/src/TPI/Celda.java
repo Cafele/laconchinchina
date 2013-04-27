@@ -55,7 +55,7 @@ public class Celda extends JPanel {
                 // si el tipo de seleccion es para celda inicial:
                 if (seleccionInicio){
                     Border border;
-                    border = new MatteBorder(3, 3, 3, 3, Color.WHITE);
+                    border = new MatteBorder(3, 3, 3, 3, Color.BLUE);
                     setBorder(border);
                     esInicial = true;
                 } else {

@@ -66,17 +66,22 @@ public class PantallaPpal extends javax.swing.JFrame {
         Posicion pos = grilla.getInicial();
         Posicion sig;
         int i; int j; int accion;
-        Border border = new MatteBorder(1,1,1,1,Color.BLUE) {};
+        Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
         
         do{
-            matrizC[i][j].setBorder(border);
+            
             
             matrizC[i][j].noEsCamino = false;
             
             accion = bot.mejorAccion(pos);
             
             matrizC[i][j].caminoSig=accion;
+            
+            if(matrizC[i][j].esInicial){
+                matrizC[i][j].setBorder(border);
+            }
+            
             matrizC[i][j].repaint();
             
             sig = bot.elsiguiente(pos, accion);
@@ -213,7 +218,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel9.setBackground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Estado Inicial");
-        jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255), 3));
+        jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 3));
 
         BotonStart.setText("Aprender");
         BotonStart.addActionListener(new java.awt.event.ActionListener() {
