@@ -66,7 +66,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         Posicion pos = grilla.getInicial();
         Posicion sig;
         int i; int j; int accion;
-        Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
+        Border border = new MatteBorder(1,1,1,1,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
         
         do{
@@ -670,6 +670,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
           //al presionar el boton de start, se actualizan las referencias
+            grilla.limpiar();
             JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
             e=(Double.parseDouble(textEpsilon.getText()));
             gamma =(Double.parseDouble(textGamma.getText()));
