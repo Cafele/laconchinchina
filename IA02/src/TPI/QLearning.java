@@ -31,7 +31,7 @@ public class QLearning implements Runnable {
     double recNormal = 10.0;
     
     //estos parametros capaz se sacan: (alpha, tau hay q hacer softmax)
-    double tau=0.8; //temperatura para softmax
+    double tau=1000; //temperatura para softmax
     double alpha = 0.2; //para la formula de Q(s,a), es la de aprendizaje
     
     double epsilon = 0.6; //exploration rate para egreedy
@@ -108,9 +108,10 @@ public class QLearning implements Runnable {
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         Boolean x;
-        double random = java.lang.Math.random();
+        double random;
         do {
-            accion=(int)(java.lang.Math.random())*7;
+            random = java.lang.Math.random();
+            accion=(int)(random*7);
             x = !(matrizAccion[i][j][accion]);
         } while (x);
         // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
@@ -129,10 +130,11 @@ public class QLearning implements Runnable {
         double probSO=0;
         double probO=0;
         double probNO=0;
-        double random = java.lang.Math.random();
+        double random;
+        Boolean x;
         
         for(int a=0; a<8;a++){
-            total = total + Math.exp((Qvalues[i][j][a]));
+            total = total + (Math.exp((Qvalues[i][j][a])/tau));
         }
         
         for(int a=0; a<8;a++){
@@ -155,17 +157,10 @@ public class QLearning implements Runnable {
                 probNO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probO;   
             }
         }
-        
-        System.out.println(probN);
-        System.out.println(probNE);
-        System.out.println(probE);
-        System.out.println(probSE);
-        System.out.println(probS);
-        System.out.println(probSO);
-        System.out.println(probO);
-        System.out.println(probNO);
-        
+          
         do {
+            random = java.lang.Math.random();
+            
             if(random < probN){
                 accion = 0;//va norte
             }else{
@@ -195,7 +190,8 @@ public class QLearning implements Runnable {
                     }
                 }
             }
-        }while(!(matrizAccion[i][j][accion]));
+            x = !(matrizAccion[i][j][accion]);
+        }while(x);
 
         return accion;
     }
@@ -391,8 +387,8 @@ public class QLearning implements Runnable {
                 border = new MatteBorder(1,1,1,1,Color.GRAY);
                 matrizCelda[i][j].setBorder(border);
                 //se calcula la accion por el metodo de seleccion
-                accion=this.eGreedy(estadoActual);
-                //accion=this.softmax(estadoActual);
+                //accion=this.eGreedy(estadoActual);
+                accion=this.aleatorio(estadoActual);
                 //se calcula y actualiza el valor de Q
                 actualizarQtable(i,j, accion);
                 //se acumula la recompensa obtenida en el episodio
