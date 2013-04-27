@@ -2,6 +2,7 @@ package TPI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -33,6 +34,8 @@ public class Celda extends JPanel {
     //indica que la celda es punto de partida para graficar el camino aprendido
     Boolean esInicial = false;
     Boolean noEsCamino = true;
+    int caminoAnt=10;
+    int caminoSig=10;
     //indica que el tipo de seleccion es de una celda inicial
     //modifica el accionar del mouseListener
     Boolean seleccionInicio = false;
@@ -126,7 +129,37 @@ public class Celda extends JPanel {
     public Boolean esInicial(){
         return esInicial;
     }
-    
+    public void paint(Graphics g){
+                super.paint(g);
+                int x1=25; int y1=25;int x2=25; int y2=25;
+                if(caminoSig!=10){
+                    // es parte del camino
+                    switch (caminoAnt){
+                        case 0:x1=50;y1=25;break;//N 
+                        case 1:x1=50;y1=0;break; //NE 
+                        case 2:x1=25;y1=0;break;  //E 
+                        case 3:x1=0;y1=0;break;   //SE 
+                        case 4:x1=0;y1=25;break;  //S  
+                        case 5:x1=0;y1=50;break; //SO 
+                        case 6:x1=25;y1=50;break;    //O    
+                        case 7:x1=50;y1=50;break;   //NO 
+                        default:x1=25;y1=25;break; //inicio  
+                    }
+                    switch (caminoSig){
+                        case 0:x2=0;y2=25;break; //N 
+                        case 1:x2=0;y2=50;break; //NE 
+                        case 2:x2=25;y2=50;break;  //E 
+                        case 3:x2=50;y2=50;break;   //SE 
+                        case 4:x2=50;y2=25;break;  //S  
+                        case 5:x2=50;y2=0;break; //SO 
+                        case 6:x2=25;y2=0;break;    //O    
+                        case 7:x2=0;y2=0;break;   //NO 
+                    }  
+                    g.drawLine(x1, y1, 25, 25);
+                    g.drawLine(25, 25, x2, y2);
+                }
+            }
+
     @Override
         public Dimension getPreferredSize() {
             return new Dimension(50, 50);

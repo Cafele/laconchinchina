@@ -268,13 +268,16 @@ public class Grilla extends JPanel {
     }
     
     //funcion que pinta todos los bordes de la grilla
-    public void pintarBordes(){
+    public void limpiar(){
         Border border;
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
-                 Celda celda = matrizCeldas[i][j];
+                    Celda celda = matrizCeldas[i][j];
                     border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     celda.setBorder(border);
+                    celda.caminoAnt=10;
+                    celda.caminoSig=10;
+                    celda.repaint();
             }
         } 
     }

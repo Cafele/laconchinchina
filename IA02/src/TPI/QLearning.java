@@ -329,17 +329,20 @@ public class QLearning implements Runnable {
         
         for (long iter=0; iter<this.maxIteracion;iter++){
             
+            //el que no es aleatorio
+            //i=(int) (iter/tamano);
+            //while(i>=tamano){
+            //    i=i-tamano;
+            //}
+            //j=(int) (iter%tamano);
+            //pos = new Posicion(i,j);
             
-            i=(int) (iter/tamano);
-            while(i>=tamano){
-                i=i-tamano;
-            }
-            j=(int) (iter%tamano);
-            pos = new Posicion(i,j);
-            
+            //el aleatorio
+            pos=estadoInicialAleatorio();
+            i=pos.getI(); j=pos.getJ();
             x=0;
             do{
-                border = new MatteBorder(1,1,1,1,Color.RED);
+                border = new MatteBorder(2,2,2,2,Color.RED);
                 matrizCelda[i][j].setBorder(border);
                 //
                 accion=this.eGreedy(pos);

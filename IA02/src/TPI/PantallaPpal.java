@@ -68,17 +68,24 @@ public class PantallaPpal extends javax.swing.JFrame {
         int i; int j; int accion;
         Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
+        
         do{
             matrizC[i][j].setBorder(border);
             
             matrizC[i][j].noEsCamino = false;
             
             accion = bot.mejorAccion(pos);
+            
+            matrizC[i][j].caminoSig=accion;
+            matrizC[i][j].repaint();
+            
             sig = bot.elsiguiente(pos, accion);
             
             pos = sig;
             
             i= pos.getI();j =pos.getJ();
+            matrizC[i][j].caminoAnt=accion;
+            
             if(Color.BLUE.equals(matrizC[i][j].getBackground())){
                     noesFinal=false;
             }
@@ -717,7 +724,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private void BotonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInicialActionPerformed
         //al presionar el boton, limpia los caminos pintados y los antiguos 
         //iniciales, ademas de setear el tipo de seleccion como inicial
-        grilla.pintarBordes();
+        grilla.limpiar();
         grilla.setearInicio();
     }//GEN-LAST:event_BotonInicialActionPerformed
 
