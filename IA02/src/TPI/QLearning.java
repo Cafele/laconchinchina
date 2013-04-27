@@ -24,11 +24,11 @@ public class QLearning implements Runnable {
     long maxIteracion=10;
     double cantPasos=500;
     //recompensas
-    double recBueno = 25.0;
-    double recExcelente = 50.0;
+    double recBueno = 5;
+    double recExcelente = 10;
     double recFinal = 100.0;
     double recMalo = -10.0;
-    double recNormal = 10.0;
+    double recNormal = 0;
     
     //estos parametros capaz se sacan: (alpha, tau hay q hacer softmax)
     double tau=1000; //temperatura para softmax

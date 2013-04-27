@@ -24,11 +24,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         
         int tmño = 6;
         long itmax= 1000000;
-        double recB = 25.0;
-        double recE = 50.0;
-        double recF = 100.0;
-        double recM = -25.0;
-        double recN = 5.0;
+        double recBueno = 5;
+        double recExcelente = 10;
+        double recFinal = 100.0;
+        double recMalo = -10.0;
+        double recNormal = 0;
         double e=0.8;
         double gamma=0.9;
         double pasos = 500.0;
@@ -296,7 +296,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel13.setText("Iteracion Maxima");
 
-        textN.setText("5");
+        textN.setText("0");
         textN.setMinimumSize(new java.awt.Dimension(22, 40));
         textN.setPreferredSize(new java.awt.Dimension(22, 40));
         textN.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -308,7 +308,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textM.setText("-25");
+        textM.setText("-10");
         textM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textMKeyPressed(evt);
@@ -318,7 +318,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textB.setText("25");
+        textB.setText("5");
         textB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textBActionPerformed(evt);
@@ -333,7 +333,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textE.setText("50");
+        textE.setText("10");
         textE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textEKeyPressed(evt);
