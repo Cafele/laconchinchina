@@ -35,7 +35,7 @@ public class QLearning implements Runnable {
     double alpha = 0.2; //para la formula de Q(s,a), es la de aprendizaje
     
     double epsilon = 0.6; //exploration rate para egreedy
-    double gamma = 0.8; //tambien para esa formula, es la de amortizacion
+    double gamma = 0.1; //tambien para esa formula, es la de amortizacion
     // tabla de Qvalues en [i][j][accion]
     double Qvalues [][][] = new double [6][6][8];
     //grilla que contiene tipos de las celdas
@@ -50,6 +50,7 @@ public class QLearning implements Runnable {
     Grilla grilla;
     // contador
     double recompensa =0;
+    double pasoe  = 0.9;
 
     //constructor
     public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos, double apren){
@@ -83,7 +84,7 @@ public class QLearning implements Runnable {
     //metodos de seleccion: 
     //-egreedy
     public int eGreedy(Posicion pos){
-        int accion=0;
+        int accion;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         Boolean x;
@@ -91,7 +92,7 @@ public class QLearning implements Runnable {
         do {
             if (random<this.epsilon){
                 //cae dentro de la exploracion, accion es aleatoria
-                accion = (int)((java.lang.Math.random())*7);
+                accion = (int)((java.lang.Math.random())*8);
             } else {
                 //cae dentro de la parte de explotacion, accion es la mejor
                 accion = mejorAccion(pos);
@@ -111,7 +112,7 @@ public class QLearning implements Runnable {
         double random;
         do {
             random = java.lang.Math.random();
-            accion=(int)(random*7);
+            accion=(int)(random*8);
             x = !(matrizAccion[i][j][accion]);
         } while (x);
         // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
@@ -302,8 +303,8 @@ public class QLearning implements Runnable {
     //funcion que devuelve un estado de partida aleatoria para el algoritmo Q
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
-        resultado.setI((int)(java.lang.Math.random()*(tamano-1)));
-        resultado.setJ((int)(float)(java.lang.Math.random()*(tamano-1)));
+        resultado.setI((int)(java.lang.Math.random()*(tamano)));
+        resultado.setJ((int)(float)(java.lang.Math.random()*(tamano)));
         return resultado;
     }
     
@@ -315,8 +316,8 @@ public class QLearning implements Runnable {
         Posicion siguiente = this.elsiguiente(actual, accion);
         double maxQ = this.mejorQ(siguiente);
         // se aplica la formula
-        //Qvalues [i][j][accion] = recomp+ gamma*maxQ;
-        Qvalues [i][j][accion] =  qViejo + this.alpha*(recomp+(this.gamma*maxQ) - qViejo);
+        Qvalues [i][j][accion] = recomp + gamma*maxQ;
+        //Qvalues [i][j][accion] =  qViejo + this.alpha*(recomp+(this.gamma*maxQ) - qViejo);
     }
 
 
@@ -328,6 +329,13 @@ public class QLearning implements Runnable {
         Border border;
         
         for (long iter=0; iter<this.maxIteracion;iter++){
+            
+            if (iter>100000){
+                this.setEpsilon(pasoe*epsilon);
+            }
+            if (iter>100000 &&gamma<0.9){
+                this.setGamma(gamma/pasoe);
+            }
             
             //el que no es aleatorio
             //i=(int) (iter/tamano);

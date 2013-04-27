@@ -704,6 +704,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
                 //al presionar el boton pinta el camino aprendido desde el inicio
                 grilla.limpiarCaminos();
+                grilla.limpiar();
                 pintarCamino();
 
     }//GEN-LAST:event_BotonCamino1ActionPerformed

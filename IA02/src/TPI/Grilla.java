@@ -199,19 +199,19 @@ public class Grilla extends JPanel {
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
                 float random = (float) java.lang.Math.random();
-                if (random<0.60){
+                if (random<0.80){
                     //asigno normal
                     grilla[i][j]=0;
                 } else {
-                    if (random < 0.70) {
+                    if (random < 0.85) {
                         //asigno malo
                         grilla[i][j]=1;
                     } else {
-                        if (random < 0.85) {
+                        if (random < 0.925) {
                             //asigno bueno
                             grilla[i][j]=2;
                         } else{
-                            if (random < 0.95 ) {
+                            if (random < 0.975 ) {
                                 //asigno excelente
                                 grilla[i][j]=3;
                             } else {
@@ -225,8 +225,8 @@ public class Grilla extends JPanel {
         }
         
         // por ultimo asigno un final, tambien, aleatorio
-        int ii = (int)(java.lang.Math.random()*(tmno-1));
-        int jj = (int)(java.lang.Math.random()*(tmno-1));
+        int ii = (int)(java.lang.Math.random()*(tmno));
+        int jj = (int)(java.lang.Math.random()*(tmno));
         grilla[ii][jj]=4;
     }
     
