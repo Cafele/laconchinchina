@@ -24,11 +24,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         
         int tmño = 6;
         long itmax= 1000000;
-        double recBueno = 5;
-        double recExcelente = 10;
-        double recFinal = 100.0;
-        double recMalo = -10.0;
-        double recNormal = 0;
+        double recB = 5;
+        double recE = 10;
+        double recF = 100.0;
+        double recM = -10.0;
+        double recN = 0;
         double e=0.8;
         double gamma=0.9;
         double pasos = 500.0;
