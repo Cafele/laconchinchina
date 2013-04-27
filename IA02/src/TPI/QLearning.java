@@ -320,8 +320,8 @@ public class QLearning implements Runnable {
     }
 
 
-    
-    public void run3(){
+    @Override
+    public void run(){
         int i ;int j ; int x; int accion;
         Posicion pos;
         Posicion sig;
@@ -353,114 +353,14 @@ public class QLearning implements Runnable {
                 //
                 pos=sig;
                 x++;
-            } while (x<cantPasos && (map[i][j]!=4));
+                System.out.println(recompensa);
+            }while (x<cantPasos && (map[i][j]!=4)) ;
         }
-    }
-    @Override
-    public void run(){
-        //se arranca de un estado inicial aleatorio
-        int i = 0;int j = 0;
-        Posicion estadoActual;
-        //Posicion estadoActual = estadoInicialAleatorio();
-        //int i = estadoActual.getI();int j = estadoActual.getJ();
-        Border border;
-        //matrizCelda[i][j].setBorder(border);
-        int accion;
-        //se repite lo siguiente hasta llegar a la iteracion maxima
-        fuera:
-        for (long iter=0; iter<this.maxIteracion;iter++){
-            recompensa=0;
-            System.out.println(iter);
-            i=(int) (iter/tamano);
-            while(i>=tamano){
-                i=i-tamano;
-            }
-            j=(int) (iter%tamano);
-
-            estadoActual = new Posicion(i,j);
-            
-            border = new MatteBorder(1,1,1,1,Color.RED) {};
-            matrizCelda[i][j].setBorder(border);
         
-            for (int x=0; x<cantPasos;x++){
-
-                border = new MatteBorder(1,1,1,1,Color.GRAY);
-                matrizCelda[i][j].setBorder(border);
-                //se calcula la accion por el metodo de seleccion
-                //accion=this.eGreedy(estadoActual);
-                accion=this.aleatorio(estadoActual);
-                //se calcula y actualiza el valor de Q
-                actualizarQtable(i,j, accion);
-                //se acumula la recompensa obtenida en el episodio
-                recompensa=recompensa+recompensar(estadoActual, accion);
-                //se toma como estado actual al siguiente,(de la accion tomada)
-                Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
-                i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
-            
-                border = new MatteBorder(2,2,2,2,Color.RED) {};
-                matrizCelda[i][j].setBorder(border);
-            
-            
-                estadoActual=estadoSiguiente;
-
-            
-            if(map[i][j]==4){
-                    border = new MatteBorder(1,1,1,1,Color.GRAY);
-                   matrizCelda[i][j].setBorder(border);
-                 System.out.println(recompensa);
-                    continue fuera;
-                }
-
-            }
-           System.out.println(recompensa);
-
-        }
-        border = new MatteBorder(1,1,1,1,Color.GRAY) {};
-        matrizCelda[i][j].setBorder(border);
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
-        System.out.println("terminado aprendizaje");
-        
     }
-    //la corrida del algoritmo
-    public void Anteriorrun() {
-        //se arranca de un estado inicial aleatorio
-        Posicion estadoActual = estadoInicialAleatorio();
-        int i = estadoActual.getI();int j = estadoActual.getJ();
-        Border border = new MatteBorder(1,1,1,1,Color.RED) {};
-        matrizCelda[i][j].setBorder(border);
-        
-        //se repite lo siguiente hasta llegar a la iteracion maxima
-        for (long iter=0; iter<this.maxIteracion;iter++){
-            System.out.println(iter);
-            border = new MatteBorder(1,1,1,1,Color.GRAY);
-            matrizCelda[i][j].setBorder(border);
-            
-             //se calcula la accion por el metodo de seleccion
-            int accion=this.eGreedy(estadoActual);
-            //se calcula y actualiza el valor de Q
-            actualizarQtable(i,j, accion);
-            
-            //se toma como estado actual al siguiente,(de la accion tomada)
-            Posicion estadoSiguiente = this.elsiguiente(estadoActual, accion);
-            i = estadoSiguiente.getI();j = estadoSiguiente.getJ();
-            
-            border = new MatteBorder(2,2,2,2,Color.RED) {};
-            matrizCelda[i][j].setBorder(border);
-            //en caso de llegarse al final se vuelve a comenzar de un aleatorio
-            switch (map[i] [j]){
-                case 0: estadoActual=estadoSiguiente;break; //normal
-                case 1: estadoActual=estadoSiguiente;break; //malo
-                case 2: estadoActual=estadoSiguiente;break;  //bueno
-                case 3: estadoActual=estadoSiguiente;break;  //excelente
-                case 4: estadoActual = estadoInicialAleatorio();break; // es el final, llegamos al objetivo, arranca de nuevo
-                case 5: estadoActual=estadoSiguiente;break;  //pozo  
-            }
-        }
-        
-        border = new MatteBorder(1,1,1,1,Color.GRAY) {};
-        matrizCelda[i][j].setBorder(border);
-        System.out.println("terminado aprendizaje");
-    }
+    //@Override
+    
 
     //setters y getters :
     public void setMaxIteracion(long maxIteracion) {
