@@ -328,7 +328,7 @@ public class QLearning implements Runnable {
         Border border;
         
         for (long iter=0; iter<this.maxIteracion;iter++){
-            System.out.println(iter);
+            
             
             i=(int) (iter/tamano);
             while(i>=tamano){
@@ -353,8 +353,9 @@ public class QLearning implements Runnable {
                 //
                 pos=sig;
                 x++;
-                System.out.println(recompensa);
+                //System.out.println(recompensa);
             }while (x<cantPasos && (map[i][j]!=4)) ;
+            System.out.println(iter);
         }
         
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
