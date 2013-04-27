@@ -1,10 +1,13 @@
 package TPI;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -131,6 +134,7 @@ public class Celda extends JPanel {
     }
     public void paint(Graphics g){
                 super.paint(g);
+                Graphics2D g2d = ( Graphics2D ) g;
                 int x1=25; int y1=25;int x2=25; int y2=25;
                 if(caminoSig!=10){
                     // es parte del camino
@@ -155,8 +159,13 @@ public class Celda extends JPanel {
                         case 6:x2=25;y2=0;break;    //O    
                         case 7:x2=0;y2=0;break;   //NO 
                     }  
-                    g.drawLine(x1, y1, 25, 25);
-                    g.drawLine(25, 25, x2, y2);
+                    
+                    //g.drawLine(x1, y1, 25, 25);
+                    //g.drawLine(25, 25, x2, y2);
+                    g2d.setStroke(new BasicStroke(4.0f));
+                    g2d.setColor(Color.BLUE);
+                    g2d.draw( new Line2D.Double(x1,y1,25,25));
+                    g2d.draw( new Line2D.Double(25,25,x2,y2));
                 }
             }
 
