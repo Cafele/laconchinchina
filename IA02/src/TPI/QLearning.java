@@ -103,12 +103,13 @@ public class QLearning implements Runnable {
     }
     //-aleatorio
     public int aleatorio(Posicion pos){
-        int accion=0;
+        int accion;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         Boolean x;
         double random = java.lang.Math.random();
         do {
+            accion=(int)(java.lang.Math.random())*7;
             x = !(matrizAccion[i][j][accion]);
         } while (x);
         // repito hasta que la accion es una accion valida. es decir en la matrizA, es true.
@@ -124,7 +125,7 @@ public class QLearning implements Runnable {
     //funcion que devuelve la accion que da el mejor Qvalue de una posicion dada
     public int mejorAccion(Posicion pos){
         int laMejor = 0;
-        double mejorQ=-100000.0;
+        double mejorQ=-100000000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         for (int a=0;a<8;a++){
@@ -143,7 +144,7 @@ public class QLearning implements Runnable {
     
     //funcion que devuelve el mejor Qvalue para una posicion dada
     public double mejorQ(Posicion pos){
-        double mejorQ=-100000.0;
+        double mejorQ=-100000000.0;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
         for (int a=0;a<8;a++){    

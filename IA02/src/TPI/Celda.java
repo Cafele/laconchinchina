@@ -32,7 +32,7 @@ public class Celda extends JPanel {
     
     //indica que la celda es punto de partida para graficar el camino aprendido
     Boolean esInicial = false;
-    
+    Boolean noEsCamino = true;
     //indica que el tipo de seleccion es de una celda inicial
     //modifica el accionar del mouseListener
     Boolean seleccionInicio = false;
@@ -40,7 +40,7 @@ public class Celda extends JPanel {
     //constructor
     public Celda(Posicion pos){
         posicion = pos;
-        
+        noEsCamino = true;
         //añadimos el listener
         addMouseListener (new MouseAdapter() {
             
@@ -48,7 +48,7 @@ public class Celda extends JPanel {
             public void mousePressed(MouseEvent e) {
                 // si el tipo de seleccion es para celda inicial:
                 if (seleccionInicio){
-                    Border border = new MatteBorder(2, 2, 2, 2, Color.WHITE);
+                    Border border = new MatteBorder(3, 3, 3, 3, Color.WHITE);
                     setBorder(border);
                     esInicial = true;
                 } else {

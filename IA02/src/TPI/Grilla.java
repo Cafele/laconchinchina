@@ -65,7 +65,7 @@ public class Grilla extends JPanel {
                     gbc.gridy = j;
                     
                     //se crea los bordes de la celda
-                    MatteBorder border;
+                    Border border;
                     border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     
                     //se inicializa una nueva celda a añadir en la grilla
@@ -269,7 +269,7 @@ public class Grilla extends JPanel {
     
     //funcion que pinta todos los bordes de la grilla
     public void pintarBordes(){
-        MatteBorder border;
+        Border border;
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
                  Celda celda = matrizCeldas[i][j];
@@ -322,23 +322,6 @@ public class Grilla extends JPanel {
         return pos;
     }
     
-    public Posicion getEstadoInicial(){
-        // por defecto devuelve la posicion (0,0)
-        Posicion pos = new Posicion(0,0);
-        Celda celda;
-        MatteBorder borde;
-        for (int i=0;i<tmno;i++){
-            for (int j=0; j<tmno;j++){
-                celda = matrizCeldas[i][j];
-                borde = celda.bordeprueba;
-                if(borde.getMatteColor()==Color.WHITE){
-                    pos.setI(i); pos.setJ(j);
-                }
-            }
-        }
-        return pos;
-    }
-    
     //funcion que actualiza la grilla segun la matriz de celdas
     public void actualizarGrilla(){
         int x;
@@ -350,6 +333,15 @@ public class Grilla extends JPanel {
         }
     }
     
+    public void limpiarCaminos(){
+        Celda celda;
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                    celda = matrizCeldas[i][j];
+                    celda.noEsCamino=true;
+            }
+        } 
+    }
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(600, 600);

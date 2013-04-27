@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import java.lang.InterruptedException;
 
 /**
  *
@@ -20,7 +21,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         QLearning bot;
         Thread aprendizaje;
         Celda [][] matrizC;
-
+        
         int tmño = 6;
         long itmax= 1000000;
         double recB = 25.0;
@@ -60,29 +61,32 @@ public class PantallaPpal extends javax.swing.JFrame {
     }
     
     //funcion que pinta el camino aprendido
-    public void pintarCamino(){
+    public void pintarCamino() {
         Boolean noesFinal=true;
         Posicion pos = grilla.getInicial();
-        int i=pos.getI();int j=pos.getJ();
-        Border border = new MatteBorder(2,2,2,2,Color.BLUE) {};
-        matrizC[i][j].setBorder(border);
-        Posicion ant = pos;
-        int accion = bot.mejorAccion(pos);
-        pos = bot.elsiguiente(ant, accion);
+        Posicion sig;
+        int i; int j; int accion;
+        Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
-        //mientras no sea final, pinta la celda y elije como
-        //siguiente, la mejor que aprendio
         do{
-              if(Color.BLUE.equals(matrizC[i][j].getBackground())){
-                    noesFinal=false;
-                 }
             matrizC[i][j].setBorder(border);
-            ant = pos;
+            
+            matrizC[i][j].noEsCamino = false;
+            
             accion = bot.mejorAccion(pos);
-            pos = bot.elsiguiente(ant, accion);
-            i= pos.getI();
-            j =pos.getJ();
-        } while(noesFinal);
+            sig = bot.elsiguiente(pos, accion);
+            
+            pos = sig;
+            
+            i= pos.getI();j =pos.getJ();
+            if(Color.BLUE.equals(matrizC[i][j].getBackground())){
+                    noesFinal=false;
+            }
+        }while (noesFinal && matrizC[i][j].noEsCamino);
+        
+        if(!(matrizC[i][j].noEsCamino)){
+            JOptionPane.showMessageDialog(panelGrilla, "El camino aprendido, desde el punto indicado, no llega al final", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
     
     /**
@@ -677,11 +681,11 @@ public class PantallaPpal extends javax.swing.JFrame {
           //se crea un hilo para correr el aprendizaje
             aprendizaje = new Thread(bot);
             aprendizaje.start();
-
           //por ultimo se actualizan los botones y se espera un inicio
-            radioButtonNormal.setEnabled(false);
+            radioButtonNormal.setEnabled(true);
             radioButtonInicio.setEnabled(true);
             radioButtonInicio.setSelected(true);
+            radioButtonNormal.setSelected(false);
             BotonInicial.setEnabled(true);
             BotonCamino1.setEnabled(true);
             grilla.setearInicio();
@@ -689,8 +693,11 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonStartActionPerformed
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
-        //al presionar el boton pinta el camino aprendido desde el inicio  
-        pintarCamino();
+
+                //al presionar el boton pinta el camino aprendido desde el inicio
+                grilla.limpiarCaminos();
+                pintarCamino();
+
     }//GEN-LAST:event_BotonCamino1ActionPerformed
 
     private void radioButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalActionPerformed
