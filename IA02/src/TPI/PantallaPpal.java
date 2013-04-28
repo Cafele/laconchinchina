@@ -94,6 +94,8 @@ public class PantallaPpal extends javax.swing.JFrame {
             if(Color.BLUE.equals(matrizC[i][j].getBackground())){
                     noesFinal=false;
             }
+            
+            
         }while (noesFinal && matrizC[i][j].noEsCamino);
         
         if(!(matrizC[i][j].noEsCamino)){

@@ -31,7 +31,7 @@ public class QLearning implements Runnable {
     double recNormal = 0;
     
     //estos parametros capaz se sacan: (alpha, tau hay q hacer softmax)
-    double tau=1000; //temperatura para softmax
+    double tau=400; //temperatura para softmax
     double alpha = 0.2; //para la formula de Q(s,a), es la de aprendizaje
     
     double epsilon = 0.6; //exploration rate para egreedy
@@ -350,10 +350,11 @@ public class QLearning implements Runnable {
             i=pos.getI(); j=pos.getJ();
             x=0;
             do{
-                border = new MatteBorder(2,2,2,2,Color.RED);
+                border = new MatteBorder(3,3,3,3,Color.RED);
                 matrizCelda[i][j].setBorder(border);
                 //
-                accion=this.eGreedy(pos);
+                //accion=this.eGreedy(pos);
+                accion=this.softmax(pos);
                 //
                 actualizarQtable(i,j, accion);
                 //
