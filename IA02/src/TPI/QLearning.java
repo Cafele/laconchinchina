@@ -1,6 +1,8 @@
 package TPI;
 
 import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
@@ -51,9 +53,12 @@ public class QLearning implements Runnable {
     // contador
     double recompensa =0;
     double pasoe  = 0.9;
+    
+    Boolean soft=false;
+    Boolean egreed=true;
 
     //constructor
-    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos, double apren){
+    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos, double apren,Boolean softmax,Boolean egr){
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
@@ -69,6 +74,8 @@ public class QLearning implements Runnable {
         this.map=grid.getGrilla();
         this.matrizCelda=grid.matrizCeldas;
         this.matrizAccion=grid.matrizA;
+        this.soft=softmax;
+        this.egreed=egr;
         
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
@@ -353,8 +360,16 @@ public class QLearning implements Runnable {
                 border = new MatteBorder(3,3,3,3,Color.RED);
                 matrizCelda[i][j].setBorder(border);
                 //
-                //accion=this.eGreedy(pos);
-                accion=this.softmax(pos);
+                if(egreed){
+                    accion=this.eGreedy(pos);
+                } else {
+                    if(soft){
+                        accion=this.softmax(pos);
+                    } else {
+                        accion=this.aleatorio(pos);
+                    }
+                }
+                
                 //
                 actualizarQtable(i,j, accion);
                 //
@@ -365,7 +380,7 @@ public class QLearning implements Runnable {
                 //
                 pos=sig;
                 x++;
-                //System.out.println(recompensa);
+                
             }while (x<cantPasos && (map[i][j]!=4)) ;
             System.out.println(iter);
         }

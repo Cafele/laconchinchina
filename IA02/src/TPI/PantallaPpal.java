@@ -33,6 +33,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         double gamma=0.9;
         double pasos = 500.0;
         double apren = 0.1;
+        
+        Boolean vaEgreedy=true;
+        Boolean vaSoftmax=false;
 
         
         //constructor
@@ -155,6 +158,8 @@ public class PantallaPpal extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         textP = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
+        radioButtonSoftmax = new javax.swing.JRadioButton();
+        radioButtonEgreedy = new javax.swing.JRadioButton();
         panelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -393,12 +398,27 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel20.setText("Cantidad de Pasos");
 
+        radioButtonSoftmax.setText("softmax");
+        radioButtonSoftmax.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonSoftmaxActionPerformed(evt);
+            }
+        });
+
+        radioButtonEgreedy.setSelected(true);
+        radioButtonEgreedy.setText("egreedy");
+        radioButtonEgreedy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonEgreedyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
         panelControles.setLayout(panelControlesLayout);
         panelControlesLayout.setHorizontalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelControlesLayout.createSequentialGroup()
-                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(BotonAleatorio)
                         .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,7 +430,12 @@ public class PantallaPpal extends javax.swing.JFrame {
                                 .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panelControlesLayout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addComponent(botonReset)))
+                        .addComponent(botonReset))
+                    .addGroup(panelControlesLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(radioButtonSoftmax)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(radioButtonEgreedy)))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -568,8 +593,12 @@ public class PantallaPpal extends javax.swing.JFrame {
                         .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(botonReset)
-                        .addGap(28, 28, 28)
-                        .addComponent(BotonAleatorio)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(BotonAleatorio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(radioButtonSoftmax)
+                            .addComponent(radioButtonEgreedy))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(8, 8, 8)
@@ -692,7 +721,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             grilla.actualizarGrilla();
             grilla.actualizarAcciones();
           //se crea una instancia de Qlearning con las referencias
-            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,apren);
+            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,apren,vaSoftmax,vaEgreedy);
           //se crea un hilo para correr el aprendizaje
             aprendizaje = new Thread(bot);
             aprendizaje.start();
@@ -840,6 +869,18 @@ public class PantallaPpal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_textPKeyReleased
 
+    private void radioButtonEgreedyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEgreedyActionPerformed
+        radioButtonSoftmax.setSelected(false);
+        vaEgreedy=true;
+        vaSoftmax=false;
+    }//GEN-LAST:event_radioButtonEgreedyActionPerformed
+
+    private void radioButtonSoftmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSoftmaxActionPerformed
+        radioButtonEgreedy.setSelected(false);
+        vaEgreedy=false;
+        vaSoftmax=true;
+    }//GEN-LAST:event_radioButtonSoftmaxActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -908,8 +949,10 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JComboBox menuTamano;
     private javax.swing.JPanel panelControles;
     private javax.swing.JPanel panelGrilla;
+    private javax.swing.JRadioButton radioButtonEgreedy;
     private javax.swing.JRadioButton radioButtonInicio;
     private javax.swing.JRadioButton radioButtonNormal;
+    private javax.swing.JRadioButton radioButtonSoftmax;
     private javax.swing.JTextField textB;
     private javax.swing.JTextField textE;
     private javax.swing.JTextField textEpsilon;
