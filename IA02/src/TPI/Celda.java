@@ -135,28 +135,28 @@ public class Celda extends JPanel {
     public void paint(Graphics g){
                 super.paint(g);
                 Graphics2D g2d = ( Graphics2D ) g;
-                int x1=25; int y1=25;int x2=25; int y2=25;
+                int x1=20; int y1=20;int x2=20; int y2=20;
                 if(caminoSig!=10){
                     // es parte del camino
                     switch (caminoAnt){
-                        case 0:x1=50;y1=25;break;//N 
-                        case 1:x1=50;y1=0;break; //NE 
-                        case 2:x1=25;y1=0;break;  //E 
+                        case 0:x1=40;y1=20;break;//N 
+                        case 1:x1=40;y1=0;break; //NE 
+                        case 2:x1=20;y1=0;break;  //E 
                         case 3:x1=0;y1=0;break;   //SE 
-                        case 4:x1=0;y1=25;break;  //S  
-                        case 5:x1=0;y1=50;break; //SO 
-                        case 6:x1=25;y1=50;break;    //O    
-                        case 7:x1=50;y1=50;break;   //NO 
-                        default:x1=25;y1=25;break; //inicio  
+                        case 4:x1=0;y1=20;break;  //S  
+                        case 5:x1=0;y1=40;break; //SO 
+                        case 6:x1=20;y1=40;break;    //O    
+                        case 7:x1=40;y1=40;break;   //NO 
+                        default:x1=20;y1=20;break; //inicio  
                     }
                     switch (caminoSig){
-                        case 0:x2=0;y2=25;break; //N 
-                        case 1:x2=0;y2=50;break; //NE 
-                        case 2:x2=25;y2=50;break;  //E 
-                        case 3:x2=50;y2=50;break;   //SE 
-                        case 4:x2=50;y2=25;break;  //S  
-                        case 5:x2=50;y2=0;break; //SO 
-                        case 6:x2=25;y2=0;break;    //O    
+                        case 0:x2=0;y2=20;break; //N 
+                        case 1:x2=0;y2=40;break; //NE 
+                        case 2:x2=20;y2=40;break;  //E 
+                        case 3:x2=40;y2=40;break;   //SE 
+                        case 4:x2=40;y2=20;break;  //S  
+                        case 5:x2=40;y2=0;break; //SO 
+                        case 6:x2=20;y2=0;break;    //O    
                         case 7:x2=0;y2=0;break;   //NO 
                     }  
                     
@@ -164,13 +164,13 @@ public class Celda extends JPanel {
                     //g.drawLine(25, 25, x2, y2);
                     g2d.setStroke(new BasicStroke(4.0f));
                     g2d.setColor(Color.BLUE);
-                    g2d.draw( new Line2D.Double(x1,y1,25,25));
-                    g2d.draw( new Line2D.Double(25,25,x2,y2));
+                    g2d.draw( new Line2D.Double(x1,y1,20,20));
+                    g2d.draw( new Line2D.Double(20,20,x2,y2));
                 }
             }
 
     @Override
         public Dimension getPreferredSize() {
-            return new Dimension(50, 50);
+            return new Dimension(40, 40);
         }
 }
