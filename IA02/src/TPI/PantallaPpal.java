@@ -33,11 +33,11 @@ public class PantallaPpal extends javax.swing.JFrame {
         double e=0.8;
         double gamma=0.9;
         double pasos = 500.0;
-        double apren = 0.1;
-        
+        double tau = 20;
         Boolean vaEgreedy=true;
         Boolean vaSoftmax=false;
-
+        Boolean ede=false;
+        Boolean sofde=false;
         
         //constructor
     public PantallaPpal() {
@@ -61,49 +61,51 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonInicio.setEnabled(false);
         BotonInicial.setEnabled(false);
         BotonCamino1.setEnabled(false);
+        radioButtonInicio.setEnabled(false);
+        radioButtonNormal.setEnabled(true);
         botonReset.doClick();
     }
     
     //funcion que pinta el camino aprendido
     public void pintarCamino() {
+        //booleano que si es celda final se utiliza luego
         Boolean noesFinal=true;
+        //posicion inicial asignada
         Posicion pos = grilla.getInicial();
         Posicion sig;
         int i; int j; int accion;
+        //borde de la posicion inicial
         Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
-        
         do{
-            
-            
+            //actualizo variable noescamino
             matrizC[i][j].noEsCamino = false;
-            
+            //me fijo la accion siguiente y la guardo
             accion = bot.mejorAccion(pos);
-            
             matrizC[i][j].caminoSig=accion;
-            
+            //pinto la inicial
             if(matrizC[i][j].esInicial){
                 matrizC[i][j].setBorder(border);
             }
-            
+            //repaint de las celdas
             matrizC[i][j].repaint();
-            
+            //me muevo al siguiente casillero
             sig = bot.elsiguiente(pos, accion);
-            
+            //actualizo variable
             pos = sig;
-            
+            //actualizo valores
             i= pos.getI();j =pos.getJ();
+            //marco de donde viene
             matrizC[i][j].caminoAnt=accion;
-            
+            //reviso si es final
             if(Color.BLUE.equals(matrizC[i][j].getBackground())){
                     noesFinal=false;
             }
-            
-            
+            //termina de pintar si llego al final o no aprendio y quedo en bucle
         }while (noesFinal && matrizC[i][j].noEsCamino);
-        
+        //mensaje de error si no puedo aprender llegar al final
         if(!(matrizC[i][j].noEsCamino)){
-            JOptionPane.showMessageDialog(panelGrilla, "El camino aprendido, desde el punto indicado, no llega al final", "ERROR", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(panelGrilla, "El camino aprendido, desde el punto indicado, no llega al final. Revise la cantidad de episodios.", "ERROR", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -146,7 +148,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel19 = new javax.swing.JLabel();
         textP = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        textP1 = new javax.swing.JTextField();
+        texttau = new javax.swing.JTextField();
         jLabel25 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         radioButtonInicio = new javax.swing.JRadioButton();
@@ -167,15 +169,13 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonSoftmax = new javax.swing.JRadioButton();
         jLabel23 = new javax.swing.JLabel();
         jSeparator9 = new javax.swing.JSeparator();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        radioButtonEd = new javax.swing.JRadioButton();
+        radioButtonSd = new javax.swing.JRadioButton();
         jLabel24 = new javax.swing.JLabel();
         panelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(709, 700));
         setMinimumSize(new java.awt.Dimension(709, 700));
-        setPreferredSize(new java.awt.Dimension(709, 700));
         setResizable(false);
 
         panelControles.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -226,7 +226,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textGamma.setText("0.9");
+        textGamma.setText("0.8");
         textGamma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textGammaActionPerformed(evt);
@@ -271,7 +271,12 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textM.setText("-25");
+        textM.setText("-75");
+        textM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textMActionPerformed(evt);
+            }
+        });
         textM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textMKeyPressed(evt);
@@ -281,7 +286,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textB.setText("5");
+        textB.setText("10");
         textB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textBActionPerformed(evt);
@@ -296,7 +301,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
-        textE.setText("10");
+        textE.setText("25");
         textE.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 textEKeyPressed(evt);
@@ -348,15 +353,15 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel20.setText("Iteracciones");
 
-        textP1.setText("10");
-        textP1.addActionListener(new java.awt.event.ActionListener() {
+        texttau.setText("100");
+        texttau.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textP1ActionPerformed(evt);
+                texttauActionPerformed(evt);
             }
         });
-        textP1.addKeyListener(new java.awt.event.KeyAdapter() {
+        texttau.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                textP1KeyReleased(evt);
+                texttauKeyReleased(evt);
             }
         });
 
@@ -392,7 +397,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelControlesLayout.createSequentialGroup()
-                        .addComponent(textP1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(texttau, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel19))
                     .addComponent(jLabel25))
@@ -470,7 +475,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                     .addComponent(textP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel10)
-                    .addComponent(textP1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(texttau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -575,14 +580,19 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel23.setText("Tipo de seleccion de accion:");
 
-        jRadioButton1.setText("decreciente");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        radioButtonEd.setText("decreciente");
+        radioButtonEd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                radioButtonEdActionPerformed(evt);
             }
         });
 
-        jRadioButton2.setText("decreciente");
+        radioButtonSd.setText("decreciente");
+        radioButtonSd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioButtonSdActionPerformed(evt);
+            }
+        });
 
         jLabel24.setText("Aprendizaje:");
 
@@ -623,11 +633,11 @@ public class PantallaPpal extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioButtonEgreedy)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton1))
+                                .addComponent(radioButtonEd))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioButtonSoftmax)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton2))
+                                .addComponent(radioButtonSd))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(43, 43, 43)
                                 .addComponent(BotonStart)))
@@ -651,11 +661,11 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioButtonEgreedy)
-                    .addComponent(jRadioButton1))
+                    .addComponent(radioButtonEd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(radioButtonSoftmax)
-                    .addComponent(jRadioButton2))
+                    .addComponent(radioButtonSd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -781,6 +791,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
             e=(Double.parseDouble(textEpsilon.getText()));
             gamma =(Double.parseDouble(textGamma.getText()));
+            tau = (Double.parseDouble(texttau.getText()));
             itmax =(Long.parseLong(textMaxIt.getText()));
             recN =(Double.parseDouble(textN.getText()));
             recM =(Double.parseDouble(textM.getText()));
@@ -792,7 +803,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             grilla.actualizarGrilla();
             grilla.actualizarAcciones();
           //se crea una instancia de Qlearning con las referencias
-            bot = new QLearning(grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,apren,vaSoftmax,vaEgreedy);
+            bot = new QLearning(tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
           //se crea un hilo para correr el aprendizaje
             aprendizaje = new Thread(bot);
             aprendizaje.start();
@@ -841,17 +852,19 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonSoftmax.setSelected(false);
         vaEgreedy=true;
         vaSoftmax=false;
+        radioButtonSd.setSelected(false);
     }//GEN-LAST:event_radioButtonEgreedyActionPerformed
 
     private void radioButtonSoftmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSoftmaxActionPerformed
         radioButtonEgreedy.setSelected(false);
         vaEgreedy=false;
         vaSoftmax=true;
+        radioButtonEd.setSelected(false);
     }//GEN-LAST:event_radioButtonSoftmaxActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    private void radioButtonEdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEdActionPerformed
+        ede=radioButtonEd.isSelected();
+    }//GEN-LAST:event_radioButtonEdActionPerformed
 
     private void textPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPKeyReleased
         //al presionar enter tsetea el valor de la cantidad maxima de pasos
@@ -956,13 +969,21 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_textEpsilonKeyPressed
 
-    private void textP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textP1ActionPerformed
+    private void texttauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_texttauActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textP1ActionPerformed
+    }//GEN-LAST:event_texttauActionPerformed
 
-    private void textP1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textP1KeyReleased
+    private void texttauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_texttauKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_textP1KeyReleased
+    }//GEN-LAST:event_texttauKeyReleased
+
+    private void radioButtonSdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSdActionPerformed
+        sofde=radioButtonSd.isSelected();
+    }//GEN-LAST:event_radioButtonSdActionPerformed
+
+    private void textMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textMActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1030,8 +1051,6 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
@@ -1040,9 +1059,11 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JComboBox menuTamano;
     private javax.swing.JPanel panelControles;
     private javax.swing.JPanel panelGrilla;
+    private javax.swing.JRadioButton radioButtonEd;
     private javax.swing.JRadioButton radioButtonEgreedy;
     private javax.swing.JRadioButton radioButtonInicio;
     private javax.swing.JRadioButton radioButtonNormal;
+    private javax.swing.JRadioButton radioButtonSd;
     private javax.swing.JRadioButton radioButtonSoftmax;
     private javax.swing.JTextField textB;
     private javax.swing.JTextField textE;
@@ -1053,6 +1074,6 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JTextField textMaxIt;
     private javax.swing.JTextField textN;
     private javax.swing.JTextField textP;
-    private javax.swing.JTextField textP1;
+    private javax.swing.JTextField texttau;
     // End of variables declaration//GEN-END:variables
 }

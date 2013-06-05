@@ -28,7 +28,7 @@ public class QLearning implements Runnable {
     static final int O=6;
     static final int NO=7;
     //
-    long maxIteracion=10;
+    long maxIteracion=100;
     double cantPasos=500;
     //recompensas
     double recBueno = 5;
@@ -37,12 +37,12 @@ public class QLearning implements Runnable {
     double recMalo = -10.0;
     double recNormal = 0;
     
-    //estos parametros capaz se sacan: (alpha, tau hay q hacer softmax)
+    //parametros para los metodos de seleccion
     double tau=400; //temperatura para softmax
-    double alpha = 0.2; //para la formula de Q(s,a), es la de aprendizaje
-    
     double epsilon = 0.1; //exploration rate para egreedy
     double gamma = 0.1; //tambien para esa formula, es la de amortizacion
+    boolean edec = false; //booleano si el egreedy es decreciente
+    boolean softdec = false; //booleano para softmax decreciente
     // tabla de Qvalues en [i][j][accion]
     double Qvalues [][][] = new double [6][6][8];
     //grilla que contiene tipos de las celdas
@@ -58,6 +58,7 @@ public class QLearning implements Runnable {
     // contador
     double recompensa =0;
     double pasoe;
+    double pasot;
     
     Boolean soft=false;
     Boolean egreed=true;
@@ -66,12 +67,11 @@ public class QLearning implements Runnable {
     Boolean decreG=false;
 
     //constructor
-    public QLearning (int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos, double apren,Boolean softmax,Boolean egr){
+    public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
-        //this.Tau=temp;
-        this.alpha=apren;
+        this.tau=temp;
         this.epsilon=exp;
         this.gamma=amort;
         this.recBueno=recB;
@@ -85,6 +85,10 @@ public class QLearning implements Runnable {
         this.soft=softmax;
         this.egreed=egr;
         this.pasoe=epsilon/maxIteracion;
+        this.pasot=tau/maxIteracion;
+        this.edec=ed;
+        this.softdec=sd;
+        
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
@@ -300,7 +304,6 @@ public class QLearning implements Runnable {
         //valor por defecto
         double resultado=0.0;
         int i = pos.getI(); int j = pos.getJ();
-        Posicion sig = this.elsiguiente(pos, accion);
         //calidad, bueno malo, etc..        
         int calidad = map[i][j];
           switch (calidad){
@@ -318,23 +321,20 @@ public class QLearning implements Runnable {
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
         resultado.setI((int)(java.lang.Math.random()*(tamano)));
-        resultado.setJ((int)(float)(java.lang.Math.random()*(tamano)));
+        resultado.setJ((int)(java.lang.Math.random()*(tamano)));
         return resultado;
     }
     
     //actualizar tabla Qvalues
     private void actualizarQtable (int i, int j, int accion){
-        //double qViejo = Qvalues [i][j][accion];
         Posicion actual = new Posicion(i,j);
         double recomp = this.recompensar(actual, accion);
         Posicion siguiente = this.elsiguiente(actual, accion);
         double maxQ = this.mejorQ(siguiente);
         // se aplica la formula
         Qvalues [i][j][accion] = recomp + gamma*maxQ;
-        //Qvalues [i][j][accion] =  qViejo + this.alpha*(recomp+(this.gamma*maxQ) - qViejo);
     }
-
-
+    
     @Override
     public void run(){
         int i ;int j ; int x; int accion;
@@ -348,32 +348,25 @@ public class QLearning implements Runnable {
         for (long iter=0; iter<this.maxIteracion;iter++){
             reward = 0;
             qactual = 0.0;
-            //if (iter>1000){
-            //    this.setEpsilon(epsilon-(epsilon/maxIteracion));
-            //}
-            //if (iter>100000 &&gamma<0.9){
-            //    this.setGamma(gamma/pasoe);
-            //}
-            if (epsilon>0){
-                //this.setEpsilon(epsilon*pasoe);
+            //si es decreciente Egreedy y epsilon es positivo
+            if(edec && epsilon>0){
                 this.setEpsilon(epsilon-pasoe);
             }
-            //el que no es aleatorio
-            //i=(int) (iter/tamano);
-            //while(i>=tamano){
-            //    i=i-tamano;
-            //}
-            //j=(int) (iter%tamano);
-            //pos = new Posicion(i,j);
+            //si softmax es decreciente y como tau no puede ser cero
+            if(softdec && tau>0.5){
+                this.setTau((tau-pasot));
+            }
             
-            //el aleatorio
+            //arranca de una posicion aleatoria cada episodio
             pos=estadoInicialAleatorio();
             x=0;
+            //en cada episodio se mueve una cant de pasos maxima y sale antes si llega al final
             do{
                 i=pos.getI(); j=pos.getJ();
+                //se pinta el borde donde esta el agente
                 border = new MatteBorder(3,3,3,3,Color.RED);
                 matrizCelda[i][j].setBorder(border);
-                //
+                //selecciono la accion siguiente segun metodo de seleccion
                 if(egreed){
                     accion=this.eGreedy(pos);
                 } else {
@@ -383,29 +376,25 @@ public class QLearning implements Runnable {
                         accion=this.aleatorio(pos);
                     }
                 }
-                //
+                //calculo recompensa
                 reward = (long) (reward + this.recompensar(pos, accion));
-                //qactual = this.Qvalues[i][j][accion];
-                //
+                //actualizo la tabla Q
                 actualizarQtable(i,j, accion);
-                //
+                //vuelvo a pintar los bordes cuando el agente se va
                 border = new MatteBorder(1,1,1,1,Color.GRAY);
                 matrizCelda[i][j].setBorder(border);
-                //
+                //busco posicion siguiente
                 sig = elsiguiente(pos, accion);
-                //
+                //actualizo posicion
                 pos=sig;
-
+                //incremento numero de paso
                 x++;
                 
             }while (x<cantPasos && (map[i][j]!=4)) ;
-            
-            //if(map[i][j]!=4){
-            //    reward=0;
-            //}
+            //recompensa acumulada promedio obtenida
             totalR=totalR+(reward/x);
-            System.out.println(totalR);
-
+            //System.out.println(totalR);
+            System.out.println(reward/x);
         }
         
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
@@ -424,6 +413,10 @@ public class QLearning implements Runnable {
 
     public void setGamma(double gamma) {
         this.gamma = gamma;
+    }
+
+    public void setTau(double tau) {
+        this.tau = tau;
     }
 
     public void setRecBueno(double recBueno) {
