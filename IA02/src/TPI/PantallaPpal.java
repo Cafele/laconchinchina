@@ -12,6 +12,15 @@ import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import java.lang.InterruptedException;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -23,7 +32,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         Thread aprendizaje;
         Celda [][] matrizC;
         
-        int tmño = 6;
+        int tmno = 6;
         long itmax= 1000000;
         double recB = 5;
         double recE = 10;
@@ -39,9 +48,26 @@ public class PantallaPpal extends javax.swing.JFrame {
         Boolean ede=false;
         Boolean sofde=false;
         
+        XYSeries serie = null;
+        XYSeries lista[] ;
+        int conts;
+        XYSeriesCollection conjdato = new XYSeriesCollection();
+        XYDataset datos=null;
+        JFreeChart grafico;
+        ArrayList listdat;
         //constructor
     public PantallaPpal() {
         initComponents();
+        serie= null;
+        datos=null;
+
+        //conjdatoap.addSeries(serieAp);
+        //conjdatosap=conjdatoap;
+        //listdat = new ArrayList();
+        conts=0;
+        
+        //serie= new XYSeries("Prueba");
+        
         //cargo el menu de tamaños
         menuTamano.addItem("6");
         menuTamano.addItem("7");
@@ -51,7 +77,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         //se crea el gridworld
         panelGrilla.removeAll();
         panelGrilla.setLayout(new GridLayout());
-        grilla = new Grilla(tmño);
+        grilla = new Grilla(tmno);
         panelGrilla.add(grilla);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -63,7 +89,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         BotonCamino1.setEnabled(false);
         radioButtonInicio.setEnabled(false);
         radioButtonNormal.setEnabled(true);
-        botonReset.doClick();
+        //botonReset.doClick();
     }
     
     //funcion que pinta el camino aprendido
@@ -172,6 +198,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonEd = new javax.swing.JRadioButton();
         radioButtonSd = new javax.swing.JRadioButton();
         jLabel24 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jSeparator10 = new javax.swing.JSeparator();
+        jLabel26 = new javax.swing.JLabel();
         panelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -596,52 +625,64 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel24.setText("Aprendizaje:");
 
+        jButton1.setText("Graficar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setText("Graficas:");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BotonStart)
+                .addGap(38, 38, 38))
+            .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator6)
-                    .addComponent(jSeparator7)
-                    .addComponent(jSeparator8)
-                    .addComponent(jSeparator9)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel22)
+                    .addComponent(radioButtonNormal)
+                    .addComponent(radioButtonInicio)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel21)
-                            .addComponent(jLabel22)
-                            .addComponent(radioButtonNormal)
-                            .addComponent(radioButtonInicio)
-                            .addComponent(jLabel1)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addComponent(botonReset))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(BotonAleatorio))
-                            .addComponent(jLabel23)
-                            .addComponent(jLabel24)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(BotonInicial)
-                                    .addComponent(BotonCamino1)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(radioButtonEgreedy)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(radioButtonEd))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(radioButtonSoftmax)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(radioButtonSd))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(BotonStart)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(55, 55, 55)
+                        .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(botonReset))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(BotonAleatorio))
+                    .addComponent(jLabel23)
+                    .addComponent(jLabel24)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(BotonInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonCamino1)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(radioButtonEgreedy)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(radioButtonEd))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(radioButtonSoftmax)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(radioButtonSd))
+                    .addComponent(jLabel26))
+                .addContainerGap(10, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -655,7 +696,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonAleatorio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -667,28 +708,37 @@ public class PantallaPpal extends javax.swing.JFrame {
                     .addComponent(radioButtonSoftmax)
                     .addComponent(radioButtonSd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel21)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioButtonInicio)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(radioButtonNormal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonStart)
-                .addGap(18, 18, 18)
-                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonCamino1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonInicial)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(58, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(429, Short.MAX_VALUE)
+                    .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(110, 110, 110)))
         );
 
         panelGrilla.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -724,7 +774,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelGrilla, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -739,9 +789,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         //cuando se selecciona un item en el menu de tamano de gridworl se arma
         //la grilla, se setean los botones y se actualiza la matriz de celdas
         panelGrilla.removeAll();
-        tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
+        tmno = Integer.parseInt(menuTamano.getSelectedItem().toString());
         panelGrilla.setLayout(new GridLayout());
-        panelGrilla.add(grilla = new Grilla(tmño));
+        panelGrilla.add(grilla = new Grilla(tmno));
         setVisible(true);
         radioButtonInicio.setEnabled(false);
         radioButtonNormal.setEnabled(true);
@@ -754,10 +804,17 @@ public class PantallaPpal extends javax.swing.JFrame {
     private void botonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonResetActionPerformed
         //cuando se presiona el boton de reset, se crea una nueva grilla, se 
         //actualiza la matriz de celdas y se setean los botones
+        for (int in=0; in<tmno; in++){
+            for (int jn=0; jn<tmno; jn++){
+                int res = grilla.grilla[in][jn];
+                System.out.println(res);
+            }
+        } 
+        
         panelGrilla.removeAll();
-        tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
+        tmno = Integer.parseInt(menuTamano.getSelectedItem().toString());
         panelGrilla.setLayout(new GridLayout());
-        panelGrilla.add(grilla = new Grilla(tmño));
+        panelGrilla.add(grilla = new Grilla(tmno));
         setVisible(true);   
         matrizC = grilla.matrizCeldas;
         radioButtonInicio.setEnabled(false);
@@ -771,9 +828,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         //cuando se presiona el boton de estados aleatorios, devuelve una grilla 
         //pintada con estados aleatorios, setea botones y actualiza referencias
         panelGrilla.removeAll();
-        tmño = Integer.parseInt(menuTamano.getSelectedItem().toString());
+        tmno = Integer.parseInt(menuTamano.getSelectedItem().toString());
         panelGrilla.setLayout(new GridLayout());
-        panelGrilla.add(grilla = new Grilla(tmño));
+        panelGrilla.add(grilla = new Grilla(tmno));
         setVisible(true);   
         matrizC = grilla.matrizCeldas;
         radioButtonInicio.setEnabled(false);
@@ -786,7 +843,10 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
-          //al presionar el boton de start, se actualizan las referencias
+          //serie= null;
+        datos=null;
+        conts=conts+1;
+        //al presionar el boton de start, se actualizan las referencias
             grilla.limpiar();
             JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
             e=(Double.parseDouble(textEpsilon.getText()));
@@ -985,6 +1045,25 @@ public class PantallaPpal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textMActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+           //XYSeries serie1 ; 
+           //serie=bot.serieAp;
+           conjdato=bot.conjdatosap;
+           //conjdato.addSeries(serie);
+
+        JFrame pantallaGra = new JFrame();
+        pantallaGra.setSize(800, 600);
+
+        grafico = ChartFactory.createXYLineChart("esto es una prueba", "totalR", "iter", conjdato, PlotOrientation.HORIZONTAL, true, true, true);
+        ChartPanel chartPanel = new ChartPanel(grafico);
+        
+        pantallaGra.add(chartPanel);
+        
+        pantallaGra.setLocationRelativeTo(null);
+        pantallaGra.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1025,6 +1104,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JButton BotonInicial;
     private javax.swing.JButton BotonStart;
     private javax.swing.JButton botonReset;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1043,6 +1123,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1052,6 +1133,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;

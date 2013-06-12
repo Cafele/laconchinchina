@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 /**
  *
@@ -65,7 +68,10 @@ public class QLearning implements Runnable {
     
     Boolean decreE=true;
     Boolean decreG=false;
-
+    XYSeries serieAp = null;
+    XYSeriesCollection conjdatosap = null;
+    XYDataset datosAp;
+    XYDataset listadat;
     //constructor
     public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
@@ -88,6 +94,7 @@ public class QLearning implements Runnable {
         this.pasot=tau/maxIteracion;
         this.edec=ed;
         this.softdec=sd;
+        this.serieAp = new XYSeries("titulo");
         
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
@@ -342,9 +349,10 @@ public class QLearning implements Runnable {
         Posicion sig;
         Border border;
         long reward;
-        long totalR=0;
+        double totalR=0.0;
         double qactual;
-
+        serieAp = new XYSeries ("titulo");
+        
         for (long iter=0; iter<this.maxIteracion;iter++){
             reward = 0;
             qactual = 0.0;
@@ -392,11 +400,22 @@ public class QLearning implements Runnable {
                 
             }while (x<cantPasos && (map[i][j]!=4)) ;
             //recompensa acumulada promedio obtenida
-            totalR=totalR+(reward/x);
-            //System.out.println(totalR);
-            System.out.println(reward/x);
+            //totalR=totalR+(reward);
+            totalR=0.0;
+            for(int ix=0;ix<tamano;ix++){
+                for(int jx=0;jx<tamano;jx++){
+                    for(int ax=0;ax<8;ax++){
+                         totalR = totalR+Qvalues[ix][jx][ax];
+                    }
+                }
+            }
+            System.out.println(iter);
+            serieAp.add(totalR,iter);
+
         }
-        
+        XYSeriesCollection conjdatoap = new XYSeriesCollection();
+        conjdatoap.addSeries(serieAp);
+        conjdatosap=conjdatoap;
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override
@@ -444,5 +463,9 @@ public class QLearning implements Runnable {
         return grilla;
     }
     
-    
+    public double acierto(){
+        double res = 0.0;
+        
+        return res;
+    }
 }

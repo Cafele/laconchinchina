@@ -345,6 +345,8 @@ public class Grilla extends JPanel {
             }
         } 
     }
+    
+
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(600, 600);
