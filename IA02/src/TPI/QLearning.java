@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -72,6 +73,7 @@ public class QLearning implements Runnable {
     XYSeriesCollection conjdatosap = null;
     XYDataset datosAp;
     XYDataset listadat;
+    double listaSerie[] ;
     //constructor
     public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
@@ -95,7 +97,8 @@ public class QLearning implements Runnable {
         this.edec=ed;
         this.softdec=sd;
         this.serieAp = new XYSeries("titulo");
-        
+        this.conjdatosap = null;
+        listaSerie = new double [(int) maxIteracion];
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
@@ -353,7 +356,7 @@ public class QLearning implements Runnable {
         double qactual;
         serieAp = new XYSeries ("titulo");
         
-        for (long iter=0; iter<this.maxIteracion;iter++){
+        for (int iter=0; iter<this.maxIteracion;iter++){
             reward = 0;
             qactual = 0.0;
             //si es decreciente Egreedy y epsilon es positivo
@@ -410,12 +413,14 @@ public class QLearning implements Runnable {
                 }
             }
             System.out.println(iter);
-            serieAp.add(totalR,iter);
+
+            //serieAp.add((double)totalR,(double) iter);
+            listaSerie[iter] = totalR;
 
         }
-        XYSeriesCollection conjdatoap = new XYSeriesCollection();
-        conjdatoap.addSeries(serieAp);
-        conjdatosap=conjdatoap;
+        //XYSeriesCollection conjdatoap = new XYSeriesCollection();
+        //conjdatoap.addSeries(serieAp);
+        //conjdatosap=conjdatoap;
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override
@@ -457,7 +462,7 @@ public class QLearning implements Runnable {
     public void setRecNormal(double recNormal) {
         this.recNormal = recNormal;
     }
-    
+
 
     public Grilla getGrilla() {
         return grilla;
@@ -468,4 +473,9 @@ public class QLearning implements Runnable {
         
         return res;
     }
+
+    public double[] getListaSerie() {
+        return listaSerie;
+    }
+    
 }

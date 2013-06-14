@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.io.FileOutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -14,6 +15,11 @@ import javax.swing.border.MatteBorder;
 import java.lang.InterruptedException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -49,17 +55,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         Boolean sofde=false;
         
         XYSeries serie = null;
-        XYSeries lista[] ;
+        XYSeriesCollection lista;
         int conts;
-        XYSeriesCollection conjdato = new XYSeriesCollection();
+        
         XYDataset datos=null;
         JFreeChart grafico;
-        ArrayList listdat;
+        //ArrayList listdat;
+        ArrayList<double[]> prueba;
+
         //constructor
     public PantallaPpal() {
         initComponents();
-        serie= null;
-        datos=null;
 
         //conjdatoap.addSeries(serieAp);
         //conjdatosap=conjdatoap;
@@ -90,6 +96,10 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonInicio.setEnabled(false);
         radioButtonNormal.setEnabled(true);
         //botonReset.doClick();
+        prueba = new ArrayList<double[]>();
+        //conjdato = new XYSeriesCollection();
+        
+
     }
     
     //funcion que pinta el camino aprendido
@@ -844,7 +854,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
           //serie= null;
-        datos=null;
+        //datos=null;
         conts=conts+1;
         //al presionar el boton de start, se actualizan las referencias
             grilla.limpiar();
@@ -1046,11 +1056,54 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_textMActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        XYSeriesCollection conjdato = new XYSeriesCollection();
+        double [] asd = bot.getListaSerie();
+        prueba.add(asd);
+        // una nuevo archivo de excel
+        HSSFWorkbook libro = new HSSFWorkbook();
+        //la hoja de excel
+        HSSFSheet hoja = libro.createSheet("Estadisticas IA");
+        //
+        for (int b=0; b<conts;b++){
+            XYSeries seriei = new XYSeries ("prueba"+b);
+            double [] asdasd = prueba.get(b);
+            //XYSeries seriei = new XYSeries ("prueba");
+            
+            for (int a=0;a<asdasd.length;a++){
+              
+              // nueva tupla
+              HSSFRow fila = hoja.createRow(a);
+              // celda de la tupla
+              HSSFCell celda = fila.createCell(0);
+              //cargo valor
+              celda.setCellValue(a);
+              //segunda celda
+              HSSFCell celda2 = fila.createCell(b+1);
+              //cargo valor
+              celda2.setCellValue(asdasd[a]);
+              //añado para el grafico el punto
+              seriei.add(asdasd[a],a);
+          }
+            conjdato.addSeries(seriei);
+        }
+        for (int a=0;a<asd.length;a++){
+            HSSFRow fila = hoja.createRow(a);
+            HSSFCell celda = fila.createCell(0);
+            celda.setCellValue(a);
+            for (int b=0; b<conts;b++){
+                double [] asdasd = prueba.get(b);
+                HSSFCell celda2 = fila.createCell(b+1);
+                celda2.setCellValue(asdasd[a]);
+            }
+        }
+        //prueba.add(conts,seriei);
 
-           //XYSeries serie1 ; 
+           //for (int c=0;c<(conts+1);c++){
+           //conjdato.addSeries((XYSeries) prueba.get(conts));
+           //}
            //serie=bot.serieAp;
-           conjdato=bot.conjdatosap;
-           //conjdato.addSeries(serie);
+           //conjdato=bot.conjdatosap;
+           
 
         JFrame pantallaGra = new JFrame();
         pantallaGra.setSize(800, 600);
@@ -1062,6 +1115,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         
         pantallaGra.setLocationRelativeTo(null);
         pantallaGra.setVisible(true);
+        
+        
+        
+        
+        
+        try {
+            FileOutputStream elFichero = new FileOutputStream("holamundo.xls");
+            libro.write(elFichero);
+            elFichero.close();
+        } catch (Exception err) {
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
