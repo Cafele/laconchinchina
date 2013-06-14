@@ -1064,36 +1064,30 @@ public class PantallaPpal extends javax.swing.JFrame {
         //la hoja de excel
         HSSFSheet hoja = libro.createSheet("Estadisticas IA");
         //
+        HSSFRow filatitulo = hoja.createRow(0);
+        HSSFCell celdatitulo = filatitulo.createCell(0);
+        celdatitulo.setCellValue("Episodio");
         for (int b=0; b<conts;b++){
             XYSeries seriei = new XYSeries ("prueba"+b);
             double [] asdasd = prueba.get(b);
-            //XYSeries seriei = new XYSeries ("prueba");
-            
+            HSSFCell celdatitulo2 = filatitulo.createCell(b+1);
+            celdatitulo2.setCellValue("prueba "+b);
             for (int a=0;a<asdasd.length;a++){
-              
-              // nueva tupla
-              HSSFRow fila = hoja.createRow(a);
-              // celda de la tupla
-              HSSFCell celda = fila.createCell(0);
-              //cargo valor
-              celda.setCellValue(a);
-              //segunda celda
-              HSSFCell celda2 = fila.createCell(b+1);
-              //cargo valor
-              celda2.setCellValue(asdasd[a]);
-              //añado para el grafico el punto
+
               seriei.add(asdasd[a],a);
           }
             conjdato.addSeries(seriei);
         }
         for (int a=0;a<asd.length;a++){
-            HSSFRow fila = hoja.createRow(a);
+            HSSFRow fila = hoja.createRow(a+1);
             HSSFCell celda = fila.createCell(0);
             celda.setCellValue(a);
+
             for (int b=0; b<conts;b++){
                 double [] asdasd = prueba.get(b);
                 HSSFCell celda2 = fila.createCell(b+1);
                 celda2.setCellValue(asdasd[a]);
+                
             }
         }
         //prueba.add(conts,seriei);
