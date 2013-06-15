@@ -78,8 +78,12 @@ public class QLearning implements Runnable {
     int iterConv;
     // valor acumulado de convergencia
     double conv;
+    //cant de repeticiones para medir la convergencia
+    int rep;
+    // lapso de salto
+    int salto;
     //constructor
-    public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+    public QLearning (int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
@@ -102,6 +106,8 @@ public class QLearning implements Runnable {
         this.softdec=sd;
         this.serieAp = new XYSeries("titulo");
         this.conjdatosap = null;
+        this.rep=repet;
+        this.salto=laps;
         listaSerie = new double [(int) maxIteracion];
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
@@ -415,6 +421,7 @@ public class QLearning implements Runnable {
             }while (x<cantPasos && (map[i][j]!=4)) ;
             //recompensa acumulada promedio obtenida
             //totalR=totalR+(reward);
+            //conv = totalR;
             totalR=0.0;
             for(int ix=0;ix<tamano;ix++){
                 for(int jx=0;jx<tamano;jx++){
@@ -423,47 +430,25 @@ public class QLearning implements Runnable {
                     }
                 }
             }
-            //System.out.println(iter);
-            //voy a chequear mientras no converge el valor mas alto.
-            switch (contRep) {
-                case 0:
-                    //es la primera vez
-                     if(conv == totalR){
-                        //si se repitio entonces contabilizo 
-                        contRep=contRep+1;
-                        //y como es la primera vez cargo la iteracion
-                        iterConv=iter-1;
-                    } else {
-                        //si no se repitio actualizo el ultimo valor acumulado
-                        conv = totalR;
-                    } 
-                case 1: case 2: case 3: case 4: case 5:
-                case 6: case 7: case 8: case 9: case 10:
-                case 11: case 12: case 13: case 14: case 15:
-                    // en las siguientes repeticiones
-                    if(conv == totalR){
-                        //si se repitio entonces contabilizo 
-                        contRep=contRep+1;
-                    } else {
-                        //si no se repitio actualizo el ultimo valor acumulado
-                        conv = totalR;
-                        // comienzo de nuevo el contador
-                        contRep=0;
-                    } 
-                        
-            }
-            //if (contRep < 15){
-              //  if(conv == totalR){
-                    
-                    //si se repitio entonces contabilizo 
-                //    contRep=contRep+1;
-                //} else {
-                    //si no se repitio actualizo el ultimo valor acumulado
-                  //  conv = totalR;
-                //}
+            //if (iter==0){
+            //    conv = totalR;
             //}
+            //
+           if (contRep<rep){
+               
+                if ((Math.abs(totalR-conv))<salto){
+                    if (contRep==0){
+                        //la primera vez guardo los valores
+                        iterConv = iter-1;
+                        
+                    }
+                    contRep = contRep+1;
+                } else {
+                    contRep = 0;
+                    conv = totalR;
+                }
+           }
             listaSerie[iter] = totalR;
-
         }
 
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
