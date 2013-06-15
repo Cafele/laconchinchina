@@ -257,6 +257,7 @@ public class Grilla extends JPanel {
                     case 4:
                         //es final
                         matrizCeldas[i][j].setBackground(colorFinal);
+                        matrizCeldas[i][j].esFinal=true;
                         break;
                     case 5:
                         // es pozo
@@ -346,6 +347,19 @@ public class Grilla extends JPanel {
         } 
     }
     
+    public Boolean hayFinal(){
+        Celda celda;
+        Boolean finals = false;
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                    celda = matrizCeldas[i][j];
+                    if (celda.esFinal){
+                        finals = true;
+                    }
+            }
+        } 
+        return finals;
+    }
 
         @Override
         public Dimension getPreferredSize() {

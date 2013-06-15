@@ -419,9 +419,7 @@ public class QLearning implements Runnable {
                 x++;
                 
             }while (x<cantPasos && (map[i][j]!=4)) ;
-            //recompensa acumulada promedio obtenida
-            //totalR=totalR+(reward);
-            //conv = totalR;
+
             totalR=0.0;
             for(int ix=0;ix<tamano;ix++){
                 for(int jx=0;jx<tamano;jx++){
@@ -430,10 +428,7 @@ public class QLearning implements Runnable {
                     }
                 }
             }
-            //if (iter==0){
-            //    conv = totalR;
-            //}
-            //
+
            if (contRep<rep){
                
                 if ((Math.abs(totalR-conv))<salto){
@@ -449,8 +444,9 @@ public class QLearning implements Runnable {
                 }
            }
             listaSerie[iter] = totalR;
+            System.out.println(iter);
         }
-
+        
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override

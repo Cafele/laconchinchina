@@ -113,16 +113,14 @@ public class PantallaPpal extends javax.swing.JFrame {
         //borde de la posicion inicial
         Border border = new MatteBorder(3,3,3,3,Color.BLUE) {};
         i= pos.getI();j =pos.getJ();
+        matrizC[i][j].setBorder(border);
         do{
             //actualizo variable noescamino
             matrizC[i][j].noEsCamino = false;
             //me fijo la accion siguiente y la guardo
             accion = bot.mejorAccion(pos);
             matrizC[i][j].caminoSig=accion;
-            //pinto la inicial
-            if(matrizC[i][j].esInicial){
-                matrizC[i][j].setBorder(border);
-            }
+           
             //repaint de las celdas
             matrizC[i][j].repaint();
             //me muevo al siguiente casillero
@@ -454,53 +452,62 @@ public class PantallaPpal extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(radioButtonInicio)
-                            .addComponent(jLabel23)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(radioButtonEgreedy)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioButtonEd))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(radioButtonSoftmax)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(radioButtonSd))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(25, 25, 25)
-                                .addComponent(jLabel21))
                             .addComponent(radioButtonNormal)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(BotonInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel22)
-                                    .addComponent(BotonCamino1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(37, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel23)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(radioButtonEgreedy)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(radioButtonEd))))
+                        .addContainerGap(41, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jButton2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(textRep, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(textSalto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(textRep, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textSalto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addComponent(jSeparator1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel24)
-                            .addComponent(BotonStart)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(56, 56, 56)
-                        .addComponent(jLabel26)))
+                        .addComponent(jLabel26))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BotonStart)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel24))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel21)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel22)
+                .addGap(50, 50, 50))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(BotonCamino1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(BotonInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButton2)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -851,8 +858,10 @@ public class PantallaPpal extends javax.swing.JFrame {
                                     .addComponent(textN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jLabel1)
-                                .addGap(0, 23, Short.MAX_VALUE))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BotonAleatorio)
+                                    .addComponent(jLabel1))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -862,14 +871,11 @@ public class PantallaPpal extends javax.swing.JFrame {
                                 .addGap(40, 40, 40)
                                 .addComponent(jLabel19))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(54, 54, 54)
-                                .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(35, 35, 35)
+                                .addGap(42, 42, 42)
                                 .addComponent(botonReset))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(BotonAleatorio)))
+                                .addGap(63, 63, 63)
+                                .addComponent(menuTamano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -1014,50 +1020,60 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
-          //actualizo contador
-            conts=conts+1;
-            //al presionar el boton de start, se actualizan las referencias
-            grilla.limpiar();
-            JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
-            e=(Double.parseDouble(textEpsilon.getText()));
-            gamma =(Double.parseDouble(textGamma.getText()));
-            tau = (Double.parseDouble(texttau.getText()));
-            itmax =(Long.parseLong(textMaxIt.getText()));
-            recN =(Double.parseDouble(textN.getText()));
-            recM =(Double.parseDouble(textM.getText()));
-            recB =(Double.parseDouble(textB.getText()));
-            recE =(Double.parseDouble(textE.getText()));
-            recF =(Double.parseDouble(textF.getText()));
-            pasos =(Double.parseDouble(textP.getText()));
-            grilla.setMatrizCeldas(matrizC);
-            grilla.actualizarGrilla();
-            grilla.actualizarAcciones();
-            rep = Integer.parseInt(textRep.getText());
-            salt = Integer.parseInt(textSalto.getText());
-          //se crea una instancia de Qlearning con las referencias
-            bot = new QLearning(salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
-          //se crea un hilo para correr el aprendizaje
-            aprendizaje = new Thread(bot);
-            ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
-            aprendizaje.run();
-          //por ultimo se actualizan los botones y se espera un inicio
-            radioButtonNormal.setEnabled(true);
-            radioButtonInicio.setEnabled(true);
-            radioButtonInicio.setSelected(true);
-            radioButtonNormal.setSelected(false);
-            BotonInicial.setEnabled(true);
-            BotonCamino1.setEnabled(true);
-            grilla.setearInicio();
-            // se carga el log de la corrida
-            double [] log = bot.getListaSerie();
-            listaLogs.add(log);
-            //creo para cada corrida un array
-            double [] con = new double[2];
-            //la primer posicion guarda la iteracion donde converge
-            con [0] = bot.getIterConv();
-            //la segunda posicion guarda el valor 
-            con [1]= bot.getConv();
-            listaConv.add(con);
+            
+                    //actualizo contador
+                conts=conts+1;
+                //al presionar el boton de start, se actualizan las referencias
+                grilla.limpiar();
+                
+                e=(Double.parseDouble(textEpsilon.getText()));
+                gamma =(Double.parseDouble(textGamma.getText()));
+                tau = (Double.parseDouble(texttau.getText()));
+                itmax =(Long.parseLong(textMaxIt.getText()));
+                recN =(Double.parseDouble(textN.getText()));
+                recM =(Double.parseDouble(textM.getText()));
+                recB =(Double.parseDouble(textB.getText()));
+                recE =(Double.parseDouble(textE.getText()));
+                recF =(Double.parseDouble(textF.getText()));
+                pasos =(Double.parseDouble(textP.getText()));
+                grilla.setMatrizCeldas(matrizC);
+                grilla.actualizarGrilla();
+                grilla.actualizarAcciones();
+                rep = Integer.parseInt(textRep.getText());
+                salt = Integer.parseInt(textSalto.getText());
+              //se crea una instancia de Qlearning con las referencias
+                bot = new QLearning(salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
+              //se crea un hilo para correr el aprendizaje
+                if (grilla.hayFinal()){
+                    JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
+                    aprendizaje = new Thread(bot);
+                    ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+                    aprendizaje.run();
+                } else {
+                    JOptionPane.showMessageDialog(grilla, "Introduzca una celda Final para comenzar", "ERROR", JOptionPane.WARNING_MESSAGE);
+                }
+              //por ultimo se actualizan los botones y se espera un inicio
+                radioButtonNormal.setEnabled(true);
+                radioButtonInicio.setEnabled(true);
+                radioButtonInicio.setSelected(true);
+                radioButtonNormal.setSelected(false);
+                BotonInicial.setEnabled(true);
+                BotonCamino1.setEnabled(true);
+                grilla.setearInicio();
+                // se carga el log de la corrida
+                double [] log = bot.getListaSerie();
+                listaLogs.add(log);
+                //creo para cada corrida un array
+                double [] con = new double[2];
+                //la primer posicion guarda la iteracion donde converge
+                con [0] = bot.getIterConv();
+                //la segunda posicion guarda el valor 
+                con [1]= bot.getConv();
+                listaConv.add(con);
+            
+        
+        
+            
     }//GEN-LAST:event_BotonStartActionPerformed
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
@@ -1311,7 +1327,8 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_textMActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // conjunto de series para el grafico
+        if (conts>0){
+            // conjunto de series para el grafico
         XYSeriesCollection conjdato = new XYSeriesCollection();
 
         //creo el conjunto de datos para el grafico
@@ -1340,14 +1357,17 @@ public class PantallaPpal extends javax.swing.JFrame {
         
         pantallaGra.setLocationRelativeTo(null);
         pantallaGra.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(grilla, "No realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
         
 
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        // una nuevo archivo de excel
+        if (conts>0){
+            // una nuevo archivo de excel
         HSSFWorkbook libro = new HSSFWorkbook();
         //la hoja de excel
         HSSFSheet hoja = libro.createSheet("Corridas");
@@ -1431,6 +1451,10 @@ public class PantallaPpal extends javax.swing.JFrame {
         //arrancan de nuevo las listas
         listaLogs.removeAll(listaLogs);
         listaConv.removeAll(listaConv);
+        } else {
+            JOptionPane.showMessageDialog(grilla, "No se realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void textRepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textRepKeyPressed

@@ -36,6 +36,7 @@ public class Celda extends JPanel {
     
     //indica que la celda es punto de partida para graficar el camino aprendido
     Boolean esInicial = false;
+    Boolean esFinal = false;
     Boolean noEsCamino = true;
     int caminoAnt=10;
     int caminoSig=10;
@@ -60,6 +61,7 @@ public class Celda extends JPanel {
                     esInicial = true;
                 } else {
                     //sino, es seleccion de tipo normal:
+                    esFinal = false;
                     if (colorNormal.equals(getBackground())){
                     setBackground(colorMalo);
                     } else {
@@ -74,6 +76,7 @@ public class Celda extends JPanel {
                                 } else {
                                     if (colorPozo.equals(getBackground())){
                                         setBackground (colorFinal);
+                                        esFinal = true;
                                     } else {
                                         setBackground (colorNormal);
                                     }
