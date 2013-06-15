@@ -64,6 +64,8 @@ public class PantallaPpal extends javax.swing.JFrame {
         JFreeChart grafico;
         //lista que guarda el log de cada prueba
         ArrayList<double[]> listaLogs;
+        // lista del punto de convergencia ( 15 episodios sin cambiar el valor )
+        ArrayList<double[]> listaConv;
         //archivo de excel
         //HSSFWorkbook libro;
         //constructor
@@ -95,6 +97,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         radioButtonNormal.setEnabled(true);
         botonReset.doClick();
         listaLogs = new ArrayList<double[]>();
+        listaConv = new ArrayList<double[]>();
         
     }
     
@@ -887,9 +890,15 @@ public class PantallaPpal extends javax.swing.JFrame {
             BotonCamino1.setEnabled(true);
             grilla.setearInicio();
             // se carga el log de la corrida
-            double [] asd = bot.getListaSerie();
-            listaLogs.add(asd);
-
+            double [] log = bot.getListaSerie();
+            listaLogs.add(log);
+            //creo para cada corrida un array
+            double [] con = new double[2];
+            //la primer posicion guarda la iteracion donde converge
+            con [0] = bot.getIterConv();
+            //la segunda posicion guarda el valor 
+            con [1]= bot.getConv();
+            listaConv.add(con);
     }//GEN-LAST:event_BotonStartActionPerformed
 
     private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
@@ -1099,7 +1108,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         // una nuevo archivo de excel
         HSSFWorkbook libro = new HSSFWorkbook();
         //la hoja de excel
-        HSSFSheet hoja = libro.createSheet("Estadisticas IA");
+        HSSFSheet hoja = libro.createSheet("Corridas");
         //crea una fila para los titulos
         HSSFRow filatitulo = hoja.createRow(0);
         //la primera celda para el titulo
@@ -1143,6 +1152,28 @@ public class PantallaPpal extends javax.swing.JFrame {
                 celda2.setCellValue(serieap[a]);
                 celda2.setCellStyle(estilonormal);
             }
+        }
+        // la hoja para la convergencia
+        HSSFSheet hoja2 = libro.createSheet("Convergencia");
+        //crea una fila para los titulos
+        HSSFRow filatitulo2 = hoja2.createRow(0);
+        HSSFCell celdatitulo21 = filatitulo2.createCell(0);
+        HSSFCell celdatitulo22 = filatitulo2.createCell(1);
+        celdatitulo21.setCellValue("Iteracion");
+        celdatitulo22.setCellValue("Valor");
+        celdatitulo21.setCellStyle(estilotitulo);
+        celdatitulo22.setCellStyle(estilotitulo);
+        
+        for (int x=0; x<conts;x++){
+            //crea una fila por cada corrida
+            HSSFRow filax = hoja2.createRow(x+1);
+            //creo las celdas y cargo los valores
+            HSSFCell celdax1 = filax.createCell(0);
+            HSSFCell celdax2 = filax.createCell(1);
+            celdax1.setCellValue(listaConv.get(x) [0]);
+            celdax2.setCellValue(listaConv.get(x) [1]);
+            celdax1.setCellStyle(estilonormal);
+            celdax2.setCellStyle(estilonormal);
         }
         // creo el archivo excel
         try {

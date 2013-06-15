@@ -74,6 +74,10 @@ public class QLearning implements Runnable {
     XYDataset datosAp;
     XYDataset listadat;
     double listaSerie[] ;
+    //iteracion donde converge
+    int iterConv;
+    // valor acumulado de convergencia
+    double conv;
     //constructor
     public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
@@ -355,7 +359,14 @@ public class QLearning implements Runnable {
         double totalR=0.0;
         double qactual;
         serieAp = new XYSeries ("titulo");
+        // valor donde convergio
+        conv = 0.0;
+        //numero de iteracion donde convergio
+        iterConv =0;
+        // contador de repeticion del valor acumulado
+        int contRep=0;
         
+        //corrida
         for (int iter=0; iter<this.maxIteracion;iter++){
             reward = 0;
             qactual = 0.0;
@@ -412,19 +423,52 @@ public class QLearning implements Runnable {
                     }
                 }
             }
-            System.out.println(iter);
-
-            //serieAp.add((double)totalR,(double) iter);
+            //System.out.println(iter);
+            //voy a chequear mientras no converge el valor mas alto.
+            switch (contRep) {
+                case 0:
+                    //es la primera vez
+                     if(conv == totalR){
+                        //si se repitio entonces contabilizo 
+                        contRep=contRep+1;
+                        //y como es la primera vez cargo la iteracion
+                        iterConv=iter-1;
+                    } else {
+                        //si no se repitio actualizo el ultimo valor acumulado
+                        conv = totalR;
+                    } 
+                case 1: case 2: case 3: case 4: case 5:
+                case 6: case 7: case 8: case 9: case 10:
+                case 11: case 12: case 13: case 14: case 15:
+                    // en las siguientes repeticiones
+                    if(conv == totalR){
+                        //si se repitio entonces contabilizo 
+                        contRep=contRep+1;
+                    } else {
+                        //si no se repitio actualizo el ultimo valor acumulado
+                        conv = totalR;
+                        // comienzo de nuevo el contador
+                        contRep=0;
+                    } 
+                        
+            }
+            //if (contRep < 15){
+              //  if(conv == totalR){
+                    
+                    //si se repitio entonces contabilizo 
+                //    contRep=contRep+1;
+                //} else {
+                    //si no se repitio actualizo el ultimo valor acumulado
+                  //  conv = totalR;
+                //}
+            //}
             listaSerie[iter] = totalR;
 
         }
-        //XYSeriesCollection conjdatoap = new XYSeriesCollection();
-        //conjdatoap.addSeries(serieAp);
-        //conjdatosap=conjdatoap;
+
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override
-    
 
     //setters y getters :
     public void setMaxIteracion(long maxIteracion) {
@@ -476,6 +520,14 @@ public class QLearning implements Runnable {
 
     public double[] getListaSerie() {
         return listaSerie;
+    }
+
+    public int getIterConv() {
+        return iterConv;
+    }
+
+    public double getConv() {
+        return conv;
     }
     
 }
