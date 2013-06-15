@@ -12,10 +12,12 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
-import java.lang.InterruptedException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.swing.JFrame;
 import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -33,11 +35,12 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author fede
  */
 public class PantallaPpal extends javax.swing.JFrame {
+        // las clases grilla, qlearning, thread para la corrida y la matriz de celdas
         Grilla grilla = new Grilla();
         QLearning bot;
         Thread aprendizaje;
         Celda [][] matrizC;
-        
+        // valores que son necesarios para el qlearning
         int tmno = 6;
         long itmax= 1000000;
         double recB = 5;
@@ -53,27 +56,22 @@ public class PantallaPpal extends javax.swing.JFrame {
         Boolean vaSoftmax=false;
         Boolean ede=false;
         Boolean sofde=false;
-        
-        XYSeries serie = null;
-        XYSeriesCollection lista;
-        int conts;
-        
-        XYDataset datos=null;
-        JFreeChart grafico;
-        //ArrayList listdat;
-        ArrayList<double[]> prueba;
 
+        //contador de prueba
+        int conts;
+        int contP;
+        // para el grafico por programa
+        JFreeChart grafico;
+        //lista que guarda el log de cada prueba
+        ArrayList<double[]> listaLogs;
+        //archivo de excel
+        //HSSFWorkbook libro;
         //constructor
     public PantallaPpal() {
         initComponents();
-
-        //conjdatoap.addSeries(serieAp);
-        //conjdatosap=conjdatoap;
-        //listdat = new ArrayList();
+        // inicializo contador
         conts=0;
-        
-        //serie= new XYSeries("Prueba");
-        
+        contP=0;
         //cargo el menu de tamaños
         menuTamano.addItem("6");
         menuTamano.addItem("7");
@@ -95,11 +93,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         BotonCamino1.setEnabled(false);
         radioButtonInicio.setEnabled(false);
         radioButtonNormal.setEnabled(true);
-        //botonReset.doClick();
-        prueba = new ArrayList<double[]>();
-        //conjdato = new XYSeriesCollection();
+        botonReset.doClick();
+        listaLogs = new ArrayList<double[]>();
         
-
     }
     
     //funcion que pinta el camino aprendido
@@ -211,6 +207,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jSeparator10 = new javax.swing.JSeparator();
         jLabel26 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         panelGrilla = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -635,23 +632,26 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel24.setText("Aprendizaje:");
 
-        jButton1.setText("Graficar");
+        jButton1.setText("Graficos");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jLabel26.setText("Graficas:");
+        jLabel26.setText("Informes:");
+
+        jButton2.setText("Archivo Nuevo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BotonStart)
-                .addGap(38, 38, 38))
             .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -676,12 +676,6 @@ public class PantallaPpal extends javax.swing.JFrame {
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(BotonInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(BotonCamino1)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(radioButtonEgreedy)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(radioButtonEd))
@@ -689,8 +683,19 @@ public class PantallaPpal extends javax.swing.JFrame {
                         .addComponent(radioButtonSoftmax)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(radioButtonSd))
-                    .addComponent(jLabel26))
+                    .addComponent(jLabel26)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonInicial, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BotonCamino1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(10, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BotonStart)
+                .addGap(42, 42, 42))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE))
         );
@@ -743,7 +748,9 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2)
+                .addContainerGap(29, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                     .addContainerGap(429, Short.MAX_VALUE)
@@ -814,12 +821,6 @@ public class PantallaPpal extends javax.swing.JFrame {
     private void botonResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonResetActionPerformed
         //cuando se presiona el boton de reset, se crea una nueva grilla, se 
         //actualiza la matriz de celdas y se setean los botones
-        for (int in=0; in<tmno; in++){
-            for (int jn=0; jn<tmno; jn++){
-                int res = grilla.grilla[in][jn];
-                System.out.println(res);
-            }
-        } 
         
         panelGrilla.removeAll();
         tmno = Integer.parseInt(menuTamano.getSelectedItem().toString());
@@ -853,10 +854,9 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
     private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
-          //serie= null;
-        //datos=null;
-        conts=conts+1;
-        //al presionar el boton de start, se actualizan las referencias
+          //actualizo contador
+            conts=conts+1;
+            //al presionar el boton de start, se actualizan las referencias
             grilla.limpiar();
             JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
             e=(Double.parseDouble(textEpsilon.getText()));
@@ -876,7 +876,8 @@ public class PantallaPpal extends javax.swing.JFrame {
             bot = new QLearning(tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
           //se crea un hilo para correr el aprendizaje
             aprendizaje = new Thread(bot);
-            aprendizaje.start();
+            ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+            aprendizaje.run();
           //por ultimo se actualizan los botones y se espera un inicio
             radioButtonNormal.setEnabled(true);
             radioButtonInicio.setEnabled(true);
@@ -885,6 +886,9 @@ public class PantallaPpal extends javax.swing.JFrame {
             BotonInicial.setEnabled(true);
             BotonCamino1.setEnabled(true);
             grilla.setearInicio();
+            // se carga el log de la corrida
+            double [] asd = bot.getListaSerie();
+            listaLogs.add(asd);
 
     }//GEN-LAST:event_BotonStartActionPerformed
 
@@ -1056,52 +1060,28 @@ public class PantallaPpal extends javax.swing.JFrame {
     }//GEN-LAST:event_textMActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // conjunto de series para el grafico
         XYSeriesCollection conjdato = new XYSeriesCollection();
-        double [] asd = bot.getListaSerie();
-        prueba.add(asd);
-        // una nuevo archivo de excel
-        HSSFWorkbook libro = new HSSFWorkbook();
-        //la hoja de excel
-        HSSFSheet hoja = libro.createSheet("Estadisticas IA");
-        //
-        HSSFRow filatitulo = hoja.createRow(0);
-        HSSFCell celdatitulo = filatitulo.createCell(0);
-        celdatitulo.setCellValue("Episodio");
-        for (int b=0; b<conts;b++){
-            XYSeries seriei = new XYSeries ("prueba"+b);
-            double [] asdasd = prueba.get(b);
-            HSSFCell celdatitulo2 = filatitulo.createCell(b+1);
-            celdatitulo2.setCellValue("prueba "+b);
-            for (int a=0;a<asdasd.length;a++){
 
-              seriei.add(asdasd[a],a);
-          }
+        //creo el conjunto de datos para el grafico
+        for (int b=0; b<conts;b++){
+            //tomo una serie del log
+            double [] serieap = listaLogs.get(b);
+            //creo una serie de puntos del grafico
+            XYSeries seriei = new XYSeries ("prueba"+b);
+            for (int a=0;a<serieap.length;a++){
+                //cargo un punto a la serie
+              seriei.add(serieap[a],a);
+            }
+            // añado la serie al conjunto de datos graficos
             conjdato.addSeries(seriei);
         }
-        for (int a=0;a<asd.length;a++){
-            HSSFRow fila = hoja.createRow(a+1);
-            HSSFCell celda = fila.createCell(0);
-            celda.setCellValue(a);
-
-            for (int b=0; b<conts;b++){
-                double [] asdasd = prueba.get(b);
-                HSSFCell celda2 = fila.createCell(b+1);
-                celda2.setCellValue(asdasd[a]);
-                
-            }
-        }
-        //prueba.add(conts,seriei);
-
-           //for (int c=0;c<(conts+1);c++){
-           //conjdato.addSeries((XYSeries) prueba.get(conts));
-           //}
-           //serie=bot.serieAp;
-           //conjdato=bot.conjdatosap;
-           
-
+        
+        
+        //creo el frame del grafico
         JFrame pantallaGra = new JFrame();
         pantallaGra.setSize(800, 600);
-
+        //creo el grafico y lo añado
         grafico = ChartFactory.createXYLineChart("esto es una prueba", "totalR", "iter", conjdato, PlotOrientation.HORIZONTAL, true, true, true);
         ChartPanel chartPanel = new ChartPanel(grafico);
         
@@ -1110,17 +1090,74 @@ public class PantallaPpal extends javax.swing.JFrame {
         pantallaGra.setLocationRelativeTo(null);
         pantallaGra.setVisible(true);
         
+
         
-        
-        
-        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        // una nuevo archivo de excel
+        HSSFWorkbook libro = new HSSFWorkbook();
+        //la hoja de excel
+        HSSFSheet hoja = libro.createSheet("Estadisticas IA");
+        //crea una fila para los titulos
+        HSSFRow filatitulo = hoja.createRow(0);
+        //la primera celda para el titulo
+        HSSFCell celdatitulo = filatitulo.createCell(0);
+        //estilo que tendran las celdas de titulo
+        HSSFCellStyle estilotitulo = libro.createCellStyle();
+        estilotitulo.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
+        estilotitulo.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
+        estilotitulo.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
+        estilotitulo.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+        estilotitulo.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+        // nombre y estilo de la primer celda del titulo
+        celdatitulo.setCellValue("Episodio");
+        celdatitulo.setCellStyle(estilotitulo);
+        // estilos para las celdas de datos
+        HSSFCellStyle estilonormal = libro.createCellStyle();
+        estilonormal.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+        estilonormal.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+        estilonormal.setBorderRight(HSSFCellStyle.BORDER_THIN);
+        //y creo la fila completa de titulos, una celda por corrida
+        for (int b=0; b<conts;b++){
+            XYSeries seriei = new XYSeries ("prueba"+b);
+            double [] serieap = listaLogs.get(b);
+            HSSFCell celdatitulo2 = filatitulo.createCell(b+1);
+            celdatitulo2.setCellValue("prueba "+b);
+            celdatitulo2.setCellStyle(estilotitulo);
+        }
+        //se crean el resto de las celdas
+        for (int a=0;a<bot.maxIteracion;a++){
+            //creo una fila para cada iteracion
+            HSSFRow fila = hoja.createRow(a+1);
+            // la primera celda de cada fila es el numero de iteracion
+            HSSFCell celda = fila.createCell(0);
+            celda.setCellValue(a);
+            celda.setCellStyle(estilonormal);
+
+            for (int b=0; b<conts;b++){
+                double [] serieap = listaLogs.get(b);
+                //una celda para cada corrida con su correspondiente estilo
+                HSSFCell celda2 = fila.createCell(b+1);
+                celda2.setCellValue(serieap[a]);
+                celda2.setCellStyle(estilonormal);
+            }
+        }
+        // creo el archivo excel
         try {
-            FileOutputStream elFichero = new FileOutputStream("holamundo.xls");
-            libro.write(elFichero);
-            elFichero.close();
+            FileOutputStream excel = new FileOutputStream("Prueba"+contP+".xls");
+            libro.write(excel);
+            excel.close();
         } catch (Exception err) {
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        //aumenta el contador de prueba
+        contP=contP+1;
+        //vuelve inializar nuevamente el contador decorrida de cada prueba
+        conts=0;
+        //arranca de nuevo la lista de logs
+        listaLogs.removeAll(listaLogs);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1163,6 +1200,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JButton BotonStart;
     private javax.swing.JButton botonReset;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
