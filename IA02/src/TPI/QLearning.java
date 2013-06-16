@@ -82,8 +82,10 @@ public class QLearning implements Runnable {
     int rep;
     // lapso de salto
     int salto;
+    // inicializacion valores optimistas
+    Boolean optimist;
     //constructor
-    public QLearning (int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+    public QLearning (Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
@@ -108,13 +110,18 @@ public class QLearning implements Runnable {
         this.conjdatosap = null;
         this.rep=repet;
         this.salto=laps;
+        this.optimist=opt;
         listaSerie = new double [(int) maxIteracion];
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
             for(int i=0;i<tamano;i++){
+                double valor=0;
+                if (optimist){
+                    valor = recFinal*1.1;
+                }
                 for(int a=0;a<8;a++){
-                Qvalues[i][j][a]=0.0;
+                    Qvalues[i][j][a]=valor;
                 }
             }
         }

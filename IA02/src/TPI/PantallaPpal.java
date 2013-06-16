@@ -56,6 +56,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         Boolean vaSoftmax=false;
         Boolean ede=false;
         Boolean sofde=false;
+        Boolean optimista = false;
         int rep;
         int salt;
         //contador de prueba
@@ -68,6 +69,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         // lista del punto de convergencia ( 15 episodios sin cambiar el valor )
         ArrayList<double[]> listaConv;
         //archivo de excel
+        Long [] tiempos;
         //HSSFWorkbook libro;
         //constructor
     public PantallaPpal() {
@@ -99,7 +101,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         botonReset.doClick();
         listaLogs = new ArrayList<double[]>();
         listaConv = new ArrayList<double[]>();
-        
+        tiempos = new Long [1000];
     }
     
     //funcion que pinta el camino aprendido
@@ -187,6 +189,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         textRep = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         textSalto = new javax.swing.JTextField();
+        jRadioButton1 = new javax.swing.JRadioButton();
         panelGrilla = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -439,6 +442,13 @@ public class PantallaPpal extends javax.swing.JFrame {
             }
         });
 
+        jRadioButton1.setText("Iniciar con valores optimistas");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -446,6 +456,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator6, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jSeparator1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,13 +484,31 @@ public class PantallaPpal extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textRep, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(textSalto, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
-            .addComponent(jSeparator1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel22)
+                                .addGap(50, 50, 50))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(BotonInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonCamino1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(37, 37, 37))))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(44, 44, 44)
+                            .addComponent(jButton2))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(72, 72, 72)
+                            .addComponent(jLabel26))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jLabel26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -491,23 +520,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addComponent(jLabel21)))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel22)
-                .addGap(50, 50, 50))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(39, 39, 39)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BotonCamino1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(BotonInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jRadioButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -534,32 +547,34 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonStart)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jRadioButton1)
+                .addGap(11, 11, 11)
                 .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel22)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonCamino1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BotonInicial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel26)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel27)
                     .addComponent(textRep, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(textSalto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textSalto, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel28))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -706,7 +721,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel14.setMinimumSize(new java.awt.Dimension(45, 14));
         jLabel14.setPreferredSize(new java.awt.Dimension(45, 14));
 
-        textB.setText("10");
+        textB.setText("5");
         textB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textBActionPerformed(evt);
@@ -731,7 +746,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel15.setMinimumSize(new java.awt.Dimension(40, 14));
         jLabel15.setPreferredSize(new java.awt.Dimension(40, 14));
 
-        textM.setText("-75");
+        textM.setText("-25");
         textM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textMActionPerformed(evt);
@@ -753,7 +768,7 @@ public class PantallaPpal extends javax.swing.JFrame {
 
         jLabel16.setText("Malo");
 
-        textE.setText("25");
+        textE.setText("15");
         textE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 textEFocusLost(evt);
@@ -1019,111 +1034,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         grilla.setearNormal();
     }//GEN-LAST:event_BotonAleatorioActionPerformed
 
-    private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
-            
-                    //actualizo contador
-                conts=conts+1;
-                //al presionar el boton de start, se actualizan las referencias
-                grilla.limpiar();
-                
-                e=(Double.parseDouble(textEpsilon.getText()));
-                gamma =(Double.parseDouble(textGamma.getText()));
-                tau = (Double.parseDouble(texttau.getText()));
-                itmax =(Long.parseLong(textMaxIt.getText()));
-                recN =(Double.parseDouble(textN.getText()));
-                recM =(Double.parseDouble(textM.getText()));
-                recB =(Double.parseDouble(textB.getText()));
-                recE =(Double.parseDouble(textE.getText()));
-                recF =(Double.parseDouble(textF.getText()));
-                pasos =(Double.parseDouble(textP.getText()));
-                grilla.setMatrizCeldas(matrizC);
-                grilla.actualizarGrilla();
-                grilla.actualizarAcciones();
-                rep = Integer.parseInt(textRep.getText());
-                salt = Integer.parseInt(textSalto.getText());
-              //se crea una instancia de Qlearning con las referencias
-                bot = new QLearning(salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
-              //se crea un hilo para correr el aprendizaje
-                if (grilla.hayFinal()){
-                    JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
-                    aprendizaje = new Thread(bot);
-                    ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
-                    aprendizaje.run();
-                } else {
-                    JOptionPane.showMessageDialog(grilla, "Introduzca una celda Final para comenzar", "ERROR", JOptionPane.WARNING_MESSAGE);
-                }
-              //por ultimo se actualizan los botones y se espera un inicio
-                radioButtonNormal.setEnabled(true);
-                radioButtonInicio.setEnabled(true);
-                radioButtonInicio.setSelected(true);
-                radioButtonNormal.setSelected(false);
-                BotonInicial.setEnabled(true);
-                BotonCamino1.setEnabled(true);
-                grilla.setearInicio();
-                // se carga el log de la corrida
-                double [] log = bot.getListaSerie();
-                listaLogs.add(log);
-                //creo para cada corrida un array
-                double [] con = new double[2];
-                //la primer posicion guarda la iteracion donde converge
-                con [0] = bot.getIterConv();
-                //la segunda posicion guarda el valor 
-                con [1]= bot.getConv();
-                listaConv.add(con);
-            
-        
-        
-            
-    }//GEN-LAST:event_BotonStartActionPerformed
-
-    private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
-
-                //al presionar el boton pinta el camino aprendido desde el inicio
-                grilla.limpiarCaminos();
-                grilla.limpiar();
-                pintarCamino();
-
-    }//GEN-LAST:event_BotonCamino1ActionPerformed
-
-    private void radioButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalActionPerformed
-        //al presionar el radiobutton, destilda la opcion inicio y setea
-        //el tipo de seleccion de celdas como normal
-        radioButtonInicio.setSelected(false);
-        grilla.setearNormal();
-    }//GEN-LAST:event_radioButtonNormalActionPerformed
-
-    private void radioButtonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonInicioActionPerformed
-        //al presionar el radiobutton, destilda la opcion normal y setea
-        //el tipo de seleccion de celdas como de inicio
-        radioButtonNormal.setSelected(false);
-        grilla.setearInicio();
-    }//GEN-LAST:event_radioButtonInicioActionPerformed
-
-    private void BotonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInicialActionPerformed
-        //al presionar el boton, limpia los caminos pintados y los antiguos 
-        //iniciales, ademas de setear el tipo de seleccion como inicial
-        grilla.limpiar();
-        grilla.setearInicio();
-    }//GEN-LAST:event_BotonInicialActionPerformed
-
-    private void radioButtonEgreedyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEgreedyActionPerformed
-        radioButtonSoftmax.setSelected(false);
-        vaEgreedy=true;
-        vaSoftmax=false;
-        radioButtonSd.setSelected(false);
-    }//GEN-LAST:event_radioButtonEgreedyActionPerformed
-
-    private void radioButtonSoftmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSoftmaxActionPerformed
-        radioButtonEgreedy.setSelected(false);
-        vaEgreedy=false;
-        vaSoftmax=true;
-        radioButtonEd.setSelected(false);
-    }//GEN-LAST:event_radioButtonSoftmaxActionPerformed
-
-    private void radioButtonEdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEdActionPerformed
-        ede=radioButtonEd.isSelected();
-    }//GEN-LAST:event_radioButtonEdActionPerformed
-
     private void textPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPKeyReleased
         //al presionar enter tsetea el valor de la cantidad maxima de pasos
         if(evt.getKeyCode()==KeyEvent.VK_ENTER){
@@ -1318,184 +1228,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_texttauKeyReleased
 
-    private void radioButtonSdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSdActionPerformed
-        sofde=radioButtonSd.isSelected();
-    }//GEN-LAST:event_radioButtonSdActionPerformed
-
     private void textMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textMActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (conts>0){
-            // conjunto de series para el grafico
-        XYSeriesCollection conjdato = new XYSeriesCollection();
-
-        //creo el conjunto de datos para el grafico
-        for (int b=0; b<conts;b++){
-            //tomo una serie del log
-            double [] serieap = listaLogs.get(b);
-            //creo una serie de puntos del grafico
-            XYSeries seriei = new XYSeries ("prueba"+b);
-            for (int a=0;a<serieap.length;a++){
-                //cargo un punto a la serie
-              seriei.add(serieap[a],a);
-            }
-            // añado la serie al conjunto de datos graficos
-            conjdato.addSeries(seriei);
-        }
-        
-        
-        //creo el frame del grafico
-        JFrame pantallaGra = new JFrame();
-        pantallaGra.setSize(800, 600);
-        //creo el grafico y lo añado
-        grafico = ChartFactory.createXYLineChart("Valor Acumulado", "totalR", "iter", conjdato, PlotOrientation.HORIZONTAL, true, true, true);
-        ChartPanel chartPanel = new ChartPanel(grafico);
-        
-        pantallaGra.add(chartPanel);
-        
-        pantallaGra.setLocationRelativeTo(null);
-        pantallaGra.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(grilla, "No realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
-        }
-        
-
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (conts>0){
-            // una nuevo archivo de excel
-        HSSFWorkbook libro = new HSSFWorkbook();
-        //la hoja de excel
-        HSSFSheet hoja = libro.createSheet("Corridas");
-        //crea una fila para los titulos
-        HSSFRow filatitulo = hoja.createRow(0);
-        //la primera celda para el titulo
-        HSSFCell celdatitulo = filatitulo.createCell(0);
-        //estilo que tendran las celdas de titulo
-        HSSFCellStyle estilotitulo = libro.createCellStyle();
-        estilotitulo.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
-        estilotitulo.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
-        estilotitulo.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
-        estilotitulo.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
-        estilotitulo.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        // nombre y estilo de la primer celda del titulo
-        celdatitulo.setCellValue("Episodio");
-        celdatitulo.setCellStyle(estilotitulo);
-        // estilos para las celdas de datos
-        HSSFCellStyle estilonormal = libro.createCellStyle();
-        estilonormal.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        estilonormal.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        estilonormal.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        //y creo la fila completa de titulos, una celda por corrida
-        for (int b=0; b<conts;b++){
-            XYSeries seriei = new XYSeries ("prueba"+b);
-            double [] serieap = listaLogs.get(b);
-            HSSFCell celdatitulo2 = filatitulo.createCell(b+1);
-            celdatitulo2.setCellValue("prueba "+b);
-            celdatitulo2.setCellStyle(estilotitulo);
-        }
-        //se crean el resto de las celdas
-        for (int a=0;a<bot.maxIteracion;a++){
-            //creo una fila para cada iteracion
-            HSSFRow fila = hoja.createRow(a+1);
-            // la primera celda de cada fila es el numero de iteracion
-            HSSFCell celda = fila.createCell(0);
-            celda.setCellValue(a);
-            celda.setCellStyle(estilonormal);
-
-            for (int b=0; b<conts;b++){
-                double [] serieap = listaLogs.get(b);
-                //una celda para cada corrida con su correspondiente estilo
-                HSSFCell celda2 = fila.createCell(b+1);
-                celda2.setCellValue(serieap[a]);
-                celda2.setCellStyle(estilonormal);
-            }
-        }
-        // la hoja para la convergencia
-        HSSFSheet hoja2 = libro.createSheet("Convergencia");
-        //crea una fila para los titulos
-        HSSFRow filatitulo2 = hoja2.createRow(0);
-        HSSFCell celdatitulo21 = filatitulo2.createCell(0);
-        HSSFCell celdatitulo22 = filatitulo2.createCell(1);
-        celdatitulo21.setCellValue("Iteracion");
-        celdatitulo22.setCellValue("Valor");
-        celdatitulo21.setCellStyle(estilotitulo);
-        celdatitulo22.setCellStyle(estilotitulo);
-        
-        for (int x=0; x<conts;x++){
-            //crea una fila por cada corrida
-            HSSFRow filax = hoja2.createRow(x+1);
-            //creo las celdas y cargo los valores
-            HSSFCell celdax1 = filax.createCell(0);
-            HSSFCell celdax2 = filax.createCell(1);
-            celdax1.setCellValue(listaConv.get(x) [0]);
-            celdax2.setCellValue(listaConv.get(x) [1]);
-            celdax1.setCellStyle(estilonormal);
-            celdax2.setCellStyle(estilonormal);
-        }
-        // creo el archivo excel
-        try {
-            FileOutputStream excel = new FileOutputStream("Prueba"+contP+".xls");
-            libro.write(excel);
-            excel.close();
-        } catch (Exception err) {
-        }
-        //aumenta el contador de prueba
-        contP=contP+1;
-        //vuelve inializar nuevamente el contador decorrida de cada prueba
-        conts=0;
-        //arrancan de nuevo las listas
-        listaLogs.removeAll(listaLogs);
-        listaConv.removeAll(listaConv);
-        } else {
-            JOptionPane.showMessageDialog(grilla, "No se realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
-        }
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void textRepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textRepKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textRepKeyPressed
-
-    private void textRepKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textRepKeyReleased
-       if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            try {
-                rep =(Integer.parseInt(textRep.getText()));
-            }catch (Exception exp){
-                textRep.setText("500");
-                JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
-                
-            } 
-        }
-    }//GEN-LAST:event_textRepKeyReleased
-
-    private void textRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRepActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textRepActionPerformed
-
-    private void textSaltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSaltoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textSaltoActionPerformed
-
-    private void textSaltoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textSaltoKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textSaltoKeyPressed
-
-    private void textSaltoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textSaltoKeyReleased
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            try {
-                    salt =(Integer.parseInt(textSalto.getText()));
-                }catch (Exception exp){
-                    
-                    textSalto.setText("50");
-                    JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
-                }
-        }
-    }//GEN-LAST:event_textSaltoKeyReleased
 
     private void textMaxItFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textMaxItFocusLost
         // TODO add your handling code here:
@@ -1621,25 +1356,344 @@ public class PantallaPpal extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_textFFocusLost
 
-    private void textRepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textRepFocusLost
+    private void textSaltoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textSaltoKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            try {
+                salt =(Integer.parseInt(textSalto.getText()));
+            }catch (Exception exp){
+
+                textSalto.setText("50");
+                JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_textSaltoKeyReleased
+
+    private void textSaltoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textSaltoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textSaltoKeyPressed
+
+    private void textSaltoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textSaltoFocusLost
         try {
+            salt =(Integer.parseInt(textSalto.getText()));
+        }catch (Exception exp){
+            textSalto.setText("50");
+            JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
+
+        }
+    }//GEN-LAST:event_textSaltoFocusLost
+
+    private void textSaltoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSaltoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textSaltoActionPerformed
+
+    private void textRepKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textRepKeyReleased
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            try {
                 rep =(Integer.parseInt(textRep.getText()));
             }catch (Exception exp){
                 textRep.setText("500");
                 JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
-                
-            } 
+
+            }
+        }
+    }//GEN-LAST:event_textRepKeyReleased
+
+    private void textRepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textRepKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textRepKeyPressed
+
+    private void textRepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textRepFocusLost
+        try {
+            rep =(Integer.parseInt(textRep.getText()));
+        }catch (Exception exp){
+            textRep.setText("500");
+            JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
+
+        }
     }//GEN-LAST:event_textRepFocusLost
 
-    private void textSaltoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_textSaltoFocusLost
-        try {
-                salt =(Integer.parseInt(textSalto.getText()));
-            }catch (Exception exp){
-                textSalto.setText("50");
-                JOptionPane.showMessageDialog(grilla, "Debe introducir un valor númerico", "ERROR", JOptionPane.WARNING_MESSAGE);
-                
+    private void textRepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textRepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textRepActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (conts>0){
+            // una nuevo archivo de excel
+            HSSFWorkbook libro = new HSSFWorkbook();
+            //la hoja de excel
+            HSSFSheet hoja = libro.createSheet("Corridas");
+            //crea una fila para los titulos
+            HSSFRow filatitulo = hoja.createRow(0);
+            //la primera celda para el titulo
+            HSSFCell celdatitulo = filatitulo.createCell(0);
+            //estilo que tendran las celdas de titulo
+            HSSFCellStyle estilotitulo = libro.createCellStyle();
+            estilotitulo.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
+            estilotitulo.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
+            estilotitulo.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
+            estilotitulo.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+            estilotitulo.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+            // nombre y estilo de la primer celda del titulo
+            celdatitulo.setCellValue("Episodio");
+            celdatitulo.setCellStyle(estilotitulo);
+            // estilos para las celdas de datos
+            HSSFCellStyle estilonormal = libro.createCellStyle();
+            estilonormal.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            estilonormal.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            estilonormal.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            //y creo la fila completa de titulos, una celda por corrida
+            for (int b=0; b<conts;b++){
+                XYSeries seriei = new XYSeries ("prueba"+b);
+                double [] serieap = listaLogs.get(b);
+                HSSFCell celdatitulo2 = filatitulo.createCell(b+1);
+                celdatitulo2.setCellValue("prueba "+b);
+                celdatitulo2.setCellStyle(estilotitulo);
             }
-    }//GEN-LAST:event_textSaltoFocusLost
+            //busco el tamaño maximo de corridas
+            int max=0;
+            for (int b=0; b<conts;b++){
+                double [] serieap = listaLogs.get(b);
+                int longitud = serieap.length;
+                if (longitud>max){
+                    max=longitud;
+                }
+            }
+            //se crean el resto de las celdas
+            for (int a=0;a<max;a++){
+                //creo una fila para cada iteracion
+                HSSFRow fila = hoja.createRow(a+1);
+                // la primera celda de cada fila es el numero de iteracion
+                HSSFCell celda = fila.createCell(0);
+                celda.setCellValue(a);
+                celda.setCellStyle(estilonormal);
+
+                for (int b=0; b<conts;b++){
+                    double [] serieap = listaLogs.get(b);
+                    //una celda para cada corrida con su correspondiente estilo
+                    HSSFCell celda2 = fila.createCell(b+1);
+                    if (a<serieap.length){ 
+                        celda2.setCellValue(serieap[a]);
+                    } else {
+                        celda2.setCellValue("");
+                    }
+                    celda2.setCellStyle(estilonormal);
+                }
+            }
+            // la hoja para la convergencia
+            HSSFSheet hoja2 = libro.createSheet("Convergencia");
+            //crea una fila para los titulos
+            HSSFRow filatitulo2 = hoja2.createRow(0);
+            HSSFCell celdatitulo21 = filatitulo2.createCell(0);
+            HSSFCell celdatitulo22 = filatitulo2.createCell(1);
+            celdatitulo21.setCellValue("Iteracion");
+            celdatitulo22.setCellValue("Valor");
+            celdatitulo21.setCellStyle(estilotitulo);
+            celdatitulo22.setCellStyle(estilotitulo);
+
+            for (int x=0; x<conts;x++){
+                //crea una fila por cada corrida
+                HSSFRow filax = hoja2.createRow(x+1);
+                //creo las celdas y cargo los valores
+                HSSFCell celdax1 = filax.createCell(0);
+                HSSFCell celdax2 = filax.createCell(1);
+                celdax1.setCellValue(listaConv.get(x) [0]);
+                celdax2.setCellValue(listaConv.get(x) [1]);
+                celdax1.setCellStyle(estilonormal);
+                celdax2.setCellStyle(estilonormal);
+            }
+            //la hoja de los tiempos
+            HSSFSheet hoja3 = libro.createSheet("Tiempos");
+            //titulos
+            HSSFRow filatitulo3 = hoja3.createRow(0);
+            HSSFCell celdatitulo31 = filatitulo3.createCell(0);
+            HSSFCell celdatitulo32 = filatitulo3.createCell(1);
+            celdatitulo31.setCellValue("Prueba");
+            celdatitulo32.setCellValue("Tiempo");
+            celdatitulo31.setCellStyle(estilotitulo);
+            celdatitulo32.setCellStyle(estilotitulo);
+            //filas
+            for (int x=0; x<conts;x++){
+                //crea una fila por cada corrida
+                HSSFRow filax = hoja3.createRow(x+1);
+                //creo las celdas y cargo los valores
+                HSSFCell celdax1 = filax.createCell(0);
+                HSSFCell celdax2 = filax.createCell(1);
+                celdax2.setCellValue(tiempos [x]);
+                celdax1.setCellValue(conts);
+                celdax1.setCellStyle(estilonormal);
+                celdax2.setCellStyle(estilonormal);
+            }
+            
+            // creo el archivo excel
+            try {
+                FileOutputStream excel = new FileOutputStream("Prueba"+contP+".xls");
+                libro.write(excel);
+                excel.close();
+            } catch (Exception err) {
+            }
+            //aumenta el contador de prueba
+            contP=contP+1;
+            //vuelve inializar nuevamente el contador decorrida de cada prueba
+            conts=0;
+            //arrancan de nuevo las listas
+            listaLogs.removeAll(listaLogs);
+            listaConv.removeAll(listaConv);
+        } else {
+            JOptionPane.showMessageDialog(grilla, "No se realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (conts>0){
+            // conjunto de series para el grafico
+            XYSeriesCollection conjdato = new XYSeriesCollection();
+
+            //creo el conjunto de datos para el grafico
+            for (int b=0; b<conts;b++){
+                //tomo una serie del log
+                double [] serieap = listaLogs.get(b);
+                //creo una serie de puntos del grafico
+                XYSeries seriei = new XYSeries ("prueba"+b);
+                for (int a=0;a<serieap.length;a++){
+                    //cargo un punto a la serie
+                    seriei.add(serieap[a],a);
+                }
+                // añado la serie al conjunto de datos graficos
+                conjdato.addSeries(seriei);
+            }
+
+            //creo el frame del grafico
+            JFrame pantallaGra = new JFrame();
+            pantallaGra.setSize(800, 600);
+            //creo el grafico y lo añado
+            grafico = ChartFactory.createXYLineChart("Valor Acumulado", "totalR", "iter", conjdato, PlotOrientation.HORIZONTAL, true, true, true);
+            ChartPanel chartPanel = new ChartPanel(grafico);
+
+            pantallaGra.add(chartPanel);
+
+            pantallaGra.setLocationRelativeTo(null);
+            pantallaGra.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(grilla, "No realizo ninguna fase de aprendizaje", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void radioButtonSdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSdActionPerformed
+        sofde=radioButtonSd.isSelected();
+    }//GEN-LAST:event_radioButtonSdActionPerformed
+
+    private void radioButtonEdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEdActionPerformed
+        ede=radioButtonEd.isSelected();
+    }//GEN-LAST:event_radioButtonEdActionPerformed
+
+    private void radioButtonSoftmaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonSoftmaxActionPerformed
+        radioButtonEgreedy.setSelected(false);
+        vaEgreedy=false;
+        vaSoftmax=true;
+        radioButtonEd.setSelected(false);
+    }//GEN-LAST:event_radioButtonSoftmaxActionPerformed
+
+    private void radioButtonEgreedyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonEgreedyActionPerformed
+        radioButtonSoftmax.setSelected(false);
+        vaEgreedy=true;
+        vaSoftmax=false;
+        radioButtonSd.setSelected(false);
+    }//GEN-LAST:event_radioButtonEgreedyActionPerformed
+
+    private void BotonInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonInicialActionPerformed
+        //al presionar el boton, limpia los caminos pintados y los antiguos
+        //iniciales, ademas de setear el tipo de seleccion como inicial
+        grilla.limpiar();
+        grilla.setearInicio();
+    }//GEN-LAST:event_BotonInicialActionPerformed
+
+    private void BotonCamino1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCamino1ActionPerformed
+
+        //al presionar el boton pinta el camino aprendido desde el inicio
+        grilla.limpiarCaminos();
+        grilla.limpiar();
+        pintarCamino();
+    }//GEN-LAST:event_BotonCamino1ActionPerformed
+
+    private void BotonStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonStartActionPerformed
+
+        
+        //al presionar el boton de start, se actualizan las referencias
+        grilla.limpiar();
+
+        e=(Double.parseDouble(textEpsilon.getText()));
+        gamma =(Double.parseDouble(textGamma.getText()));
+        tau = (Double.parseDouble(texttau.getText()));
+        itmax =(Long.parseLong(textMaxIt.getText()));
+        recN =(Double.parseDouble(textN.getText()));
+        recM =(Double.parseDouble(textM.getText()));
+        recB =(Double.parseDouble(textB.getText()));
+        recE =(Double.parseDouble(textE.getText()));
+        recF =(Double.parseDouble(textF.getText()));
+        pasos =(Double.parseDouble(textP.getText()));
+        grilla.setMatrizCeldas(matrizC);
+        grilla.actualizarGrilla();
+        grilla.actualizarAcciones();
+        rep = Integer.parseInt(textRep.getText());
+        salt = Integer.parseInt(textSalto.getText());
+        //se crea una instancia de Qlearning con las referencias
+        bot = new QLearning(optimista,salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
+        //se crea un hilo para correr el aprendizaje
+        if (grilla.hayFinal()){
+            JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
+            aprendizaje = new Thread(bot);
+            long tinicio,tfin;
+            tinicio = System.currentTimeMillis();
+            ExecutorService threadExecutor = Executors.newFixedThreadPool(1);
+            aprendizaje.run();
+            tfin = System.currentTimeMillis();
+            tiempos [conts] = (tfin-tinicio);
+            
+        } else {
+            JOptionPane.showMessageDialog(grilla, "Introduzca una celda Final para comenzar", "ERROR", JOptionPane.WARNING_MESSAGE);
+        }
+        //por ultimo se actualizan los botones y se espera un inicio
+        radioButtonNormal.setEnabled(true);
+        radioButtonInicio.setEnabled(true);
+        radioButtonInicio.setSelected(true);
+        radioButtonNormal.setSelected(false);
+        BotonInicial.setEnabled(true);
+        BotonCamino1.setEnabled(true);
+        grilla.setearInicio();
+        // se carga el log de la corrida
+        double [] log = bot.getListaSerie();
+        listaLogs.add(log);
+        //creo para cada corrida un array
+        double [] con = new double[2];
+        //la primer posicion guarda la iteracion donde converge
+        con [0] = bot.getIterConv();
+        //la segunda posicion guarda el valor
+        con [1]= bot.getConv();
+        listaConv.add(con);
+        //actualizo contador
+        conts=conts+1;
+
+    }//GEN-LAST:event_BotonStartActionPerformed
+
+    private void radioButtonNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonNormalActionPerformed
+        //al presionar el radiobutton, destilda la opcion inicio y setea
+        //el tipo de seleccion de celdas como normal
+        radioButtonInicio.setSelected(false);
+        grilla.setearNormal();
+    }//GEN-LAST:event_radioButtonNormalActionPerformed
+
+    private void radioButtonInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioButtonInicioActionPerformed
+        //al presionar el radiobutton, destilda la opcion normal y setea
+        //el tipo de seleccion de celdas como de inicio
+        radioButtonNormal.setSelected(false);
+        grilla.setearInicio();
+    }//GEN-LAST:event_radioButtonInicioActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        optimista=!optimista;
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1713,6 +1767,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
