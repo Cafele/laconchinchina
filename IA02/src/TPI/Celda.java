@@ -84,7 +84,7 @@ public class Celda extends JPanel {
                             }
                         }
                     }
-                }    
+                }
            }
        });
     }

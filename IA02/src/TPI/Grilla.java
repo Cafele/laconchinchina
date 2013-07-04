@@ -59,7 +59,6 @@ public class Grilla extends JPanel {
                     for (int a=0; a<8; a++){
                         matrizA [i][j][a]=true;
                     }
-                    
                     //datos de control para gridbaglayout
                     gbc.gridx = i;
                     gbc.gridy = j;
@@ -95,78 +94,56 @@ public class Grilla extends JPanel {
         
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
+                for (int a=0;a<8;a++){
+                    matrizA[i][j][a]=true;
+                }
                 if(i==0){
                     matrizA[i][j][0]=false;
                     matrizA[i][j][1]=false;
                     matrizA[i][j][7]=false;
-                } else {
+                } else{
                     if(grilla[i-1][j]==5){
                         matrizA[i][j][0]=false;
                     }
-                    if(j==0){
-                        matrizA[i][j][7]=false;
-                    } else {
+                    if(j>0){
                         if(grilla[i-1][j-1]==5){
                             matrizA[i][j][7]=false;
                         }
                     }
-                    if(j==(tmno-1)){
-                        matrizA[i][j][1]=false;
-                    } else{
+                    if(j<(tmno-1)){
                         if(grilla[i-1][j+1]==5){
                             matrizA[i][j][1]=false;
                         }
                     }
                 }
-                
                 if(j==0){
                     matrizA[i][j][5]=false;
                     matrizA[i][j][6]=false;
                     matrizA[i][j][7]=false;
-                } else {
+                }else{
                     if(grilla[i][j-1]==5){
                         matrizA[i][j][6]=false;
                     }
-                    if(i==0){
-                        matrizA[i][j][7]=false;
-                    } else {
-                        if(grilla[i-1][j-1]==5){
-                            matrizA[i][j][7]=false;
-                        }
-                    }
-                    if(i==(tmno-1)){
-                        matrizA[i][j][5]=false;
-                    } else {
+                    if(i<(tmno-1)){
                         if(grilla[i+1][j-1]==5){
                             matrizA[i][j][5]=false;
-                        }
+                       }
                     }
                 }
-                
                 if(i==(tmno-1)){
                     matrizA[i][j][3]=false;
                     matrizA[i][j][4]=false;
                     matrizA[i][j][5]=false;
-                } else {
+                }else{
                     if(grilla[i+1][j]==5){
                         matrizA[i][j][4]=false;
                     }
-                    if(j==0){
-                        matrizA[i][j][5]=false;
-                    } else {
-                        if(grilla[i+1][j-1]==5){
-                        matrizA[i][j][5]=false;
-                        }
-                    }
-                    if(j==tmno-1){
-                        matrizA[i][j][3]=false;
-                    } else {
-                        if(grilla[i+1][j+1]==5){
-                        matrizA[i][j][3]=false;
+                    if(j<(tmno-1)){
+                         if(grilla[i+1][j+1]==5){
+                            matrizA[i][j][3]=false;
                         }
                     }
                 }
-                
                 if(j==(tmno-1)){
                     matrizA[i][j][1]=false;
                     matrizA[i][j][2]=false;
@@ -174,20 +151,6 @@ public class Grilla extends JPanel {
                 } else {
                     if(grilla[i][j+1]==5){
                         matrizA[i][j][2]=false;
-                    }
-                    if (i==0){
-                        matrizA[i][j][1]=false;
-                    } else {
-                        if(grilla[i-1][j+1]==5){
-                        matrizA[i][j][1]=false;
-                        }
-                    }
-                    if(i==(tmno-1)){
-                        matrizA[i][j][3]=false;
-                    } else {
-                        if(grilla[i+1][j+1]==5){
-                        matrizA[i][j][3]=false;
-                        }
                     }
                 }
             }   
@@ -331,8 +294,15 @@ public class Grilla extends JPanel {
         int x;
         for(int i=0;i<tmno;i++){
             for(int j=0;j<tmno;j++){
+                
                 x=matrizCeldas[i][j].getTipo();
                 grilla[i][j]=x;
+                matrizCeldas[i][j].esFinal=false;
+                if (x==4){
+                    matrizCeldas[i][j].esFinal=true;
+                    
+                }
+                
             }
         }
     }
@@ -360,7 +330,15 @@ public class Grilla extends JPanel {
         } 
         return finals;
     }
-
+    public void borrarAcciones(){
+        for(int j=0;j<tmno;j++){
+            for(int i=0;i<tmno;i++){
+                for(int a=0;a>8;a++){
+                    matrizA[i][j][a]=true;
+                }
+            }
+        }
+    }
         @Override
         public Dimension getPreferredSize() {
             return new Dimension(600, 600);
