@@ -50,7 +50,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="panelControles" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="panelControles" alignment="0" pref="676" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jPanel2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -124,6 +124,7 @@
                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
+              <Component id="bar1" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -140,7 +141,8 @@
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="bar1" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -231,6 +233,8 @@
               </Border>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JProgressBar" name="bar1">
         </Component>
       </SubComponents>
     </Container>

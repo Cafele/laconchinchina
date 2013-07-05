@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import org.jfree.data.xy.XYDataset;
@@ -99,8 +100,13 @@ public class QLearning implements Runnable {
         double probSO=0;
         double probO=0;
         double probNO=0;
+        //
+        JProgressBar pb;
     //constructor
-    public QLearning (Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+    public QLearning (JProgressBar pbar,Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+        //prueba
+        this.pb=pbar;
+        //
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
@@ -379,7 +385,7 @@ public class QLearning implements Runnable {
     @Override
     @SuppressWarnings("empty-statement")
     public void run(){
-       
+        //
         int i ;int j ; int x; int accion;
         Posicion pos;
         Posicion sig;
@@ -402,8 +408,12 @@ public class QLearning implements Runnable {
        
         //corrida
         for (int iter=0; iter<this.maxIteracion;iter++){
-            //
+            //prueba
+            int valor =iter+1;
             
+            pb.setValue(valor);
+            
+            //Thread.sleep(100);
             //
             reward = 0;
             qactual = 0.0;

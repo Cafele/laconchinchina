@@ -24,6 +24,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -44,7 +45,8 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author fede
  */
 public class PantallaPpal extends javax.swing.JFrame {
-        //
+        JProgressBar bar = new JProgressBar();
+   //
         PantallaQ pantQ;
         // las clases grilla, qlearning, thread para la corrida y la matriz de celdas
         Grilla grilla = new Grilla();
@@ -178,6 +180,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        bar1 = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         radioButtonInicio = new javax.swing.JRadioButton();
         radioButtonNormal = new javax.swing.JRadioButton();
@@ -314,6 +317,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(bar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelControlesLayout.setVerticalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,7 +332,8 @@ public class PantallaPpal extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
                     .addComponent(jLabel2))
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -1017,7 +1022,7 @@ public class PantallaPpal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelControles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(panelControles, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 676, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1745,12 +1750,15 @@ public class PantallaPpal extends javax.swing.JFrame {
         rep = Integer.parseInt(textRep.getText());
         salt = Integer.parseInt(textSalto.getText());
         //se crea una instancia de Qlearning con las referencias
-        bot = new QLearning(optimista,salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
+        bar1.setMaximum((int) itmax);
+        bar1.setStringPainted(true);
+        bar1.setValue(0);
+        bot = new QLearning(bar1,optimista,salt,rep,tau,grilla.tmno,itmax,e,gamma,recB,recE,recN,recF,recM,grilla,pasos,vaSoftmax,vaEgreedy,ede,sofde);
+        
         //se crea un hilo para correr el aprendizaje
         if (grilla.hayFinal()){
             JOptionPane.showMessageDialog(panelGrilla, "Aguarde a que finalize el ciclo de aprendizaje", "Puede tardar unos minutos", JOptionPane.WARNING_MESSAGE);
             //aprendizaje = new Thread(bot);
-            //ExecutorService threadExecutor = Executors.newFixedThreadPool(2);
             long tinicio,tfin;
             tinicio = System.currentTimeMillis();
             bot.play();
@@ -1861,6 +1869,7 @@ public class PantallaPpal extends javax.swing.JFrame {
     private javax.swing.JButton BotonCamino1;
     private javax.swing.JButton BotonInicial;
     private javax.swing.JButton BotonStart;
+    private javax.swing.JProgressBar bar1;
     private javax.swing.JButton botonReset;
     private javax.swing.JButton buttonResume;
     private javax.swing.JButton buttonResume1;
