@@ -11,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -62,7 +63,17 @@ public class PantallaQ extends javax.swing.JFrame {
     
     public PantallaQ(Grilla g,QLearning b) {
         matrizA=g.matrizA;
+        if(b!=null){
         matrizQ=b.Qvalues;
+        } else {
+            for(int j=0;j<10;j++){
+                for(int i=0;i<10;i++){
+                    for (int a=0;a<8;a++){
+                        matrizQ[i][j][a]=0.0;
+                    }
+                }
+            }
+        }
         tm=g.tmno;
         initComponents();
         //layout del frame
@@ -268,9 +279,15 @@ public class PantallaQ extends javax.swing.JFrame {
     }
     // los eventos
     private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
         int i = Integer.parseInt(textoI.getText()); 
         int j = Integer.parseInt(textoJ.getText());
         String texto;
+        if ( i<0 || j<0 || j>(tm-1) ||i>(tm+1)){
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }else{
         for(int x=0;x<8;x++){
             if(matrizA[i][j][x]){
                 double a=matrizQ[i][j][x];
@@ -289,9 +306,16 @@ public class PantallaQ extends javax.swing.JFrame {
                         case 7:label1.setText(texto);break;   //NO 
                     }
         }
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }
     }
     
     private void botonUpActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
         int i = Integer.parseInt(textoI.getText());
         int j = Integer.parseInt(textoJ.getText());
         
@@ -316,14 +340,22 @@ public class PantallaQ extends javax.swing.JFrame {
                         case 7:label1.setText(texto);break;   //NO  
                         }
             }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
         }
     }
     
     private void botonDownActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
         int i = Integer.parseInt(textoI.getText());
         int j = Integer.parseInt(textoJ.getText());
         
-        if (j<tm){
+        if (j<(tm-1)){
             textoJ.setText(Integer.toString(j+1));
             String texto;
             for(int x=0;x<8;x++){
@@ -344,10 +376,18 @@ public class PantallaQ extends javax.swing.JFrame {
                         case 7:label1.setText(texto);break;   //NO  
                         }
             }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
         }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        } 
     }
     
     private void botonLeftActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
         int i = Integer.parseInt(textoI.getText());
         int j = Integer.parseInt(textoJ.getText());
         
@@ -372,14 +412,22 @@ public class PantallaQ extends javax.swing.JFrame {
                         case 7:label1.setText(texto);break;   //NO  
                         }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
         }
     }
     
     private void botonRightActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
         int i = Integer.parseInt(textoI.getText());
         int j = Integer.parseInt(textoJ.getText());
         
-        if (i<tm){
+        if (i<(tm-1)){
             textoI.setText(Integer.toString(i+1));
             String texto;
             for(int x=0;x<8;x++){
@@ -400,8 +448,17 @@ public class PantallaQ extends javax.swing.JFrame {
                         case 7:label1.setText(texto);break;   //NO  
                         }
             }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
         }
     }
+    //control de insercion de datos
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

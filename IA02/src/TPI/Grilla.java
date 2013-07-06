@@ -252,6 +252,87 @@ public class Grilla extends JPanel {
             for (int j=0; j<tmno; j++){
                 Celda celda = matrizCeldas[i][j];
                 celda.esInicial=false;
+                celda.selN=true;
+                celda.selM=false;
+                celda.selB=false;
+                celda.selE=false;
+                celda.selF=false;
+                celda.selP=false;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    public void setearMala(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=true;
+                celda.selB=false;
+                celda.selE=false;
+                celda.selF=false;
+                celda.selP=false;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    public void setearBuena(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=false;
+                celda.selB=true;
+                celda.selE=false;
+                celda.selF=false;
+                celda.selP=false;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    public void setearPozo(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=false;
+                celda.selB=false;
+                celda.selE=false;
+                celda.selF=false;
+                celda.selP=true;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    public void setearExcelente(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=false;
+                celda.selB=false;
+                celda.selE=true;
+                celda.selF=false;
+                celda.selP=false;
+                celda.seleccionInicio=false;
+            }
+        }
+    }
+    public void setearFinal(){
+        for (int i=0; i<tmno; i++){
+            for (int j=0; j<tmno; j++){
+                Celda celda = matrizCeldas[i][j];
+                celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=false;
+                celda.selB=false;
+                celda.selE=false;
+                celda.selF=true;
+                celda.selP=false;
                 celda.seleccionInicio=false;
             }
         }
@@ -263,6 +344,12 @@ public class Grilla extends JPanel {
             for (int j=0; j<tmno;j++){
                 Celda celda = matrizCeldas[i][j];
                 celda.esInicial=false;
+                celda.selN=false;
+                celda.selM=false;
+                celda.selB=false;
+                celda.selE=false;
+                celda.selF=false;
+                celda.selP=false;
                 celda.seleccionInicio =true;
             }
         }

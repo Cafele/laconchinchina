@@ -22,6 +22,9 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author fede
  */
 public class QLearning implements Runnable {
+    //
+    Boolean retardar=false;
+    long tinicio,tfin;
     //prueba
     private boolean paused = false;
     private boolean stopped = false;
@@ -103,9 +106,11 @@ public class QLearning implements Runnable {
         //
         JProgressBar pb;
     //constructor
-    public QLearning (JProgressBar pbar,Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+    public QLearning (Boolean retardo,JProgressBar pbar,Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+        tinicio = System.currentTimeMillis();
         //prueba
         this.pb=pbar;
+        this.retardar=retardo;
         //
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
@@ -271,7 +276,7 @@ public class QLearning implements Runnable {
         for (int a=0;a<8;a++){
             //si la accion es una accion valida en la matrizA es true
             if (matrizAccion[i][j][a]){
-                //reviso si el Q es mejor que el anterior
+                //reviso si el Q es mejor que el anterior22
                 if(Qvalues[i][j][a]>mejorQ){
                     // si lo es, actualizo el mejorQ y la mejor A
                     mejorQ=Qvalues[i][j][a];
@@ -408,6 +413,9 @@ public class QLearning implements Runnable {
        
         //corrida
         for (int iter=0; iter<this.maxIteracion;iter++){
+            if(retardar){
+            Thread.sleep(100);
+            }
             //prueba
             int valor =iter+1;
             
@@ -514,6 +522,8 @@ public class QLearning implements Runnable {
             System.err.println(ex);
             }
         }
+        //
+        tfin = System.currentTimeMillis();
         //
         JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }

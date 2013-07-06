@@ -43,6 +43,12 @@ public class Celda extends JPanel {
     //indica que el tipo de seleccion es de una celda inicial
     //modifica el accionar del mouseListener
     Boolean seleccionInicio = false;
+    Boolean selN = true;
+    Boolean selM = false;
+    Boolean selB = false;
+    Boolean selE = false;
+    Boolean selF = false;
+    Boolean selP = false;
     
     //constructor
     public Celda(Posicion pos){
@@ -62,23 +68,25 @@ public class Celda extends JPanel {
                 } else {
                     //sino, es seleccion de tipo normal:
                     esFinal = false;
-                    if (colorNormal.equals(getBackground())){
+                    if (selM){
                     setBackground(colorMalo);
                     } else {
-                        if (colorMalo.equals(getBackground())){
+                        if (selB){
                             setBackground(colorBueno);
                         } else {
-                            if (colorBueno.equals(getBackground())){
+                            if (selE){
                                 setBackground(colorExcelente);
                             } else {
-                                if (colorExcelente.equals(getBackground())){
+                                if (selP){
                                     setBackground(colorPozo);
                                 } else {
-                                    if (colorPozo.equals(getBackground())){
+                                    if (selF){
                                         setBackground (colorFinal);
                                         esFinal = true;
                                     } else {
+                                        if(selN){
                                         setBackground (colorNormal);
+                                        }
                                     }
                                 }
                             }
