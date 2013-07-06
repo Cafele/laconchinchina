@@ -90,6 +90,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         //constructor
     public PantallaPpal() {
         initComponents();
+        bar.setStringPainted(true);
         radioButonEst.setSelected(true);
         radioButonEst.doClick();
         // inicializo contador
@@ -290,9 +291,9 @@ public class PantallaPpal extends javax.swing.JFrame {
         jLabel9.setText("Estado Inicial");
         jLabel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 3));
 
-        bar1.setMaximumSize(new java.awt.Dimension(890, 14));
-        bar1.setMinimumSize(new java.awt.Dimension(890, 14));
-        bar1.setPreferredSize(new java.awt.Dimension(890, 14));
+        bar1.setMaximumSize(new java.awt.Dimension(890, 18));
+        bar1.setMinimumSize(new java.awt.Dimension(890, 18));
+        bar1.setPreferredSize(new java.awt.Dimension(890, 18));
 
         rbN.setText("Normal");
         rbN.addActionListener(new java.awt.event.ActionListener() {
@@ -382,7 +383,7 @@ public class PantallaPpal extends javax.swing.JFrame {
         panelControlesLayout.setVerticalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelControlesLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addGap(11, 11, 11)
                 .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(rbN)
@@ -766,9 +767,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         });
 
         jLabel12.setText("  Gamma:");
-        jLabel12.setMaximumSize(new java.awt.Dimension(45, 14));
-        jLabel12.setMinimumSize(new java.awt.Dimension(45, 14));
-        jLabel12.setPreferredSize(new java.awt.Dimension(45, 14));
 
         textMaxIt.setText("10000");
         textMaxIt.setMaximumSize(new java.awt.Dimension(100, 22));
@@ -1001,8 +999,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(BotonAleatorio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jLabel1)
-                                            .addComponent(botonReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGap(10, 10, 10))
+                                            .addComponent(botonReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -1071,7 +1068,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 .addComponent(jLabel26)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
                     .addComponent(textGamma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(1, 1, 1)
                 .addComponent(jLabel27)
