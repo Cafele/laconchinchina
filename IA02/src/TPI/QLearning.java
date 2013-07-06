@@ -407,22 +407,16 @@ public class QLearning implements Runnable {
         // contador de repeticion del valor acumulado
         int contRep=0;
         //
-        while (!stopped) {
+        //while (!stopped) {
         try {
         //
-       
         //corrida
         for (int iter=0; iter<this.maxIteracion;iter++){
             if(retardar){
-            Thread.sleep(100);
+            Thread.sleep(10);
             }
-            //prueba
             int valor =iter+1;
-            
             pb.setValue(valor);
-            
-            //Thread.sleep(100);
-            //
             reward = 0;
             qactual = 0.0;
             //si es decreciente Egreedy y epsilon es positivo
@@ -440,7 +434,6 @@ public class QLearning implements Runnable {
                 }
                 this.setTau(y);
             }
-            
             //arranca de una posicion aleatoria cada episodio
             pos=estadoInicialAleatorio();
             x=0;
@@ -454,12 +447,7 @@ public class QLearning implements Runnable {
                     System.out.println("Resumed");
                 }
             }
-                //
                 i=pos.getI(); j=pos.getJ();
-                //se pinta el borde donde esta el agente
-                //border = new MatteBorder(3,3,3,3,Color.RED);
-                //matrizCelda[i][j].setBorder(border);
-                //selecciono la accion siguiente segun metodo de seleccion
                 if(egreed){
                     accion=this.eGreedy(pos);
                 } else {
@@ -475,10 +463,7 @@ public class QLearning implements Runnable {
                 totalR=totalR+reward;
                 //actualizo la tabla Q
                 actualizarQtable(i,j, accion);
-                //vuelvo a pintar los bordes cuando el agente se va
-                //border = new MatteBorder(1,1,1,1,Color.GRAY);
-               // matrizCelda[i][j].setBorder(border);
-                //busco posicion siguiente
+                //siguiente posicion
                 sig = elsiguiente(pos, accion);
                 //actualizo posicion
                 pos=sig;
@@ -521,7 +506,7 @@ public class QLearning implements Runnable {
         } catch (InterruptedException ex) {
             System.err.println(ex);
             }
-        }
+        //}
         //
         tfin = System.currentTimeMillis();
         //

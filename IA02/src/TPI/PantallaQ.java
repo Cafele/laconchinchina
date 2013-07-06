@@ -52,6 +52,10 @@ public class PantallaQ extends javax.swing.JFrame {
     JButton botonDown;
     JButton botonRight;
     JButton botonLeft;
+    JButton botonUpRight;
+    JButton botonUpLeft;
+    JButton botonDownRight;
+    JButton botonDownLeft;
     
     //matriz que contiene las acciones posibles
     Boolean matrizA[][][];
@@ -86,9 +90,9 @@ public class PantallaQ extends javax.swing.JFrame {
         Dimension dimension;
         dimension = new Dimension(100,100);
         Dimension dimension2;
-        dimension2 = new Dimension(90,40);
+        dimension2 = new Dimension(90,45);
         Dimension dimension3;
-        dimension3 = new Dimension(45,20);
+        dimension3 = new Dimension(45,22);
         Rectangle bound;
         bound = new Rectangle(100,30);
         //paneles internos
@@ -173,7 +177,7 @@ public class PantallaQ extends javax.swing.JFrame {
         
         panelQ52 = new JPanel ();
         panelQ52.setPreferredSize(dimension2);
-        gbcQ.gridx=1;gbcQ.gridy=2;
+        gbcQ.gridx=1;gbcQ.gridy=3;
         botonMostrar = new JButton ();
         botonMostrar.setPreferredSize(dimension2);
         botonMostrar.setText("ver valores");
@@ -276,13 +280,60 @@ public class PantallaQ extends javax.swing.JFrame {
                 botonLeftActionPerformed(evt);
             }
         });
+        
+        botonUpRight = new JButton();
+        botonUpRight.setPreferredSize(dimension);
+        botonUpRight.setText("Ver Sup-Der");
+        gbcQ.gridx=5;gbcQ.gridy=1;
+        this.add(botonUpRight,gbcQ);
+        botonUpRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonUpRightActionPerformed(evt);
+            }
+        });
+        
+        botonUpLeft = new JButton();
+        botonUpLeft.setPreferredSize(dimension);
+        botonUpLeft.setText("Ver Sup-Izq");
+        gbcQ.gridx=1;gbcQ.gridy=1;
+        this.add(botonUpLeft,gbcQ);
+        botonUpLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonUpLeftActionPerformed(evt);
+            }
+        });
+        
+        botonDownRight = new JButton();
+        botonDownRight.setPreferredSize(dimension);
+        botonDownRight.setText("Ver Inf-Der");
+        gbcQ.gridx=5;gbcQ.gridy=5;
+        this.add(botonDownRight,gbcQ);
+        botonDownRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDownRightActionPerformed(evt);
+            }
+        });
+        botonDownLeft = new JButton();
+        botonDownLeft.setPreferredSize(dimension);
+        botonDownLeft.setText("Ver Inf-Izq");
+        gbcQ.gridx=1;gbcQ.gridy=5;
+        this.add(botonDownLeft,gbcQ);
+        botonDownLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDownLeftActionPerformed(evt);
+            }
+        });
+        
     }
     // los eventos
     private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {
         try{
         int i = Integer.parseInt(textoI.getText()); 
         int j = Integer.parseInt(textoJ.getText());
+        
         String texto;
+        double maximo=this.mejorQ();
+        double a=0.0;
         if ( i<0 || j<0 || j>(tm-1) ||i>(tm+1)){
             textoI.setText("0");
             textoJ.setText("0");
@@ -290,20 +341,20 @@ public class PantallaQ extends javax.swing.JFrame {
         }else{
         for(int x=0;x<8;x++){
             if(matrizA[i][j][x]){
-                double a=matrizQ[i][j][x];
+                a=matrizQ[i][j][x];
                 texto = Double.toString(a);
             }else{
                 texto = "-";
             }
             switch (x){
-                        case 0:label4.setText(texto);break; //O 
-                        case 1:label7.setText(texto);break; //SO 
-                        case 2:label8.setText(texto);break;  //S 
-                        case 3:label9.setText(texto);break;   //SE 
-                        case 4:label6.setText(texto);break;  //E  
-                        case 5:label3.setText(texto);break; //NE 
-                        case 6:label2.setText(texto);break;    //N    
-                        case 7:label1.setText(texto);break;   //NO 
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO
                     }
         }
         }
@@ -321,23 +372,25 @@ public class PantallaQ extends javax.swing.JFrame {
         
         if (j>0){
             textoJ.setText(Integer.toString(j-1));
+            double maximo=this.mejorQ();
+            double a=0.0;
             String texto;
             for(int x=0;x<8;x++){
                 if(matrizA[i][j-1][x]){
-                    double a=matrizQ[i][j-1][x];
+                    a=matrizQ[i][j-1][x];
                     texto = Double.toString(a);
                 }else{
                     texto = "-";
                 }
                 switch (x){
-                            case 0:label4.setText(texto);break; //O 
-                        case 1:label7.setText(texto);break; //SO 
-                        case 2:label8.setText(texto);break;  //S 
-                        case 3:label9.setText(texto);break;   //SE 
-                        case 4:label6.setText(texto);break;  //E  
-                        case 5:label3.setText(texto);break; //NE 
-                        case 6:label2.setText(texto);break;    //N    
-                        case 7:label1.setText(texto);break;   //NO  
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO 
                         }
             }
         }else {
@@ -357,23 +410,25 @@ public class PantallaQ extends javax.swing.JFrame {
         
         if (j<(tm-1)){
             textoJ.setText(Integer.toString(j+1));
+            double maximo=this.mejorQ();
+            double a=0.0;
             String texto;
             for(int x=0;x<8;x++){
                 if(matrizA[i][j+1][x]){
-                    double a=matrizQ[i][j+1][x];
+                    a=matrizQ[i][j+1][x];
                     texto = Double.toString(a);
                 }else{
                     texto = "-";
                 }
                 switch (x){
-                            case 0:label4.setText(texto);break; //O 
-                        case 1:label7.setText(texto);break; //SO 
-                        case 2:label8.setText(texto);break;  //S 
-                        case 3:label9.setText(texto);break;   //SE 
-                        case 4:label6.setText(texto);break;  //E  
-                        case 5:label3.setText(texto);break; //NE 
-                        case 6:label2.setText(texto);break;    //N    
-                        case 7:label1.setText(texto);break;   //NO  
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO   
                         }
             }
         }else {
@@ -394,22 +449,24 @@ public class PantallaQ extends javax.swing.JFrame {
         if (i>0){
             textoI.setText(Integer.toString(i-1));
             String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
             for(int x=0;x<8;x++){
                 if(matrizA[i-1][j][x]){
-                    double a=matrizQ[i-1][j][x];
+                    a=matrizQ[i-1][j][x];
                     texto = Double.toString(a);
                 }else{
                     texto = "-";
                 }
                 switch (x){
-                            case 0:label4.setText(texto);break; //O 
-                        case 1:label7.setText(texto);break; //SO 
-                        case 2:label8.setText(texto);break;  //S 
-                        case 3:label9.setText(texto);break;   //SE 
-                        case 4:label6.setText(texto);break;  //E  
-                        case 5:label3.setText(texto);break; //NE 
-                        case 6:label2.setText(texto);break;    //N    
-                        case 7:label1.setText(texto);break;   //NO  
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO  
                         }
             }
         } else {
@@ -430,22 +487,24 @@ public class PantallaQ extends javax.swing.JFrame {
         if (i<(tm-1)){
             textoI.setText(Integer.toString(i+1));
             String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
             for(int x=0;x<8;x++){
                 if(matrizA[i+1][j][x]){
-                    double a=matrizQ[i+1][j][x];
+                    a=matrizQ[i+1][j][x];
                     texto = Double.toString(a);
                 }else{
                     texto = "-";
                 }
                 switch (x){
-                            case 0:label4.setText(texto);break; //O 
-                        case 1:label7.setText(texto);break; //SO 
-                        case 2:label8.setText(texto);break;  //S 
-                        case 3:label9.setText(texto);break;   //SE 
-                        case 4:label6.setText(texto);break;  //E  
-                        case 5:label3.setText(texto);break; //NE 
-                        case 6:label2.setText(texto);break;    //N    
-                        case 7:label1.setText(texto);break;   //NO  
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO  
                         }
             }
         }else {
@@ -457,6 +516,178 @@ public class PantallaQ extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
         }
     }
+    
+    private void botonUpRightActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
+        int i = Integer.parseInt(textoI.getText());
+        int j = Integer.parseInt(textoJ.getText());
+        
+        if (i<(tm-1) && (j>0) ){
+            textoI.setText(Integer.toString(i+1));
+            textoJ.setText(Integer.toString(j-1));
+            String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
+            for(int x=0;x<8;x++){
+                if(matrizA[i+1][j-1][x]){
+                    a=matrizQ[i+1][j-1][x];
+                    texto = Double.toString(a);
+                }else{
+                    texto = "-";
+                }
+                switch (x){
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO 
+                        }
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void botonUpLeftActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
+        int i = Integer.parseInt(textoI.getText());
+        int j = Integer.parseInt(textoJ.getText());
+        
+        if (i<(tm-1) && (j>0) ){
+            textoI.setText(Integer.toString(i-1));
+            textoJ.setText(Integer.toString(j-1));
+            String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
+            for(int x=0;x<8;x++){
+                if(matrizA[i-1][j-1][x]){
+                    a=matrizQ[i-1][j-1][x];
+                    texto = Double.toString(a);
+                }else{
+                    texto = "-";
+                }
+                switch (x){
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO
+                        }
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    private void botonDownRightActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
+        int i = Integer.parseInt(textoI.getText());
+        int j = Integer.parseInt(textoJ.getText());
+        
+        if (i<(tm-1) && (j<(tm-1)) ){
+            textoI.setText(Integer.toString(i+1));
+            textoJ.setText(Integer.toString(j+1));
+            String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
+            for(int x=0;x<8;x++){
+                if(matrizA[i+1][j+1][x]){
+                    a=matrizQ[i+1][j+1][x];
+                    texto = Double.toString(a);
+                }else{
+                    texto = "-";
+                }
+                switch (x){
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO
+                        }
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+     private void botonDownLeftActionPerformed(java.awt.event.ActionEvent evt) {
+        try{
+        int i = Integer.parseInt(textoI.getText());
+        int j = Integer.parseInt(textoJ.getText());
+        
+        if ((i>0) && (j<(tm-1)) ){
+            textoI.setText(Integer.toString(i-1));
+            textoJ.setText(Integer.toString(j+1));
+            String texto;
+            double maximo=this.mejorQ();
+            double a=0.0;
+            for(int x=0;x<8;x++){
+                if(matrizA[i-1][j+1][x]){
+                    a=matrizQ[i-1][j+1][x];
+                    texto = Double.toString(a);
+                }else{
+                    texto = "-";
+                }
+                switch (x){
+                        case 0:label4.setText(texto);if(a==maximo){label4.setForeground(Color.BLUE);}else{label4.setForeground(Color.BLACK);};break; //O 
+                        case 1:label7.setText(texto);if(a==maximo){label7.setForeground(Color.BLUE);}else{label7.setForeground(Color.BLACK);};break; //SO 
+                        case 2:label8.setText(texto);if(a==maximo){label8.setForeground(Color.BLUE);}else{label8.setForeground(Color.BLACK);};break;  //S 
+                        case 3:label9.setText(texto);if(a==maximo){label9.setForeground(Color.BLUE);}else{label9.setForeground(Color.BLACK);};break;   //SE 
+                        case 4:label6.setText(texto);if(a==maximo){label6.setForeground(Color.BLUE);}else{label6.setForeground(Color.BLACK);};break;  //E  
+                        case 5:label3.setText(texto);if(a==maximo){label3.setForeground(Color.BLUE);}else{label3.setForeground(Color.BLACK);};break; //NE 
+                        case 6:label2.setText(texto);if(a==maximo){label2.setForeground(Color.BLUE);}else{label2.setForeground(Color.BLACK);};break;    //N    
+                        case 7:label1.setText(texto);if(a==maximo){label1.setForeground(Color.BLUE);}else{label1.setForeground(Color.BLACK);};break;   //NO  
+                        }
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "No se puede desplazar fuera de la grilla", "ERROR, Movimiento invalido", JOptionPane.WARNING_MESSAGE);
+        }
+        }catch (Exception err) {
+            textoI.setText("0");
+            textoJ.setText("0");
+            JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+     
+      private double mejorQ(){
+          int i=Integer.parseInt(textoI.getText());
+          int j=Integer.parseInt(textoJ.getText());
+          double valor=-1000.00;
+          for(int x=0;x<8;x++){
+                if(matrizA[i][j][x]){
+                    double a=matrizQ[i][j][x];
+                    if(a>valor){
+                        valor=a;
+                    }
+                }
+          }
+          return valor;
+      }
+    
     //control de insercion de datos
     
 
