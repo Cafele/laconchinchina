@@ -58,13 +58,13 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="panelControles" alignment="0" pref="696" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jPanel2" max="32767" attributes="0"/>
+                      <Component id="panelLeft" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelGrilla" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <Component id="panelRight" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -73,12 +73,12 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="panelGrilla" alignment="0" pref="515" max="32767" attributes="0"/>
-                  <Component id="jPanel2" alignment="0" pref="515" max="32767" attributes="0"/>
+                  <Component id="panelLeft" alignment="0" pref="515" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelControles" pref="70" max="32767" attributes="0"/>
           </Group>
-          <Component id="jPanel1" alignment="0" pref="591" max="32767" attributes="0"/>
+          <Component id="panelRight" alignment="0" pref="591" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -127,7 +127,7 @@
                           <EmptySpace min="-2" pref="520" max="-2" attributes="0"/>
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="bar1" alignment="0" min="-2" pref="707" max="-2" attributes="0"/>
+                      <Component id="barraProgreso" alignment="0" min="-2" pref="707" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
@@ -149,7 +149,7 @@
                       <Component id="rbF" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="bar1" min="-2" max="-2" attributes="0"/>
+                  <Component id="barraProgreso" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -171,7 +171,7 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JProgressBar" name="bar1">
+        <Component class="javax.swing.JProgressBar" name="barraProgreso">
           <Properties>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[890, 18]"/>
@@ -269,7 +269,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="panelRight">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -305,7 +305,7 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                                  <Component id="radioButonEst" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbEstadisticas" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
@@ -313,7 +313,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                                  <Component id="jRadioButton3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="rbDelay" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -324,26 +324,26 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="labelL" min="-2" pref="41" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="textRep" min="-2" pref="46" max="-2" attributes="0"/>
+                                  <Component id="textLapso" min="-2" pref="46" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="labelS" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="textSalto" min="-2" pref="52" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jRadioButton1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="rbOptimista" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="radioButtonSoftmax" min="-2" max="-2" attributes="0"/>
+                                          <Component id="rbSoftmax" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="radioButtonSd" min="-2" max="-2" attributes="0"/>
+                                          <Component id="rbSdecreciente" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                                           <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" attributes="0">
-                                              <Component id="radioButtonEgreedy" min="-2" max="-2" attributes="0"/>
+                                              <Component id="rbEgreedy" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="radioButtonEd" min="-2" max="-2" attributes="0"/>
+                                              <Component id="rbEdecreciente" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -365,14 +365,14 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="buttonResume" alignment="0" pref="174" max="32767" attributes="0"/>
-                                  <Component id="buttonResume1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="buttonVerQ" alignment="0" max="32767" attributes="0"/>
                                   <Component id="buttonStop" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="botonArch" alignment="0" min="-2" pref="171" max="-2" attributes="0"/>
                               <Component id="BotonStart" alignment="0" min="-2" pref="171" max="-2" attributes="0"/>
                               <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="BotonInicial" alignment="0" pref="171" max="32767" attributes="0"/>
-                                  <Component id="BotonCamino1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="buttonLimpiarCamino" alignment="0" pref="171" max="32767" attributes="0"/>
+                                  <Component id="buttonPintarCamino" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="botonG" min="-2" pref="171" max="-2" attributes="0"/>
                           </Group>
@@ -393,24 +393,24 @@
                   <Component id="jLabel23" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="radioButtonEgreedy" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="radioButtonEd" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbEgreedy" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbEdecreciente" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="radioButtonSoftmax" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="radioButtonSd" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbSoftmax" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbSdecreciente" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator8" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
-                  <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                  <Component id="rbOptimista" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="BotonStart" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
-                  <Component id="jRadioButton3" min="-2" max="-2" attributes="0"/>
+                  <Component id="rbDelay" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -418,15 +418,15 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="buttonResume" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="buttonResume1" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonVerQ" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel22" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="BotonCamino1" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonPintarCamino" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                  <Component id="BotonInicial" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonLimpiarCamino" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="labelResultado1" min="-2" pref="19" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
@@ -434,14 +434,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="radioButonEst" min="-2" max="-2" attributes="0"/>
+                  <Component id="rbEstadisticas" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonG" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonArch" min="-2" pref="28" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="textRep" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="textLapso" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="labelL" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="labelS" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="textSalto" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
@@ -460,20 +460,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonStartActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BotonCamino1">
+        <Component class="javax.swing.JButton" name="buttonPintarCamino">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pintar Camino"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonCamino1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonPintarCaminoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="BotonInicial">
+        <Component class="javax.swing.JButton" name="buttonLimpiarCamino">
           <Properties>
             <Property name="text" type="java.lang.String" value="Borrar Camino"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BotonInicialActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonLimpiarCaminoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator6">
@@ -485,21 +485,21 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator8">
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioButtonEgreedy">
+        <Component class="javax.swing.JRadioButton" name="rbEgreedy">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="egreedy"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonEgreedyActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbEgreedyActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioButtonSoftmax">
+        <Component class="javax.swing.JRadioButton" name="rbSoftmax">
           <Properties>
             <Property name="text" type="java.lang.String" value="softmax"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonSoftmaxActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbSoftmaxActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel23">
@@ -507,20 +507,20 @@
             <Property name="text" type="java.lang.String" value="Tipo de seleccion de accion:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioButtonEd">
+        <Component class="javax.swing.JRadioButton" name="rbEdecreciente">
           <Properties>
             <Property name="text" type="java.lang.String" value="decreciente"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonEdActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbEdecrecienteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioButtonSd">
+        <Component class="javax.swing.JRadioButton" name="rbSdecreciente">
           <Properties>
             <Property name="text" type="java.lang.String" value="decreciente"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButtonSdActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbSdecrecienteActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel24">
@@ -558,15 +558,15 @@
             <Property name="text" type="java.lang.String" value="Lapso:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="textRep">
+        <Component class="javax.swing.JTextField" name="textLapso">
           <Properties>
             <Property name="text" type="java.lang.String" value="500"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textRepActionPerformed"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textRepFocusLost"/>
-            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textRepKeyPressed"/>
-            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textRepKeyReleased"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textLapsoActionPerformed"/>
+            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="textLapsoFocusLost"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textLapsoKeyPressed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textLapsoKeyReleased"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelS">
@@ -585,12 +585,12 @@
             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textSaltoKeyReleased"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+        <Component class="javax.swing.JRadioButton" name="rbOptimista">
           <Properties>
             <Property name="text" type="java.lang.String" value="Iniciar con valores optimistas"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbOptimistaActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="buttonStop">
@@ -609,32 +609,32 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonResumeActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="buttonResume1">
+        <Component class="javax.swing.JButton" name="buttonVerQ">
           <Properties>
             <Property name="text" type="java.lang.String" value="Visualizar Matriz Q"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonResume1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonVerQActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator3">
         </Component>
-        <Component class="javax.swing.JRadioButton" name="radioButonEst">
+        <Component class="javax.swing.JRadioButton" name="rbEstadisticas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Estadisticas"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="radioButonEstActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbEstadisticasActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator4">
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButton3">
+        <Component class="javax.swing.JRadioButton" name="rbDelay">
           <Properties>
             <Property name="text" type="java.lang.String" value="Delay"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbDelayActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="labelResultado">
@@ -674,7 +674,7 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="panelLeft">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">

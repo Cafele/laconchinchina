@@ -21,8 +21,11 @@ import javax.swing.border.MatteBorder;
  *
  * @author fede
  */
-public class PantallaQ extends javax.swing.JFrame {
 
+//pantalla que se abre para visualizar los valores de la matriz Q(s,a)
+public class PantallaQ extends javax.swing.JFrame {
+    //atributos:
+    //los paneles de las nueve posiciones centrales
     JPanel panelQ1;
     JPanel panelQ2;
     JPanel panelQ3;
@@ -34,6 +37,7 @@ public class PantallaQ extends javax.swing.JFrame {
     JPanel panelQ7;
     JPanel panelQ8;
     JPanel panelQ9;
+    //con sus 9 labels correspondientes, el central tiene mas labels
     JLabel label1;
     JLabel label2;
     JLabel label3;
@@ -45,8 +49,10 @@ public class PantallaQ extends javax.swing.JFrame {
     JLabel label7;
     JLabel label8;
     JLabel label9;
+    //textfield para cargar los valores de la posicion
     JTextField textoI;
     JTextField textoJ;
+    //los 8 botones para cada accion, mas el boton para insertar posicion manualmente
     JButton botonMostrar;
     JButton botonUp;
     JButton botonDown;
@@ -61,15 +67,18 @@ public class PantallaQ extends javax.swing.JFrame {
     Boolean matrizA[][][];
     // tabla de Qvalues en [i][j][accion]
     double matrizQ [][][] = new double [10][10][8];
-    //
+    //tamaño de la grilla 
     int tm=6;
+    //constructores:
     public PantallaQ(){};
     
     public PantallaQ(Grilla g,QLearning b) {
         matrizA=g.matrizA;
         if(b!=null){
+            //si no hay aprendizaje
         matrizQ=b.Qvalues;
         } else {
+            //si no hay aprendizaje aun, se muestran ceros
             for(int j=0;j<10;j++){
                 for(int i=0;i<10;i++){
                     for (int a=0;a<8;a++){
@@ -86,7 +95,7 @@ public class PantallaQ extends javax.swing.JFrame {
         //borde para los paneles internos
         Border border;
         border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-        // dimensiones
+        // dimensiones de cada elemento
         Dimension dimension;
         dimension = new Dimension(100,100);
         Dimension dimension2;
@@ -236,7 +245,7 @@ public class PantallaQ extends javax.swing.JFrame {
         gbcQ.gridx=4;gbcQ.gridy=4;
         this.add(panelQ9,gbcQ);
         
-        // ahora los 4 botones externos
+        // botones
         botonUp = new JButton();
         botonUp.setPreferredSize(dimension);
         botonUp.setText("Ver Superior");
@@ -325,7 +334,7 @@ public class PantallaQ extends javax.swing.JFrame {
         });
         
     }
-    // los eventos
+    // los eventos de cada boton
     private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {
         try{
         int i = Integer.parseInt(textoI.getText()); 
@@ -687,10 +696,6 @@ public class PantallaQ extends javax.swing.JFrame {
           }
           return valor;
       }
-    
-    //control de insercion de datos
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

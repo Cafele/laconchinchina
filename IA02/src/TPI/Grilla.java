@@ -13,13 +13,15 @@ import javax.swing.border.MatteBorder;
  * @author fede
  */
 
+//clase contenedora de las celdas
 public class Grilla extends JPanel {
     //atributos:
     //matriz que contiene los estados de cada celda
     int grilla[][];
-    //matriz que contiene todas las celdas
+    //matriz que contiene todas las celdas (jpanels)
     Celda matrizCeldas [][];
-    //matriz con las acciones posibles, contempla las 8 acciones.
+    //matriz con las acciones posibles, contempla las 8 acciones posibles
+    //true si es posible realizarla, false caso contrario
     Boolean matrizA [][][];
     //tamaño en filasxcolumnas es decir si es 10x10, tmño es 10.
     int tmno;
@@ -85,13 +87,13 @@ public class Grilla extends JPanel {
         return grilla;
     }
     
-    //cargar las acciones posibles en funcion de posicion
-    //y estado siguiente distinto de pozo
+    //cargar las acciones posibles en funcion de la posicion de la celda
+    //y si el estado siguiente es distinto de pozo
     
     public void actualizarAcciones(){
         //para tener una referencia de las acciones:
-        //N=0,NE=1;E=2;SE=3;S=4;SO=5;O=6;NO=7
-        
+        //O=0;SO=1;S=2;SE=3;E=4;NE=5;N=6;NO=7
+        // y si dentro de la grilla[i][j] el valor es 5, corresponde a un pozo
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
                 for (int a=0;a<8;a++){
@@ -159,6 +161,7 @@ public class Grilla extends JPanel {
     
     // funcion para la generacion aleatoria de estados
     public void estadosAleatorios(){
+        //asigna estados aleatorios, segun una probabilidad, siendo normal la mas probable
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
                 float random = (float) java.lang.Math.random();
@@ -193,7 +196,7 @@ public class Grilla extends JPanel {
         grilla[ii][jj]=4;
     }
     
-    // funcion que pinte las celdas segun la grilla
+    // funcion que pinte las celdas segun la grilla contenedora de tipos de estado
     // toma los valores de la grilla (generados aleatoriamente, o modificados)
     // y pinta las celdas segun su tipo
     public void pintarCeldas(){
@@ -231,7 +234,7 @@ public class Grilla extends JPanel {
          }
     }
     
-    //funcion que pinta todos los bordes de la grilla
+    //funcion que limpia lo pintado, ya sea bordes o caminos
     public void limpiar(){
         Border border;
         for (int i=0; i<tmno; i++){
@@ -239,6 +242,7 @@ public class Grilla extends JPanel {
                     Celda celda = matrizCeldas[i][j];
                     border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                     celda.setBorder(border);
+                    //devuelve los valores para graficar el camino a los valores por defecto
                     celda.caminoAnt=10;
                     celda.caminoSig=10;
                     celda.repaint();
@@ -262,6 +266,7 @@ public class Grilla extends JPanel {
             }
         }
     }
+    //funcion que indica que el tipo de seleccion de celdas es mala
     public void setearMala(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -277,6 +282,7 @@ public class Grilla extends JPanel {
             }
         }
     }
+    //funcion que indica que el tipo de seleccion de celdas es buena
     public void setearBuena(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -292,6 +298,7 @@ public class Grilla extends JPanel {
             }
         }
     }
+    //funcion que indica que el tipo de seleccion de celdas es pozo
     public void setearPozo(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -307,6 +314,7 @@ public class Grilla extends JPanel {
             }
         }
     }
+    //funcion que indica que el tipo de seleccion de celdas es excelente
     public void setearExcelente(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -322,6 +330,7 @@ public class Grilla extends JPanel {
             }
         }
     }
+    //funcion que indica que el tipo de seleccion de celdas es final
     public void setearFinal(){
         for (int i=0; i<tmno; i++){
             for (int j=0; j<tmno; j++){
@@ -355,11 +364,10 @@ public class Grilla extends JPanel {
         }
     }
 
-    
+    //setter de matriz de celdas
     public void setMatrizCeldas(Celda[][] matrizCeldas) {
         this.matrizCeldas = matrizCeldas;
     }
-    
     
     // funcion que devuelve la posicion de la celda de inicio
     public Posicion getInicial(){
@@ -384,6 +392,7 @@ public class Grilla extends JPanel {
                 
                 x=matrizCeldas[i][j].getTipo();
                 grilla[i][j]=x;
+                //se aplica la variable booleana esFinal solo a las finales
                 matrizCeldas[i][j].esFinal=false;
                 if (x==4){
                     matrizCeldas[i][j].esFinal=true;
@@ -393,7 +402,7 @@ public class Grilla extends JPanel {
             }
         }
     }
-    
+    //funcion que devuelve la variable booleana noEsCamino a valor por defecto
     public void limpiarCaminos(){
         Celda celda;
         for (int i=0; i<tmno; i++){
@@ -403,7 +412,7 @@ public class Grilla extends JPanel {
             }
         } 
     }
-    
+    //funcion que devuelve si existe una variable final dentro de la grilla
     public Boolean hayFinal(){
         Celda celda;
         Boolean finals = false;
@@ -417,6 +426,7 @@ public class Grilla extends JPanel {
         } 
         return finals;
     }
+    //funcion que devuelve todas las acciones como posibles
     public void borrarAcciones(){
         for(int j=0;j<tmno;j++){
             for(int i=0;i<tmno;i++){
