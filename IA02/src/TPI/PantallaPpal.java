@@ -87,11 +87,10 @@ public class PantallaPpal extends javax.swing.JFrame {
         JFreeChart grafico;
         //lista que guarda el log de cada prueba
         ArrayList<double[]> listaLogs;
-        // lista del punto de convergencia ( 15 episodios sin cambiar el valor )
+        // lista del punto de convergencia 
         ArrayList<double[]> listaConv;
-        //archivo de excel
+        //lista de tiempos de entrenamiento
         Long [] tiempos;
-        ArrayList<double[]> listaPasos;
         //constructor:
     public PantallaPpal() {
         //inicializacion de los componentes
@@ -132,7 +131,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         listaLogs = new ArrayList<double[]>();
         listaConv = new ArrayList<double[]>();
         tiempos = new Long [1000];
-        listaPasos = new ArrayList<double[]>();
     }
     
     //funcion que pinta el camino aprendido
@@ -1731,42 +1729,7 @@ public class PantallaPpal extends javax.swing.JFrame {
                 celdax1.setCellStyle(estilonormal);
                 celdax2.setCellStyle(estilonormal);
             }
-            
-            //la hoja de los pasos
-            HSSFSheet hoja4 = libro.createSheet("Pasos");
-            //titulos
-            HSSFRow filatitulo4 = hoja4.createRow(0);
-            HSSFCell celdatitulo41 = filatitulo4.createCell(0);
-            celdatitulo41.setCellValue("Iteración");
-            celdatitulo41.setCellStyle(estilotitulo);
-            //y creo la fila completa de titulos, una celda por corrida
-            for (int b=0; b<conts;b++){
-                double [] seriep = listaPasos.get(b);
-                HSSFCell celdatituloxp = filatitulo4.createCell(b+1);
-                celdatituloxp.setCellValue("prueba "+b);
-                celdatituloxp.setCellStyle(estilotitulo);
-            }
-            //se crean el resto de las celdas
-            for (int a=0;a<max;a++){
-                //creo una fila para cada iteracion
-                HSSFRow fila4 = hoja4.createRow(a+1);
-                // la primera celda de cada fila es el numero de iteracion
-                HSSFCell celda4 = fila4.createCell(0);
-                celda4.setCellValue(a);
-                celda4.setCellStyle(estilonormal);
 
-                for (int b=0; b<conts;b++){
-                    double [] seriep = listaPasos.get(b);
-                    //una celda para cada corrida con su correspondiente estilo
-                    HSSFCell celda42 = fila4.createCell(b+1);
-                    if (a<seriep.length){ 
-                        celda42.setCellValue(seriep[a]);
-                    } else {
-                        celda42.setCellValue("");
-                    }
-                    celda42.setCellStyle(estilonormal);
-                }
-            }
             // creo el archivo excel
             try {
                 FileOutputStream excel = new FileOutputStream("Prueba"+contP+".xls");
@@ -1933,9 +1896,6 @@ public class PantallaPpal extends javax.swing.JFrame {
         // se carga el log de la corrida
         double [] log = bot.getListaSerie();
         listaLogs.add(log);
-        // se carga la lista de pasos
-        double [] pas = bot.getListaPasos();
-        listaPasos.add(pas);
         //creo para cada corrida un array
         double [] con = new double[2];
         //la primer posicion guarda la iteracion donde converge

@@ -570,7 +570,7 @@ public class PantallaQ extends javax.swing.JFrame {
         int i = Integer.parseInt(textoI.getText());
         int j = Integer.parseInt(textoJ.getText());
         
-        if (i<(tm-1) && (j>0) ){
+        if ((i>0) && (j>0) ){
             textoI.setText(Integer.toString(i-1));
             textoJ.setText(Integer.toString(j-1));
             String texto;
@@ -681,7 +681,7 @@ public class PantallaQ extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Inserte valores enteros, entre 0 y "+(tm-1), "ERROR, la grilla es de "+tm+"X"+tm, JOptionPane.WARNING_MESSAGE);
         }
     }
-     
+     //funcion que devuelve el mejor Q(s,a) desde una posicion
       private double mejorQ(){
           int i=Integer.parseInt(textoI.getText());
           int j=Integer.parseInt(textoJ.getText());

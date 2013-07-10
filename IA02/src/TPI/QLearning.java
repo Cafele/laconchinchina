@@ -393,7 +393,6 @@ public class QLearning implements Runnable {
         Posicion sig;
         Border border;
         double totalR=0.0;
-        long totalP=0;
         double qactual;
         serieAp = new XYSeries ("titulo");
         // valor donde convergio
@@ -422,8 +421,9 @@ public class QLearning implements Runnable {
             //si softmax es decreciente y como tau no puede ser cero
             if(softdec && (tau>0)){
                 double y;
-                if (tau<7){
-                        y=this.redondear((tau-pasot),1);
+                if (tau<10
+                        ){
+                        y=this.redondear((tau-pasot),0);
 
                 }else{
                        y=tau-pasot; 
@@ -488,8 +488,6 @@ public class QLearning implements Runnable {
            }
            //datos para estadisticas
             listaSerie[iter] = totalR;
-            totalP=totalP+x;
-            listaPasos[iter] = totalP/(iter+1);
             System.out.println(iter);
         }
         stop();
@@ -497,7 +495,7 @@ public class QLearning implements Runnable {
         } catch (InterruptedException ex) {
             System.err.println(ex);
             }
-        JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
+        //JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override
 
