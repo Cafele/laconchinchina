@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import org.jfree.data.xy.XYDataset;
@@ -21,7 +22,11 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author fede
  */
 public class QLearning implements Runnable {
-    //atributos:
+    //Atributos
+    Boolean retardar=false; // booleano que indica si hay un delay en el aprendizaje
+    //variables para manejar detener/reanudar el aprendizaje
+    private boolean paused = false;
+    private boolean stopped = false;
     //las 8 acciones posibles
     static final int N=0;
     static final int NE=1;
@@ -31,7 +36,7 @@ public class QLearning implements Runnable {
     static final int SO=5;
     static final int O=6;
     static final int NO=7;
-    //
+    //manejo de iteraciones y cantidad de pasos por iteracion
     long maxIteracion=100;
     double cantPasos=500;
     //recompensas
@@ -59,23 +64,51 @@ public class QLearning implements Runnable {
     Boolean matrizAccion[][][];
     //una grilla para manejar el gridworld
     Grilla grilla;
-    // contador
+    // contador para estadisticas
     double recompensa =0;
+    //pasos para las politicas de seleccion de accion decrecientes
     double pasoe;
     double pasot;
-    
+    // booleanos que indican que tipo de seleccion de accion se utiliza
     Boolean soft=false;
     Boolean egreed=true;
-    
+    // booleanos que indican si las politicas de seleccion son decrecientes
     Boolean decreE=true;
     Boolean decreG=false;
+    //dataset para graficos
     XYSeries serieAp = null;
     XYSeriesCollection conjdatosap = null;
     XYDataset datosAp;
     XYDataset listadat;
+    //listas para generar archivos estadisticos
     double listaSerie[] ;
+    double listaPasos[];
+    //iteracion donde converge la matriz Q
+    int iterConv;
+    // valor acumulado de convergencia de la matriz Q
+    double conv;
+    //cant de repeticiones para medir la convergencia
+    int rep;
+    // lapso de salto
+    int salto;
+    // inicializacion valores optimistas
+    Boolean optimist;
+    //para softmax
+        double probN=0;
+        double probNE=0;
+        double probE=0;
+        double probSE=0;
+        double probS=0;
+        double probSO=0;
+        double probO=0;
+        double probNO=0;
+        //barra de progreso
+        JProgressBar pb;
+        
     //constructor
-    public QLearning (double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+    public QLearning (Boolean retardo,JProgressBar pbar,Boolean opt, int laps, int repet, double temp,int tmno,long itmax, double exp, double amort, double recB, double recE, double recN, double recF,double recM,Grilla grid,double pasos,Boolean softmax,Boolean egr, Boolean ed, Boolean sd){
+        this.pb=pbar;
+        this.retardar=retardo;
         this.maxIteracion=itmax;
         this.cantPasos=pasos;
         this.tamano=tmno;
@@ -98,16 +131,26 @@ public class QLearning implements Runnable {
         this.softdec=sd;
         this.serieAp = new XYSeries("titulo");
         this.conjdatosap = null;
+        this.rep=repet;
+        this.salto=laps;
+        this.optimist=opt;
         listaSerie = new double [(int) maxIteracion];
+        listaPasos = new double [(int) maxIteracion];
         //iniciar la tabla de qvalues, el 8 va por las 8 acciones posibles 
         Qvalues=new double[tamano][tamano][8];
         for(int j=0;j<tamano;j++){
             for(int i=0;i<tamano;i++){
+                //los valores se inicializan en cero a menos que sea optimista
+                double valor=0;
+                if (optimist){
+                    valor = recFinal*1.1;
+                }
                 for(int a=0;a<8;a++){
-                Qvalues[i][j][a]=0.0;
+                    Qvalues[i][j][a]=valor;
                 }
             }
         }
+        
                 }
                 
     //metodos de seleccion: 
@@ -115,8 +158,8 @@ public class QLearning implements Runnable {
     public int eGreedy(Posicion pos){
         int accion;
         int i=pos.getI(); int j=pos.getJ();
-        //Celda celda = matrizCelda[i][j];
         Boolean x;
+        //se obtiene un valor aleatorio y se revisa dentro de que rango cae
         double random = java.lang.Math.random();
         do {
             if (random<this.epsilon){
@@ -133,7 +176,7 @@ public class QLearning implements Runnable {
     }
     //-aleatorio
     public int aleatorio(Posicion pos){
-        
+        //solo para cuestiones de prueba
         int accion;
         int i=pos.getI(); int j=pos.getJ();
         Celda celda = matrizCelda[i][j];
@@ -152,66 +195,61 @@ public class QLearning implements Runnable {
         int i=pos.getI(); int j =pos.getJ();
         int accion=0;
         double total=0;
-        double probN=0;
-        double probNE=0;
-        double probE=0;
-        double probSE=0;
-        double probS=0;
-        double probSO=0;
-        double probO=0;
-        double probNO=0;
+        
         double random;
         Boolean x;
-        
-        for(int a=0; a<8;a++){
-            total = total + (Math.exp((Qvalues[i][j][a])/tau));
-        }
-        
-        for(int a=0; a<8;a++){
-            switch (a){
-            case N:
-                probN=(Math.exp((Qvalues[i][j][a])/tau))/total; break;
-            case NE:
-                probNE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probN;break;
-            case E:
-                probE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probNE;   break; 
-            case SE:
-                probSE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probE;break;
-            case S:
-                probS=((Math.exp((Qvalues[i][j][a])/tau))/total)+probSE;break;
-            case SO:
-                probSO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probS;break;
-            case O:
-                probO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probSO; break;   
-            case NO:
-                probNO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probO; break;  
+        //se calcula el denominador
+            for(int a=0; a<8;a++){
+                total = total + (Math.exp((Qvalues[i][j][a])/tau));
             }
-        }
+            //para cada accion se calcula su probabilidad y rango
+            for(int a=0; a<8;a++){
+                switch (a){
+                case N:
+                    probN=(Math.exp((Qvalues[i][j][a])/tau))/total; break;
+                case NE:
+                    probNE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probN;break;
+                case E:
+                    probE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probNE;   break; 
+                case SE:
+                    probSE=((Math.exp((Qvalues[i][j][a])/tau))/total)+probE;break;
+                case S:
+                    probS=((Math.exp((Qvalues[i][j][a])/tau))/total)+probSE;break;
+                case SO:
+                    probSO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probS;break;
+                case O:
+                    probO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probSO; break;   
+                case NO:
+                    probNO=((Math.exp((Qvalues[i][j][a])/tau))/total)+probO; break;  
+                }
+            }
+        //se obtiene un valor aleatorio y se revisa en que rango cae
+        
         do {
             random = java.lang.Math.random();
             
             if(random < probN){
-                accion = 0;//va norte
+                accion = 0;//va O
             }else{
                 if(random < (probNE)){
-                    accion = 1;//va nordeste
+                    accion = 1;//va SO
                 } else {
                     if(random < probE){
-                        accion = 2;//va este
+                        accion = 2;//va S
                     } else {
                         if(random < probSE){
-                            accion = 3;//va sudeste
+                            accion = 3;//va SE
                         } else {
                             if(random < probS){
-                                accion = 4;//va sur
+                                accion = 4;//va E
                             } else {
                                 if(random < probSO){
-                                    accion = 5;//va sudoeste
+                                    accion = 5;//va NE
                                 } else {
                                     if(random < probO){
-                                        accion = 6;//va oeste
+                                        accion = 6;//va N
                                     } else {
-                                        accion = 7;//va noroeste
+                                        accion = 7;//va NO
                                     }
                                 }
                             }
@@ -234,7 +272,7 @@ public class QLearning implements Runnable {
         for (int a=0;a<8;a++){
             //si la accion es una accion valida en la matrizA es true
             if (matrizAccion[i][j][a]){
-                //reviso si el Q es mejor que el anterior
+                //reviso si el Q es mejor que el anterior22
                 if(Qvalues[i][j][a]>mejorQ){
                     // si lo es, actualizo el mejorQ y la mejor A
                     mejorQ=Qvalues[i][j][a];
@@ -249,7 +287,6 @@ public class QLearning implements Runnable {
     public double mejorQ(Posicion pos){
         double mejorQ=-100000000.0;
         int i=pos.getI(); int j=pos.getJ();
-        
         for (int a=0;a<8;a++){    
             //si la accion es una accion valida en la matrizA es true
             if (matrizAccion[i][j][a]){
@@ -267,7 +304,7 @@ public class QLearning implements Runnable {
     public Posicion elsiguiente(Posicion pos, int accion){
         Posicion sig = new Posicion();
         int i = pos.getI(); int j = pos.getJ();
-        
+        //si la accion no es valida se toma otra aleatoria que si lo sea, solo por control
         if(!(matrizAccion[i][j][accion])){
             accion = aleatorio(pos);
         }
@@ -327,7 +364,7 @@ public class QLearning implements Runnable {
         return resultado;
     }
    
-    //funcion que devuelve un estado de partida aleatoria para el algoritmo Q
+    //funcion que devuelve un estado de partida aleatoria para el algoritmo Q-Learning
     private Posicion estadoInicialAleatorio() {
         Posicion resultado = new Posicion();
         resultado.setI((int)(java.lang.Math.random()*(tamano)));
@@ -338,46 +375,76 @@ public class QLearning implements Runnable {
     //actualizar tabla Qvalues
     private void actualizarQtable (int i, int j, int accion){
         Posicion actual = new Posicion(i,j);
+        //se calcula la recompensa de realizar esa accion desde esa posicion
         double recomp = this.recompensar(actual, accion);
+        //se calcula el argumento maximo de Q(S,a) desde la posicion siguiente
         Posicion siguiente = this.elsiguiente(actual, accion);
         double maxQ = this.mejorQ(siguiente);
-        // se aplica la formula
+        // se aplica la funcion de accion-valor
         Qvalues [i][j][accion] = recomp + gamma*maxQ;
     }
     
     @Override
+    @SuppressWarnings("empty-statement")
+    //algoritmo de Q-Learning
     public void run(){
         int i ;int j ; int x; int accion;
         Posicion pos;
         Posicion sig;
         Border border;
-        long reward;
         double totalR=0.0;
         double qactual;
         serieAp = new XYSeries ("titulo");
-        
+        // valor donde convergio
+        conv = 0.0;
+        //numero de iteracion donde convergio
+        iterConv =0;
+        // contador de repeticion del valor acumulado
+        int contRep=0;
+        try {
+        //corrida
         for (int iter=0; iter<this.maxIteracion;iter++){
-            reward = 0;
+            //si fuera con delay se introduce un retarde de 10 milisegundos entre episodios
+            if(retardar){
+            Thread.sleep(10);
+            }
+            //se actualiza la iteracion
+            int valor =iter+1;
+            //se actualiza la barra de progreso
+            pb.setValue(valor);
+            //valores estadisticos
             qactual = 0.0;
             //si es decreciente Egreedy y epsilon es positivo
             if(edec && epsilon>0){
                 this.setEpsilon(epsilon-pasoe);
             }
             //si softmax es decreciente y como tau no puede ser cero
-            if(softdec && tau>0.5){
-                this.setTau((tau-pasot));
+            if(softdec && (tau>0)){
+                double y;
+                if (tau<10
+                        ){
+                        y=this.redondear((tau-pasot),0);
+
+                }else{
+                       y=tau-pasot; 
+                }
+                this.setTau(y);
             }
-            
             //arranca de una posicion aleatoria cada episodio
             pos=estadoInicialAleatorio();
             x=0;
             //en cada episodio se mueve una cant de pasos maxima y sale antes si llega al final
             do{
+                //para detener/reanudar el algoritmo
+                synchronized (this) {
+                if (paused) {
+                    System.out.println("Pausado");
+                    wait();
+                    System.out.println("Resumido");
+                }
+            }
+                //segun la politica de seleccion de accion, se elige una
                 i=pos.getI(); j=pos.getJ();
-                //se pinta el borde donde esta el agente
-                border = new MatteBorder(3,3,3,3,Color.RED);
-                matrizCelda[i][j].setBorder(border);
-                //selecciono la accion siguiente segun metodo de seleccion
                 if(egreed){
                     accion=this.eGreedy(pos);
                 } else {
@@ -387,14 +454,9 @@ public class QLearning implements Runnable {
                         accion=this.aleatorio(pos);
                     }
                 }
-                //calculo recompensa
-                reward = (long) (reward + this.recompensar(pos, accion));
                 //actualizo la tabla Q
                 actualizarQtable(i,j, accion);
-                //vuelvo a pintar los bordes cuando el agente se va
-                border = new MatteBorder(1,1,1,1,Color.GRAY);
-                matrizCelda[i][j].setBorder(border);
-                //busco posicion siguiente
+                //siguiente posicion
                 sig = elsiguiente(pos, accion);
                 //actualizo posicion
                 pos=sig;
@@ -402,8 +464,7 @@ public class QLearning implements Runnable {
                 x++;
                 
             }while (x<cantPasos && (map[i][j]!=4)) ;
-            //recompensa acumulada promedio obtenida
-            //totalR=totalR+(reward);
+            //se calcula el valor acumulado de la matriz Q(s,a) despues de cada iteracion
             totalR=0.0;
             for(int ix=0;ix<tamano;ix++){
                 for(int jx=0;jx<tamano;jx++){
@@ -412,19 +473,31 @@ public class QLearning implements Runnable {
                     }
                 }
             }
-            System.out.println(iter);
-
-            //serieAp.add((double)totalR,(double) iter);
+            //control para ver donde converge
+           if (contRep<rep){
+                if ((Math.abs(totalR-conv))<salto){
+                    if (contRep==0){
+                        //la primera vez guardo los valores
+                        iterConv = iter-1;
+                    }
+                    contRep = contRep+1;
+                } else {
+                    contRep = 0;
+                    conv = totalR;
+                }
+           }
+           //datos para estadisticas
             listaSerie[iter] = totalR;
-
+            System.out.println(iter);
         }
-        //XYSeriesCollection conjdatoap = new XYSeriesCollection();
-        //conjdatoap.addSeries(serieAp);
-        //conjdatosap=conjdatoap;
-        JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
+        stop();
+        //
+        } catch (InterruptedException ex) {
+            System.err.println(ex);
+            }
+        //JOptionPane.showMessageDialog(grilla, "Terminado el ciclo de aprendizaje", "Mensaje de finalizacion", JOptionPane.INFORMATION_MESSAGE);
     }
     //@Override
-    
 
     //setters y getters :
     public void setMaxIteracion(long maxIteracion) {
@@ -462,8 +535,6 @@ public class QLearning implements Runnable {
     public void setRecNormal(double recNormal) {
         this.recNormal = recNormal;
     }
-
-
     public Grilla getGrilla() {
         return grilla;
     }
@@ -476,6 +547,46 @@ public class QLearning implements Runnable {
 
     public double[] getListaSerie() {
         return listaSerie;
+    }
+
+    public double[] getListaPasos() {
+        return listaPasos;
+    }
+    
+
+    public int getIterConv() {
+        return iterConv;
+    }
+
+    public double getConv() {
+        return conv;
+    }
+    //funcion que redondea un double a una cantidad dada de digitos
+    public double redondear(double numero,int digitos)
+    {
+          int cifras=(int) Math.pow(10,digitos);
+          return Math.rint(numero*cifras)/cifras;
+    }
+    //funcion para detener/reanudar el aprendizaje
+    public void play() {
+        paused = false;
+        stopped = false;
+        new Thread(this, "Player").start();
+    }
+
+    public synchronized void pause() {
+        paused = true;
+    }
+
+    public synchronized void resume() {
+        paused = false;
+        notify();
+    }
+   
+    public synchronized void stop() {
+        stopped = true;
+        // If it was paused then resume and then stop
+        notify();
     }
     
 }

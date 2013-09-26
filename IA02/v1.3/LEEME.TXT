@@ -1,0 +1,62 @@
+------------------------------------------------------------------
+Para poder Utilizar el aplicativo, descomprima el archivo primero
+------------------------------------------------------------------
+Consideraciones sobre el aplicativo:
+
+- El archivo Excel de salida es formato 2003, solo acepta 65535
+filas.
+
+- Sin exportar el archivo se comprobo que el aplicativo corra,
+sin encontrar errores aparentes.
+
+- Para ingresar manualmente los valores de estado, se deben 
+cliquear las celdas de la grilla repetidamente.
+
+- Para números grandes de iteraciones, la construcción del 
+gráfico puede tardar unos minutos.
+
+- Se pueden realizar varias pruebas, que se reflejen en un solo
+archivo de salida.
+
+- Cada vez que se selecciona "Archivo Nuevo" se genera un archivo
+Excel con los datos recopilados desde la última vez que se 
+selecciono esta opción. 
+Si no fue apretada previamente, se obtiene todos los valores 
+obtenidos hasta el momento, sin excepciones.
+
+- Los archivos de Excel generados aparecen en la misma carpeta
+contenedora de la aplicación QLearningBot.
+
+- No se debe quitar la carpeta "lib" que contiene las librerias
+para realizar gráficos y exportar los archivos.
+
+- Las librerias necesarias son JFreechart y Poi.
+
+- Para una cantidad mínima de iteraciones, los gráficos expuestos 
+por el programa pueden emitir ligeros errores. 
+Para obtener mejores resultados, se aconseja utilizar los datos 
+generados en los archivo de salida.
+
+- Para obtener una grilla sin estados se debe apretar el botón
+"Resetear".
+
+- Cuando se desee largar una corrida del algoritmo, se elige la
+opción "Aprender".
+Es necesario que exista por lo menos un estado final.
+
+- Para visualizar el camino aprendido desde una celda se debe, 
+como primer paso, seleccionar una celda inicial.
+Para esto, se tilda la opción "Seleccionar celda inicial" y luego
+se hace clic en la celda deseada.
+
+- En cualquier momento se puede volver a seleccionar una 
+configuración de estados de celda, tildando "Seleccionar tipo de
+celdas".
+
+- Para graficar el camino obtenido desde una celda inicial, se
+aprieta el botón "Pintar Camino".
+Si hubiese, más de un estado inicial, se toma solo uno.
+Si no hubiera ninguno, se comienza el camino desde la celda
+superior - izquierda de la grilla.
+
+------------------------------------------------------------------
