@@ -1,0 +1,6 @@
+Para poder importar como proyecto ANT, primero debemos agregar la lìnea
+<javac srcdir="src" destdir="bin" />
+
+al archivo build.xml. Luego se pone Create New Project > Create from existing ANT file y seleccionamos el archivo build.xml
+
+Me costó un huevo encontrar esto y no entiendo la verdad por qué se eso ahí
